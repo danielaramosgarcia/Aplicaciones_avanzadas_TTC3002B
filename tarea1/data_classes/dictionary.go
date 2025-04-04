@@ -39,7 +39,7 @@ func (d *Dictionary) Remove(key string) bool {
 // Metodo para imprimir el diccionario
 func (d *Dictionary) Print() {
 	for i, k := range d.Keys {
-		fmt.Printf("%s: %s\n", k, d.Values[i])
+		fmt.Printf("%s - %s\n", k, d.Values[i])
 	}
 }
 
