@@ -7,6 +7,8 @@ Aquí encontrarás todas las tareas, actividades, recursos y el proyecto final d
 
 ## 📁 Estructura del Repositorio
 
+```text
+
 📦 Desarrollo-de-aplicaciones-avanzadas---TTC3002B 
 ├── 📂 tareas/ 
 │ ├── tarea1/ 
@@ -19,27 +21,7 @@ Aquí encontrarás todas las tareas, actividades, recursos y el proyecto final d
 ├── 📂 recursos/ 
 └── README.md
 
-
----
-
-## 📌 Contenido
-
-| Sección            | Descripción |
-|--------------------|-------------|
-| 📝 **Tareas**        | Contiene las prácticas y entregas individuales/semanales. |
-| 💼 **Proyecto Final** | Desarrollo completo de una aplicación avanzada. Incluye frontend, backend y documentación. |
-| 📚 **Recursos**       | Material de apoyo, guías, y referencias utilizadas durante el curso. |
-
----
-
-## 🛠️ Tecnologías Utilizadas
-
-- **Frontend:** Angular / React / TypeScript  
-- **Backend:** Node.js / GraphQL / Apollo Server  
-- **Base de Datos:** Oracle Autonomous Database  
-- **Servicios:** Firebase Hosting, Oracle VM  
-- **Otros:** GitHub, Postman, Figma, Swagger
-
+```
 ---
 
 ## 🎯 Objetivo del Repositorio
