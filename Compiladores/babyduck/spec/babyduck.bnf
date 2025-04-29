@@ -1,0 +1,106 @@
+/* BabyDuck Grammar combining lexical and syntax parts for gocc */
+
+/* === LEXICAL PART === */
+
+id        : 'a'-'z' { 'a'-'z' | '-' } ;
+cte_int   : '0'-'9' { '0'-'9' } ;
+cte_float : '0'-'9' { '0'-'9' } '.' '0'-'9' { '0'-'9' } ;
+cte_string: '\'' { . } '\'' ;
+!whitespace: ' ' | '\t' | '\r' | '\n' ;
+!comment  : '*' '*' { . } '*' '*' ;
+
+/* === SYNTAX PART === */
+
+Start : Programa ;
+
+Programa
+    : "program" id ";" Vars Funcs "main" Body "end" ;
+
+Vars
+    : empty
+    | "var" VarList ":" Type ";" Vars ;
+
+VarList
+    : id
+    | id "," VarList ;
+
+Type
+    : "int"
+    | "float" ;
+
+Funcs
+    : empty
+    | Func Funcs ;
+
+Func
+    : "void" id "(" ")" "{" Vars Body "}" ";"
+    | "void" id "(" ParamList ")" "{" Vars Body "}" ";" ;
+
+ParamList
+    : id ":" Type
+    | id ":" Type "," ParamList ;
+
+Body
+    : "{" StatementList "}" ;
+
+StatementList
+    : empty
+    | Statement StatementList ;
+
+Statement
+    : Assign
+    | Condition
+    | Cycle
+    | F_Call
+    | Print ;
+
+Assign
+    : id "=" Expression ";" ;
+
+Expression
+    : AddExpr RelExpr ;
+
+RelExpr
+    : empty
+    | RelOp AddExpr ;
+
+RelOp
+    : "<"
+    | ">"
+    | "!=" ;
+
+AddExpr
+    : AddExpr "+" MulExpr
+    | AddExpr "-" MulExpr
+    | MulExpr ;
+
+MulExpr
+    : MulExpr "*" Primary
+    | MulExpr "/" Primary
+    | Primary ;
+
+Primary
+    : "(" Expression ")"
+    | id
+    | cte_int
+    | cte_float
+    | cte_string ;
+
+Print
+    : "print" "(" ")" ";"
+    | "print" "(" ArgList ")" ";" ;
+
+ArgList
+    : Expression
+    | Expression "," ArgList ;
+
+Cycle
+    : "while" "(" Expression ")" "do" Body ";" ;
+
+Condition
+    : "if" "(" Expression ")" Body "else" Body ";"
+    | "if" "(" Expression ")" Body ";" ;
+
+F_Call
+    : id "(" ")" ";"
+    | id "(" ArgList ")" ";" ;
