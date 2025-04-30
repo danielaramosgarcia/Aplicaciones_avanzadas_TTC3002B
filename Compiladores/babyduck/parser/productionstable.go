@@ -138,7 +138,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Func : "void" id "(" ParamList ")" "{" Vars Body "}" ";"	<<  >>`,
+		String: `Func : "void" id "(" ParamList ")" "[" Vars Body "]" ";"	<<  >>`,
 		Id:         "Func",
 		NTType:     7,
 		Index:      12,

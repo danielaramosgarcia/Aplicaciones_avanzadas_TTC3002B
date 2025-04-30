@@ -123,7 +123,7 @@ func (t *Token) Int64Value() (int64, error) {
 func (t *Token) UTF8Rune() (rune, error) {
 	r, _ := utf8.DecodeRune(t.Lit)
 	if r == utf8.RuneError {
-		err := fmt.Errorf("invalid rune")
+		err := fmt.Errorf("Invalid rune")
 		return r, err
 	}
 	return r, nil
@@ -154,6 +154,8 @@ var TokMap = TokenMap{
 		")",
 		"{",
 		"}",
+		"[",
+		"]",
 		"=",
 		"<",
 		">",
@@ -191,21 +193,23 @@ var TokMap = TokenMap{
 		")":          15,
 		"{":          16,
 		"}":          17,
-		"=":          18,
-		"<":          19,
-		">":          20,
-		"!=":         21,
-		"+":          22,
-		"-":          23,
-		"*":          24,
-		"/":          25,
-		"cte_int":    26,
-		"cte_float":  27,
-		"cte_string": 28,
-		"print":      29,
-		"while":      30,
-		"do":         31,
-		"if":         32,
-		"else":       33,
+		"[":          18,
+		"]":          19,
+		"=":          20,
+		"<":          21,
+		">":          22,
+		"!=":         23,
+		"+":          24,
+		"-":          25,
+		"*":          26,
+		"/":          27,
+		"cte_int":    28,
+		"cte_float":  29,
+		"cte_string": 30,
+		"print":      31,
+		"while":      32,
+		"do":         33,
+		"if":         34,
+		"else":       35,
 	},
 }

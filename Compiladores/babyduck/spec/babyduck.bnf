@@ -34,7 +34,7 @@ Funcs
 
 Func
     : "void" id "(" ")" "{" Vars Body "}" ";"
-    | "void" id "(" ParamList ")" "{" Vars Body "}" ";" ;
+    | "void" id "(" ParamList ")" "[" Vars Body "]" ";" ;
 
 ParamList
     : id ":" Type
