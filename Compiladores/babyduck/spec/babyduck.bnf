@@ -11,34 +11,59 @@ cte_string: '\'' { . } '\'' ;
 
 /* === SYNTAX PART === */
 
-Start : Programa ;
+<<
+import (
+    "babyduck/token"
+    "babyduck/data_structures"
+)
+// Creamos un contexto único para todo el programa:
+var ctx = data_structures.NewContext()
+>>
+
+Start
+    : Programa
+      << ctx, nil >>
+    ;
 
 Programa
-    : "program" id ";" Vars Funcs "main" Body "end" ;
+    : "program" id ";" Vars Funcs "main" Body "end"
+    ;
 
 Vars
     : empty
-    | "var" VarList ":" Type ";" Vars ;
+    | "var" VarList ":" Type ";" Vars 
+    << ctx.RegisterGlobalVars(X[1].([]string), X[3].(data_structures.Tipo)) >>
+    ;
 
 VarList
-    : id
-    | id "," VarList ;
+    : id  
+    << data_structures.MakeVarList(string(X[0].(*token.Token).Lit)) >>
+    | id "," VarList 
+    << data_structures.ConcatVarList(string(X[0].(*token.Token).Lit), X[2].([]string)) >>
+    ;
 
 Type
-    : "int"
-    | "float" ;
+    : "int"   << data_structures.Int, nil >>
+    | "float" << data_structures.Float, nil >>
+    ;
 
 Funcs
     : empty
     | Func Funcs ;
 
 Func
-    : "void" id "(" ")" "{" Vars Body "}" ";"
-    | "void" id "(" ParamList ")" "[" Vars Body "]" ";" ;
+    : "void" id "(" ")" "[" Vars Body "]" ";"
+      << ctx.RegisterFunction(string(X[1].(*token.Token).Lit), data_structures.Void, nil) >>
+    | "void" id "(" ParamList ")" "[" Vars Body "]" ";" 
+      << ctx.RegisterFunction(string(X[1].(*token.Token).Lit), data_structures.Void, X[3].([]data_structures.Tipo)) >>
+    ;
 
 ParamList
     : id ":" Type
-    | id ":" Type "," ParamList ;
+      << data_structures.MakeParamList(X[2].(data_structures.Tipo)) >>
+    | id ":" Type "," ParamList 
+      << data_structures.ConcatParamList(X[2].(data_structures.Tipo), X[4].([]data_structures.Tipo)) >>
+    ;
 
 Body
     : "{" StatementList "}" ;
@@ -55,7 +80,9 @@ Statement
     | Print ;
 
 Assign
-    : id "=" Expression ";" ;
+    : id "=" Expression ";" 
+      << ctx.ValidateAssign(string(X[0].(*token.Token).Lit), X[2].(data_structures.Tipo)) >>
+    ;
 
 Expression
     : AddExpr RelExpr ;
@@ -81,10 +108,12 @@ MulExpr
 
 Primary
     : "(" Expression ")"
-    | id
-    | cte_int
-    | cte_float
-    | cte_string ;
+      << data_structures.ReturnExpression(X[1].(data_structures.Tipo)) >>
+    | id 
+      << ctx.ResolveVarType(string(X[0].(*token.Token).Lit)) >>
+    | cte_int << data_structures.Int, nil >>
+    | cte_float << data_structures.Float, nil >>
+    ;
 
 Print
     : "print" "(" ")" ";"
@@ -92,7 +121,8 @@ Print
 
 ArgList
     : Expression
-    | Expression "," ArgList ;
+    | Expression "," ArgList 
+    | cte_string<< data_structures.String, nil >> ;
 
 Cycle
     : "while" "(" Expression ")" "do" Body ";" ;

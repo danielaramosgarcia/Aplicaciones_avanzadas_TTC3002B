@@ -44,7 +44,7 @@ func TestParse(t *testing.T) {
 	i := 1
 	for input, ok := range testData {
 		// Log the test input and output
-		t.Logf("=== Test #%d", i)
+		t.Logf("=== Parsing Test #%d", i)
 		l := lexer.NewLexer([]byte(input))
 		p := parser.NewParser()
 		_, err := p.Parse(l)

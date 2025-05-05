@@ -2,6 +2,13 @@
 
 package parser
 
+import (
+    "babyduck/token"
+    "babyduck/data_structures"
+)
+// Creamos un contexto único para todo el programa:
+var ctx = data_structures.NewContext()
+
 type (
 	ProdTab      [numProductions]ProdTabEntry
 	ProdTabEntry struct {
@@ -28,13 +35,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Start : Programa	<<  >>`,
+		String: `Start : Programa	<< ctx, nil >>`,
 		Id:         "Start",
 		NTType:     1,
 		Index:      1,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return ctx, nil
 		},
 	},
 	ProdTabEntry{
@@ -58,53 +65,53 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Vars : "var" VarList ":" Type ";" Vars	<<  >>`,
+		String: `Vars : "var" VarList ":" Type ";" Vars	<< ctx.RegisterGlobalVars(X[1].([]string), X[3].(data_structures.Tipo)) >>`,
 		Id:         "Vars",
 		NTType:     3,
 		Index:      4,
 		NumSymbols: 6,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return ctx.RegisterGlobalVars(X[1].([]string), X[3].(data_structures.Tipo))
 		},
 	},
 	ProdTabEntry{
-		String: `VarList : id	<<  >>`,
+		String: `VarList : id	<< data_structures.MakeVarList(string(X[0].(*token.Token).Lit)) >>`,
 		Id:         "VarList",
 		NTType:     4,
 		Index:      5,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return data_structures.MakeVarList(string(X[0].(*token.Token).Lit))
 		},
 	},
 	ProdTabEntry{
-		String: `VarList : id "," VarList	<<  >>`,
+		String: `VarList : id "," VarList	<< data_structures.ConcatVarList(string(X[0].(*token.Token).Lit), X[2].([]string)) >>`,
 		Id:         "VarList",
 		NTType:     4,
 		Index:      6,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return data_structures.ConcatVarList(string(X[0].(*token.Token).Lit), X[2].([]string))
 		},
 	},
 	ProdTabEntry{
-		String: `Type : "int"	<<  >>`,
+		String: `Type : "int"	<< data_structures.Int, nil >>`,
 		Id:         "Type",
 		NTType:     5,
 		Index:      7,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return data_structures.Int, nil
 		},
 	},
 	ProdTabEntry{
-		String: `Type : "float"	<<  >>`,
+		String: `Type : "float"	<< data_structures.Float, nil >>`,
 		Id:         "Type",
 		NTType:     5,
 		Index:      8,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return data_structures.Float, nil
 		},
 	},
 	ProdTabEntry{
@@ -128,43 +135,43 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Func : "void" id "(" ")" "{" Vars Body "}" ";"	<<  >>`,
+		String: `Func : "void" id "(" ")" "[" Vars Body "]" ";"	<< ctx.RegisterFunction(string(X[1].(*token.Token).Lit), data_structures.Void, nil) >>`,
 		Id:         "Func",
 		NTType:     7,
 		Index:      11,
 		NumSymbols: 9,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return ctx.RegisterFunction(string(X[1].(*token.Token).Lit), data_structures.Void, nil)
 		},
 	},
 	ProdTabEntry{
-		String: `Func : "void" id "(" ParamList ")" "[" Vars Body "]" ";"	<<  >>`,
+		String: `Func : "void" id "(" ParamList ")" "[" Vars Body "]" ";"	<< ctx.RegisterFunction(string(X[1].(*token.Token).Lit), data_structures.Void, X[3].([]data_structures.Tipo)) >>`,
 		Id:         "Func",
 		NTType:     7,
 		Index:      12,
 		NumSymbols: 10,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return ctx.RegisterFunction(string(X[1].(*token.Token).Lit), data_structures.Void, X[3].([]data_structures.Tipo))
 		},
 	},
 	ProdTabEntry{
-		String: `ParamList : id ":" Type	<<  >>`,
+		String: `ParamList : id ":" Type	<< data_structures.MakeParamList(X[2].(data_structures.Tipo)) >>`,
 		Id:         "ParamList",
 		NTType:     8,
 		Index:      13,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return data_structures.MakeParamList(X[2].(data_structures.Tipo))
 		},
 	},
 	ProdTabEntry{
-		String: `ParamList : id ":" Type "," ParamList	<<  >>`,
+		String: `ParamList : id ":" Type "," ParamList	<< data_structures.ConcatParamList(X[2].(data_structures.Tipo), X[4].([]data_structures.Tipo)) >>`,
 		Id:         "ParamList",
 		NTType:     8,
 		Index:      14,
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return data_structures.ConcatParamList(X[2].(data_structures.Tipo), X[4].([]data_structures.Tipo))
 		},
 	},
 	ProdTabEntry{
@@ -248,13 +255,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Assign : id "=" Expression ";"	<<  >>`,
+		String: `Assign : id "=" Expression ";"	<< ctx.ValidateAssign(string(X[0].(*token.Token).Lit), X[2].(data_structures.Tipo)) >>`,
 		Id:         "Assign",
 		NTType:     12,
 		Index:      23,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return ctx.ValidateAssign(string(X[0].(*token.Token).Lit), X[2].(data_structures.Tipo))
 		},
 	},
 	ProdTabEntry{
@@ -378,60 +385,50 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Primary : "(" Expression ")"	<<  >>`,
+		String: `Primary : "(" Expression ")"	<< data_structures.ReturnExpression(X[1].(data_structures.Tipo)) >>`,
 		Id:         "Primary",
 		NTType:     18,
 		Index:      36,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return data_structures.ReturnExpression(X[1].(data_structures.Tipo))
 		},
 	},
 	ProdTabEntry{
-		String: `Primary : id	<<  >>`,
+		String: `Primary : id	<< ctx.ResolveVarType(string(X[0].(*token.Token).Lit)) >>`,
 		Id:         "Primary",
 		NTType:     18,
 		Index:      37,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return ctx.ResolveVarType(string(X[0].(*token.Token).Lit))
 		},
 	},
 	ProdTabEntry{
-		String: `Primary : cte_int	<<  >>`,
+		String: `Primary : cte_int	<< data_structures.Int, nil >>`,
 		Id:         "Primary",
 		NTType:     18,
 		Index:      38,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return data_structures.Int, nil
 		},
 	},
 	ProdTabEntry{
-		String: `Primary : cte_float	<<  >>`,
+		String: `Primary : cte_float	<< data_structures.Float, nil >>`,
 		Id:         "Primary",
 		NTType:     18,
 		Index:      39,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
-		},
-	},
-	ProdTabEntry{
-		String: `Primary : cte_string	<<  >>`,
-		Id:         "Primary",
-		NTType:     18,
-		Index:      40,
-		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return data_structures.Float, nil
 		},
 	},
 	ProdTabEntry{
 		String: `Print : "print" "(" ")" ";"	<<  >>`,
 		Id:         "Print",
 		NTType:     19,
-		Index:      41,
+		Index:      40,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -441,7 +438,7 @@ var productionsTable = ProdTab{
 		String: `Print : "print" "(" ArgList ")" ";"	<<  >>`,
 		Id:         "Print",
 		NTType:     19,
-		Index:      42,
+		Index:      41,
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -451,7 +448,7 @@ var productionsTable = ProdTab{
 		String: `ArgList : Expression	<<  >>`,
 		Id:         "ArgList",
 		NTType:     20,
-		Index:      43,
+		Index:      42,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -461,10 +458,20 @@ var productionsTable = ProdTab{
 		String: `ArgList : Expression "," ArgList	<<  >>`,
 		Id:         "ArgList",
 		NTType:     20,
-		Index:      44,
+		Index:      43,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
+		},
+	},
+	ProdTabEntry{
+		String: `ArgList : cte_string	<< data_structures.String, nil >>`,
+		Id:         "ArgList",
+		NTType:     20,
+		Index:      44,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return data_structures.String, nil
 		},
 	},
 	ProdTabEntry{
