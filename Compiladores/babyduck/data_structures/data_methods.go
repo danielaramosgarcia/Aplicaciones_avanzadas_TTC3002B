@@ -1,6 +1,9 @@
 package data_structures
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 // METODOS DE TABLA DE VARIABLES
 
@@ -12,8 +15,9 @@ func NewVarTable(parent *VarTable) *VarTable {
 // Add inserta una nueva variable; error si ya existe en este ámbito.
 func (vt *VarTable) Add(name string, typ Tipo) error {
 	if _, exists := vt.vars[name]; exists {
-		return fmt.Errorf("variable %q ya declarada en este ámbito", name)
+		return fmt.Errorf("variable %q ya declarada en este ámbito con tipo %v", name, typ)
 	}
+	log.Printf("Agregando variable %q de tipo %v al ámbito", name, typ)
 	vt.vars[name] = &VarEntry{Name: name, Type: typ}
 	return nil
 }

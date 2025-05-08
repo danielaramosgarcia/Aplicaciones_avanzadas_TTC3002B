@@ -37,7 +37,7 @@ var testData = map[string]bool{
 	// Test case 12: extra text after 'end'
 	"program p; var x: int; main { x = 5; } end extra": false,
 	// Test case 13: testing function declaration
-	"program p; var x: int; void f(a: int) [{ b = a + 2; }]; main { } end": true,
+	"program p; var x, a: int; void f(a: int) [{ x = a + 2; }]; main { } end": true,
 }
 
 func TestParse(t *testing.T) {

@@ -154,3 +154,12 @@ func (ctx *Context) ResolveVarType(name string) (interface{}, error) {
 func ReturnExpression(expr Tipo) (interface{}, error) {
 	return expr, nil
 }
+
+// Reset reinicia el contexto para un nuevo parseo,
+// limpiando la tabla global y el directorio de funciones.
+func (ctx *Context) Reset() (interface{}, error) {
+	ctx.GlobalVars = NewVarTable(nil)
+	ctx.FuncDir = NewFuncDir()
+	ctx.currentFunc = nil
+	return ctx, nil
+}

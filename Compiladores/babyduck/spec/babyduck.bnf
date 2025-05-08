@@ -21,8 +21,14 @@ var ctx = data_structures.NewContext()
 >>
 
 Start
-    : Programa
-      << ctx, nil >>
+    : Reset Programa
+      << ctx.ReturnContext() >>
+    ;
+
+/* No-terminal auxiliar que limpia el contexto */
+Reset
+    : empty
+      << ctx.Reset(); return nil, nil >>
     ;
 
 Programa
