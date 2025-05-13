@@ -8,36 +8,136 @@ import (
 
 // NewVarTable crea una nueva tabla de variables, opcionalmente enlazada a un padre.
 func NewVarTable(parent *VarTable) *VarTable {
-	return &VarTable{vars: make(map[string]*VarEntry), parent: parent}
+	return &VarTable{
+		vars:   make(map[int]*VarEntry),
+		parent: parent,
+	}
 }
 
-// Add inserta una nueva variable; error si ya existe en este ámbito.
+// Add inserta una nueva variable; asigna una dirección según el tipo y ámbito y devuelve la dirección.
+// Error si ya existe una variable con el mismo nombre en este ámbito.
 func (vt *VarTable) Add(name string, typ Tipo) error {
-	if _, exists := vt.vars[name]; exists {
-		return fmt.Errorf("variable %q ya declarada en este ámbito con tipo %v", name, typ)
+	// Validar duplicado por nombre
+	for _, entry := range vt.vars {
+		if entry.Name == name {
+			return fmt.Errorf("variable %q ya declarada en este ámbito", name)
+		}
 	}
-	vt.vars[name] = &VarEntry{Name: name, Type: typ}
+	// Asignar dirección según segmento
+	var dir int
+	if vt.parent == nil {
+		// global
+		if typ == Int {
+			if nextGlobalIntAddr >= GlobalFloatBase {
+				return fmt.Errorf("overflow de direcciones globales int")
+			}
+			dir = nextGlobalIntAddr
+			nextGlobalIntAddr++
+		} else {
+			if nextGlobalFloatAddr >= GlobalLimit {
+				return fmt.Errorf("overflow de direcciones globales float")
+			}
+			dir = nextGlobalFloatAddr
+			nextGlobalFloatAddr++
+		}
+	} else {
+		// local
+		if typ == Int {
+			if nextLocalIntAddr >= LocalFloatBase {
+				return fmt.Errorf("overflow de direcciones locales int")
+			}
+			dir = nextLocalIntAddr
+			nextLocalIntAddr++
+		} else {
+			if nextLocalFloatAddr >= LocalLimit {
+				return fmt.Errorf("overflow de direcciones locales float")
+			}
+			dir = nextLocalFloatAddr
+			nextLocalFloatAddr++
+		}
+	}
+	vt.vars[dir] = &VarEntry{Name: name, Type: typ, DirInt: dir}
 	return nil
 }
 
-// Get busca una variable en este ámbito o en los padres; devuelve entrada y true si existe.
-func (vt *VarTable) Get(name string) (*VarEntry, bool) {
-	if e, ok := vt.vars[name]; ok {
+// AddTemp inserta una variable temporal sin nombre, asignando dirección según tipo.
+// Devuelve la dirección o error en caso de overflow.
+func (vt *VarTable) AddTemp(typ Tipo) (int, error) {
+	var dir int
+	switch typ {
+	case Int:
+		if nextTempIntAddr > TempFloatBase-1 {
+			return 0, fmt.Errorf("overflow de direcciones temporales int")
+		}
+		dir = nextTempIntAddr
+		nextTempIntAddr++
+	case Float:
+		if nextTempFloatAddr > TempBoolBase-1 {
+			return 0, fmt.Errorf("overflow de direcciones temporales float")
+		}
+		dir = nextTempFloatAddr
+		nextTempFloatAddr++
+	case Bool:
+		if nextTempBoolAddr > TempLimit {
+			return 0, fmt.Errorf("overflow de direcciones temporales bool")
+		}
+		dir = nextTempBoolAddr
+		nextTempBoolAddr++
+	default:
+		return 0, fmt.Errorf("tipo %v no soportado en temporales", typ)
+	}
+	vt.vars[dir] = &VarEntry{Name: "", Type: typ, DirInt: dir}
+	return dir, nil
+}
+
+// AddTemp inserta una variable temporal sin nombre, asignando dirección según tipo.
+// Devuelve la dirección o error en caso de overflow.
+func (vt *VarTable) AddConst(typ Tipo) (int, error) {
+	var dir int
+	switch typ {
+	case Int:
+		if nextConstIntAddr > ConstFloatBase-1 {
+			return 0, fmt.Errorf("overflow de direcciones constantes int")
+		}
+		dir = nextConstIntAddr
+		nextConstIntAddr++
+	case Float:
+		if nextConstFloatAddr > ConstStringBase-1 {
+			return 0, fmt.Errorf("overflow de direcciones constantes float")
+		}
+		dir = nextConstFloatAddr
+		nextConstFloatAddr++
+	case String:
+		if nextConstStringAddr > ConstLimit {
+			return 0, fmt.Errorf("overflow de direcciones constantes string")
+		}
+		dir = nextConstStringAddr
+		nextConstStringAddr++
+	default:
+		return 0, fmt.Errorf("tipo %v no soportado en constantes", typ)
+	}
+	vt.vars[dir] = &VarEntry{Name: "", Type: typ, DirInt: dir}
+	return dir, nil
+}
+
+// Get busca una variable por dirección; devuelve la entrada y true si existe.
+func (vt *VarTable) Get(dir int) (*VarEntry, bool) {
+	if e, ok := vt.vars[dir]; ok {
 		return e, true
 	}
 	if vt.parent != nil {
-		return vt.parent.Get(name)
+		return vt.parent.Get(dir)
 	}
 	return nil, false
 }
 
-// Exists retorna true si la variable está declarada en este ámbito o en sus padres.
-func (vt *VarTable) Exists(name string) bool {
-	_, ok := vt.Get(name)
+// Exists retorna true si la variable con esa dirección está en este ámbito o en sus padres.
+func (vt *VarTable) Exists(dir int) bool {
+	_, ok := vt.Get(dir)
 	return ok
 }
 
-// List devuelve todas las variables locales de este ámbito.
+// List devuelve todas las variables del ámbito actual.
 func (vt *VarTable) List() []*VarEntry {
 	list := make([]*VarEntry, 0, len(vt.vars))
 	for _, entry := range vt.vars {

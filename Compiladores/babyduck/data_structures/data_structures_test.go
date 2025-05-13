@@ -11,7 +11,7 @@ func TestVarTable(t *testing.T) {
 	if err := global.Add("x", Int); err != nil {
 		t.Fatalf("Add fallo: %v", err)
 	}
-	if entry, ok := global.Get("x"); !ok || entry.Type != Int {
+	if entry, ok := global.Get(1); !ok || entry.Type != Int {
 		t.Errorf("Get devolvió %v, %v; quiero Int", entry, ok)
 	}
 
@@ -22,13 +22,13 @@ func TestVarTable(t *testing.T) {
 
 	// 3) Encadenamiento de scopes
 	local := NewVarTable(global)
-	if _, ok := local.Get("x"); !ok {
+	if _, ok := local.Get(1); !ok {
 		t.Errorf("Local no resolvió variable global")
 	}
 	if err := local.Add("y", Float); err != nil {
 		t.Fatalf("Add local fallo: %v", err)
 	}
-	if entry, _ := local.Get("y"); entry.Type != Float {
+	if entry, _ := local.Get(751); entry.Type != Float {
 		t.Errorf("Get local devolvió tipo incorrecto")
 	}
 }
@@ -66,10 +66,11 @@ func TestContextHelpers(t *testing.T) {
 	if _, err := ctx.RegisterGlobalVars([]string{"a", "b"}, Int); err != nil {
 		t.Fatalf("RegisterGlobalVars fallo: %v", err)
 	}
-	for _, name := range []string{"a", "b"} {
-		if _, ok := ctx.GlobalVars.Get(name); !ok {
-			t.Errorf("GlobalVars no contiene %s", name)
-		}
+	if _, ok := ctx.GlobalVars.Get(1); !ok {
+		t.Errorf("GlobalVars no contiene %s", "a")
+	}
+	if _, ok := ctx.GlobalVars.Get(2); !ok {
+		t.Errorf("GlobalVars no contiene %s", "b")
 	}
 
 	// 2) Registrar y recuperar función

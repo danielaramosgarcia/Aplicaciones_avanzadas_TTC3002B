@@ -28,7 +28,7 @@ Start
 /* No-terminal auxiliar que limpia el contexto */
 Reset
     : empty
-      << ctx.Reset(); return nil, nil >>
+      << ctx.Reset() >>
     ;
 
 Programa

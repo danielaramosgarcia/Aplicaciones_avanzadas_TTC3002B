@@ -148,23 +148,43 @@ func ConcatParamList(head Tipo, tail []Tipo) (interface{}, error) {
 	return append([]Tipo{head}, tail...), nil
 }
 
-// ValidateAssign comprueba en tiempo de parseo que la variable exista y que el tipo coincida.
+// GetByName busca una variable por su identificador (Name) recorriendo las entradas
+// en este ámbito y, si no la encuentra, en los padres. Devuelve VarEntry y true si existe.
+func (vt *VarTable) GetByName(name string) (*VarEntry, bool) {
+	for _, entry := range vt.vars {
+		if entry.Name == name {
+			return entry, true
+		}
+	}
+	if vt.parent != nil {
+		return vt.parent.GetByName(name)
+	}
+	return nil, false
+}
+
+// ValidateAssign comprueba en tiempo de parseo que la variable identificada por name
+// existe y que su tipo coincida. Internamente usa la dirección asignada en VarEntry.
 func (ctx *Context) ValidateAssign(name string, typ Tipo) (interface{}, error) {
-	entry, ok := ctx.CurrentVarTable().Get(name)
+	vt := ctx.CurrentVarTable()
+	entry, ok := vt.GetByName(name)
 	if !ok {
-		return nil, fmt.Errorf("variable %s no declarada", name)
+		return nil, fmt.Errorf("variable %q no declarada", name)
 	}
 	if entry.Type != typ {
-		return nil, fmt.Errorf("tipos incompatibles en asignación: %v != %v", entry.Type, typ)
+		return nil, fmt.Errorf(
+			"tipos incompatibles en asignación de %q: %v != %v",
+			name, entry.Type, typ,
+		)
 	}
 	return nil, nil
 }
 
-// ResolveVarType consulta el tipo de una variable en el contexto actual.
+// ResolveVarType consulta el tipo de la variable identificada por name.
 func (ctx *Context) ResolveVarType(name string) (interface{}, error) {
-	entry, ok := ctx.CurrentVarTable().Get(name)
+	vt := ctx.CurrentVarTable()
+	entry, ok := vt.GetByName(name)
 	if !ok {
-		return nil, fmt.Errorf("variable %s no declarada", name)
+		return nil, fmt.Errorf("variable %q no declarada", name)
 	}
 	return entry.Type, nil
 }

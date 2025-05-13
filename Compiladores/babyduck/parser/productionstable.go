@@ -45,13 +45,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Reset : empty	<< ctx.Reset(); return nil, nil >>`,
+		String: `Reset : empty	<< ctx.Reset() >>`,
 		Id:         "Reset",
 		NTType:     2,
 		Index:      2,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return ctx.Reset(); return nil, nil
+			return ctx.Reset()
 		},
 	},
 	ProdTabEntry{
