@@ -16,6 +16,14 @@ type Context struct {
 	currentFunc *FuncEntry
 }
 
+// Param representa un parámetro de función: nombre y tipo.
+// Se especifica el tipo Param para poder reconocer el arreglo
+// de Param cuando se reconoce una funcion en la gramática.
+type Param struct {
+	Name string
+	Type Tipo
+}
+
 // NewContext inicializa el contexto con tablas vacías.
 func NewContext() *Context {
 	return &Context{
@@ -32,43 +40,46 @@ func (ctx *Context) AddGlobalVar(name string, typ Tipo) error {
 
 // AddFunction registra una función en el directorio global.
 // Crea la entrada con su propia tabla local para variables.
-func (ctx *Context) AddFunction(name string, ret Tipo, params []Tipo) error {
+func (ctx *Context) AddFunction(name string, ret Tipo, params []Param) error {
 	// Prepara tabla de variables locales
 	vt := NewVarTable(ctx.GlobalVars)
+
+	// Crea la entrada de función
 	f := &FuncEntry{
 		Name:       name,
 		ReturnType: ret,
-		ParamTypes: params,
+		ParamTypes: []Tipo{},
 		VarTable:   vt,
 	}
+
 	// Agrega al directorio
 	if err := ctx.FuncDir.Add(f); err != nil {
 		return err
 	}
 	// Inserta parámetros en la tabla local
-	for i, t := range params {
-		// Para este diseño asumimos que se pasa solo tipo;
-		// los nombres de parámetros deben agregarse por separado
-		// con AddLocalVar tras EnterFunction.
-		_ = i // índice disponible si se modifica para nombre y tipo
-		_ = t
+	for _, p := range params {
+		f.ParamTypes = append(f.ParamTypes, p.Type)
+		if err := f.VarTable.Add(p.Name, p.Type); err != nil {
+			return fmt.Errorf("parámetro %s: %w", p.Name, err)
+		}
 	}
 	return nil
 }
 
-// EnterFunction marca el inicio del scope de la función dada.
-func (ctx *Context) EnterFunction(name string) error {
+// EnterFunction activa el contexto local de la función nombrada.
+func (ctx *Context) EnterFunction(name string) (interface{}, error) {
 	f, ok := ctx.FuncDir.Get(name)
 	if !ok {
-		return fmt.Errorf("función %q no declarada", name)
+		return nil, fmt.Errorf("función %s no declarada", name)
 	}
 	ctx.currentFunc = f
-	return nil
+	return nil, nil
 }
 
 // ExitFunction cierra el scope de la función activa.
-func (ctx *Context) ExitFunction() {
+func (ctx *Context) ExitFunction() (interface{}, error) {
 	ctx.currentFunc = nil
+	return nil, nil
 }
 
 // CurrentVarTable devuelve la tabla de variables del scope actual,
@@ -82,9 +93,6 @@ func (ctx *Context) CurrentVarTable() *VarTable {
 
 // AddLocalVar agrega una variable a la tabla de la función activa.
 func (ctx *Context) AddLocalVar(name string, typ Tipo) error {
-	if ctx.currentFunc == nil {
-		return fmt.Errorf("no hay función activa para declarar variable %q", name)
-	}
 	return ctx.currentFunc.VarTable.Add(name, typ)
 }
 
@@ -104,7 +112,7 @@ func (ctx *Context) RegisterGlobalVars(names []string, typ Tipo) (interface{}, e
 }
 
 // RegisterFunction registra una función (firma) en el directorio de funciones.
-func (ctx *Context) RegisterFunction(name string, ret Tipo, params []Tipo) (interface{}, error) {
+func (ctx *Context) RegisterFunction(name string, ret Tipo, params []Param) (interface{}, error) {
 	err := ctx.AddFunction(name, ret, params)
 	return nil, err
 }
@@ -119,6 +127,17 @@ func ConcatVarList(head string, tail []string) (interface{}, error) {
 	return append([]string{head}, tail...), nil
 }
 
+// PrependParam añade un nuevo Param al frente de la lista existente.
+func PrependParam(name string, typ Tipo, tail []Param) (interface{}, error) {
+	return append([]Param{{Name: name, Type: typ}}, tail...), nil
+}
+
+// MakeParam construye un slice de Param con un solo elemento.
+func MakeParam(name string, typ Tipo) (interface{}, error) {
+	return []Param{{Name: name, Type: typ}}, nil
+}
+
+// TODO VER SI LO NECESITAMOS
 // MakeParamList construye un slice de parámetros (tipos) con un único elemento.
 func MakeParamList(param Tipo) (interface{}, error) {
 	return []Tipo{param}, nil
@@ -162,4 +181,17 @@ func (ctx *Context) Reset() (interface{}, error) {
 	ctx.FuncDir = NewFuncDir()
 	ctx.currentFunc = nil
 	return ctx, nil
+}
+
+func (ctx *Context) RegisterAndEnterFunction(
+	name string,
+	ret Tipo,
+	params []Param,
+) (interface{}, error) {
+	// 1) registra firma + parámetros
+	if _, err := ctx.RegisterFunction(name, ret, params); err != nil {
+		return nil, err
+	}
+	// 2) activa currentFunc
+	return ctx.EnterFunction(name)
 }

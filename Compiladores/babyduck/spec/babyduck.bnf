@@ -58,17 +58,31 @@ Funcs
     | Func Funcs ;
 
 Func
+    : FuncStart Vars Body "]" ";"
+    << ctx.ExitFunction() >>
+    ;
+
+/*
+Func
     : "void" id "(" ")" "[" Vars Body "]" ";"
-      << ctx.RegisterFunction(string(X[1].(*token.Token).Lit), data_structures.Void, nil) >>
+    << ctx.RegisterFunction(string(X[1].(*token.Token).Lit), data_structures.Void, []data_structures.Param{}) >>
     | "void" id "(" ParamList ")" "[" Vars Body "]" ";" 
-      << ctx.RegisterFunction(string(X[1].(*token.Token).Lit), data_structures.Void, X[3].([]data_structures.Tipo)) >>
+    << ctx.RegisterFunction(string(X[1].(*token.Token).Lit), data_structures.Void, X[3].([]data_structures.Param)) >>    
+    ;
+*/
+
+FuncStart
+    : "void" id "(" ")" "[" 
+    << ctx.RegisterAndEnterFunction(string(X[1].(*token.Token).Lit), data_structures.Void, []data_structures.Param{}) >>
+    | "void" id "(" ParamList ")" "["
+    << ctx.RegisterAndEnterFunction(string(X[1].(*token.Token).Lit), data_structures.Void, X[3].([]data_structures.Param)) >>
     ;
 
 ParamList
     : id ":" Type
-      << data_structures.MakeParamList(X[2].(data_structures.Tipo)) >>
+    << data_structures.MakeParam(string(X[0].(*token.Token).Lit),X[2].(data_structures.Tipo)) >>
     | id ":" Type "," ParamList 
-      << data_structures.ConcatParamList(X[2].(data_structures.Tipo), X[4].([]data_structures.Tipo)) >>
+    << data_structures.PrependParam(string(X[0].(*token.Token).Lit), X[2].(data_structures.Tipo), X[4].([]data_structures.Param)) >>    
     ;
 
 Body
