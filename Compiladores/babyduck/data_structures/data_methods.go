@@ -16,7 +16,7 @@ func NewVarTable(parent *VarTable) *VarTable {
 
 // Add inserta una nueva variable; asigna una dirección según el tipo y ámbito y devuelve la dirección.
 // Error si ya existe una variable con el mismo nombre en este ámbito.
-func (vt *VarTable) Add(name string, typ Tipo) error {
+func (vt *VarTable) Add(name string, typ int) error {
 	// Validar duplicado por nombre
 	for _, entry := range vt.vars {
 		if entry.Name == name {
@@ -27,7 +27,7 @@ func (vt *VarTable) Add(name string, typ Tipo) error {
 	var dir int
 	if vt.parent == nil {
 		// global
-		if typ == Int {
+		if typ == 0 {
 			if nextGlobalIntAddr >= GlobalFloatBase {
 				return fmt.Errorf("overflow de direcciones globales int")
 			}
@@ -42,7 +42,7 @@ func (vt *VarTable) Add(name string, typ Tipo) error {
 		}
 	} else {
 		// local
-		if typ == Int {
+		if typ == 0 {
 			if nextLocalIntAddr >= LocalFloatBase {
 				return fmt.Errorf("overflow de direcciones locales int")
 			}
@@ -65,19 +65,19 @@ func (vt *VarTable) Add(name string, typ Tipo) error {
 func (vt *VarTable) AddTemp(typ Tipo) (int, error) {
 	var dir int
 	switch typ {
-	case Int:
+	case 0:
 		if nextTempIntAddr > TempFloatBase-1 {
 			return 0, fmt.Errorf("overflow de direcciones temporales int")
 		}
 		dir = nextTempIntAddr
 		nextTempIntAddr++
-	case Float:
+	case 1:
 		if nextTempFloatAddr > TempBoolBase-1 {
 			return 0, fmt.Errorf("overflow de direcciones temporales float")
 		}
 		dir = nextTempFloatAddr
 		nextTempFloatAddr++
-	case Bool:
+	case 2:
 		if nextTempBoolAddr > TempLimit {
 			return 0, fmt.Errorf("overflow de direcciones temporales bool")
 		}
@@ -86,28 +86,28 @@ func (vt *VarTable) AddTemp(typ Tipo) (int, error) {
 	default:
 		return 0, fmt.Errorf("tipo %v no soportado en temporales", typ)
 	}
-	vt.vars[dir] = &VarEntry{Name: "", Type: typ, DirInt: dir}
+	vt.vars[dir] = &VarEntry{Name: "", Type: 0, DirInt: dir}
 	return dir, nil
 }
 
 // AddTemp inserta una variable temporal sin nombre, asignando dirección según tipo.
 // Devuelve la dirección o error en caso de overflow.
-func (vt *VarTable) AddConst(typ Tipo) (int, error) {
+func (vt *VarTable) AddConst(typ int) (int, error) {
 	var dir int
 	switch typ {
-	case Int:
+	case 0:
 		if nextConstIntAddr > ConstFloatBase-1 {
 			return 0, fmt.Errorf("overflow de direcciones constantes int")
 		}
 		dir = nextConstIntAddr
 		nextConstIntAddr++
-	case Float:
+	case 1:
 		if nextConstFloatAddr > ConstStringBase-1 {
 			return 0, fmt.Errorf("overflow de direcciones constantes float")
 		}
 		dir = nextConstFloatAddr
 		nextConstFloatAddr++
-	case String:
+	case 4:
 		if nextConstStringAddr > ConstLimit {
 			return 0, fmt.Errorf("overflow de direcciones constantes string")
 		}

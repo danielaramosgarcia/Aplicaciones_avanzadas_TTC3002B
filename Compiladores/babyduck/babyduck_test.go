@@ -28,11 +28,41 @@ func TestVarDeclarationAndAssignment(t *testing.T) {
 
 // TestFloatConstant verifies parsing of a float constant.
 func TestFloatConstant(t *testing.T) {
-	input := `** sample ** program p; var x: float; main { x = 3.14; } end`
+	input := `** sample ** program p; var x: float; main { x = 3.56; } end`
 	l := lexer.NewLexer([]byte(input))
 	p := parser.NewParser()
 	if _, err := p.Parse(l); err != nil {
 		t.Errorf("Float constant should parse, got: %v", err)
+	}
+}
+
+// Test declare several variables.
+func TestSeveralVariablesInt(t *testing.T) {
+	input := `program p; var a, b: int; main { a = 1; } end`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("El programa falla al tratar de declarar varias variables: %v", err)
+	}
+}
+
+// Test declare several variables.
+func TestSeveralVariablesFloat(t *testing.T) {
+	input := `program p; var a, b: float; main { a = 1.23; } end`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("El programa falla al tratar de declarar varias variables: %v", err)
+	}
+}
+
+// Test declare several variables.
+func TestDifferenteTypesVariables(t *testing.T) {
+	input := `program p; var x, y, z: float; a, b: int; main { x = 1.566; } end`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("El programa falla al tratar de declarar varias variables: %v", err)
 	}
 }
 
@@ -69,6 +99,7 @@ func TestPrintStatement(t *testing.T) {
 // TestWhitespaceVariations verifies that various whitespace and newlines parse.
 func TestWhitespaceVariations(t *testing.T) {
 	input := `** Testing new line whitespace ** program p; 
+	var x: float;
 	main { } 
 	end`
 	l := lexer.NewLexer([]byte(input))

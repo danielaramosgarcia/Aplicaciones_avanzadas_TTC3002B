@@ -4,43 +4,30 @@ import (
 	"fmt"
 )
 
-// Context mantiene el estado global del compilador:
-// - GlobalVars: tabla global de variables
-// - FuncDir: directorio de funciones
-// - currentFunc: la función activa (no anidada)
-// En BabyDuck no hay funciones anidadas ni scope más profundo que el de funciones.
-
-type Context struct {
-	GlobalVars  *VarTable
-	FuncDir     *FuncDir
-	currentFunc *FuncEntry
-}
-
-// Param representa un parámetro de función: nombre y tipo.
-// Se especifica el tipo Param para poder reconocer el arreglo
-// de Param cuando se reconoce una funcion en la gramática.
-type Param struct {
-	Name string
-	Type Tipo
-}
-
 // NewContext inicializa el contexto con tablas vacías.
 func NewContext() *Context {
 	return &Context{
-		GlobalVars:  NewVarTable(nil),
-		FuncDir:     NewFuncDir(),
-		currentFunc: nil,
+		GlobalVars:    NewVarTable(nil),
+		FuncDir:       NewFuncDir(),
+		currentFunc:   nil,
+		OperatorStack: make([]int, 0),
+		OperandStack:  make([]int, 0),
+		TypeStack:     make([]int, 0),
+		Quads:         QuadQueue{Quads: make([]Quadruple, 0)},
+		TempCounter:   1, // Inicia en 1 para t1, t2,...
+		LabelCounter:  1, // Inicia en 1 para L1, L2,...
 	}
 }
 
 // AddGlobalVar agrega una variable al ámbito global, error si ya existe.
-func (ctx *Context) AddGlobalVar(name string, typ Tipo) error {
+func (ctx *Context) AddGlobalVar(name string, typ int) error {
+	fmt.Println("Entro a add global var ", name, typ)
 	return ctx.GlobalVars.Add(name, typ)
 }
 
 // AddFunction registra una función en el directorio global.
 // Crea la entrada con su propia tabla local para variables.
-func (ctx *Context) AddFunction(name string, ret Tipo, params []Param) error {
+func (ctx *Context) AddFunction(name string, ret int, params []Param) error {
 	// Prepara tabla de variables locales
 	vt := NewVarTable(ctx.GlobalVars)
 
@@ -48,7 +35,7 @@ func (ctx *Context) AddFunction(name string, ret Tipo, params []Param) error {
 	f := &FuncEntry{
 		Name:       name,
 		ReturnType: ret,
-		ParamTypes: []Tipo{},
+		ParamTypes: []int{},
 		VarTable:   vt,
 	}
 
@@ -92,17 +79,23 @@ func (ctx *Context) CurrentVarTable() *VarTable {
 }
 
 // AddLocalVar agrega una variable a la tabla de la función activa.
-func (ctx *Context) AddLocalVar(name string, typ Tipo) error {
+func (ctx *Context) AddLocalVar(name string, typ int) error {
 	return ctx.currentFunc.VarTable.Add(name, typ)
 }
 
 // ReturnContext devuelve el contexto completo al finalizar el parseo.
 func (ctx *Context) ReturnContext() (interface{}, error) {
+	for dir, entry := range ctx.GlobalVars.vars {
+		fmt.Printf("\n Dir %d → Name: %s, Type: %d, DirInt: %d\n",
+			dir, entry.Name, entry.Type, entry.DirInt)
+	}
 	return ctx, nil
 }
 
 // RegisterGlobalVars añade varias variables globales de un mismo tipo.
-func (ctx *Context) RegisterGlobalVars(names []string, typ Tipo) (interface{}, error) {
+func (ctx *Context) RegisterGlobalVars(names []string, typ int) (interface{}, error) {
+	fmt.Println("Entro a la funcion register GlobalVars, registando ", names)
+	fmt.Println("Tipo de global vars en numero: ", typ)
 	for _, name := range names {
 		if err := ctx.AddGlobalVar(name, typ); err != nil {
 			return nil, err
@@ -112,7 +105,7 @@ func (ctx *Context) RegisterGlobalVars(names []string, typ Tipo) (interface{}, e
 }
 
 // RegisterFunction registra una función (firma) en el directorio de funciones.
-func (ctx *Context) RegisterFunction(name string, ret Tipo, params []Param) (interface{}, error) {
+func (ctx *Context) RegisterFunction(name string, ret int, params []Param) (interface{}, error) {
 	err := ctx.AddFunction(name, ret, params)
 	return nil, err
 }
@@ -128,12 +121,12 @@ func ConcatVarList(head string, tail []string) (interface{}, error) {
 }
 
 // PrependParam añade un nuevo Param al frente de la lista existente.
-func PrependParam(name string, typ Tipo, tail []Param) (interface{}, error) {
+func PrependParam(name string, typ int, tail []Param) (interface{}, error) {
 	return append([]Param{{Name: name, Type: typ}}, tail...), nil
 }
 
 // MakeParam construye un slice de Param con un solo elemento.
-func MakeParam(name string, typ Tipo) (interface{}, error) {
+func MakeParam(name string, typ int) (interface{}, error) {
 	return []Param{{Name: name, Type: typ}}, nil
 }
 
@@ -164,9 +157,10 @@ func (vt *VarTable) GetByName(name string) (*VarEntry, bool) {
 
 // ValidateAssign comprueba en tiempo de parseo que la variable identificada por name
 // existe y que su tipo coincida. Internamente usa la dirección asignada en VarEntry.
-func (ctx *Context) ValidateAssign(name string, typ Tipo) (interface{}, error) {
+func (ctx *Context) ValidateAssign(name string, typ int) (interface{}, error) {
 	vt := ctx.CurrentVarTable()
 	entry, ok := vt.GetByName(name)
+	fmt.Printf("Variable en vt, nombre: %s, tipo: %d, direccion: %d ", entry.Name, entry.Type, entry.DirInt)
 	if !ok {
 		return nil, fmt.Errorf("variable %q no declarada", name)
 	}
@@ -186,11 +180,13 @@ func (ctx *Context) ResolveVarType(name string) (interface{}, error) {
 	if !ok {
 		return nil, fmt.Errorf("variable %q no declarada", name)
 	}
+	// Empuja el operando y su tipo en las pilas
+	ctx.HandleOperand(entry.DirInt, entry.Type)
 	return entry.Type, nil
 }
 
 // ReturnExpression simplemente devuelve el tipo inferido de una subexpresión.
-func ReturnExpression(expr Tipo) (interface{}, error) {
+func ReturnExpression(expr int) (interface{}, error) {
 	return expr, nil
 }
 
@@ -205,7 +201,7 @@ func (ctx *Context) Reset() (interface{}, error) {
 
 func (ctx *Context) RegisterAndEnterFunction(
 	name string,
-	ret Tipo,
+	ret int,
 	params []Param,
 ) (interface{}, error) {
 	// 1) registra firma + parámetros

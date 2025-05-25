@@ -37,8 +37,13 @@ Programa
 
 Vars
     : empty
-    | "var" VarList ":" Type ";" Vars 
-    << ctx.RegisterGlobalVars(X[1].([]string), X[3].(data_structures.Tipo)) >>
+    | "var" VarsDec
+    ;
+
+VarsDec
+    : empty
+    | VarList ":" Type ";" VarsDec 
+    << ctx.RegisterGlobalVars(X[0].([]string), X[2].(int)) >>
     ;
 
 VarList
@@ -80,9 +85,9 @@ FuncStart
 
 ParamList
     : id ":" Type
-    << data_structures.MakeParam(string(X[0].(*token.Token).Lit),X[2].(data_structures.Tipo)) >>
+    << data_structures.MakeParam(string(X[0].(*token.Token).Lit),X[2].(int)) >>
     | id ":" Type "," ParamList 
-    << data_structures.PrependParam(string(X[0].(*token.Token).Lit), X[2].(data_structures.Tipo), X[4].([]data_structures.Param)) >>    
+    << data_structures.PrependParam(string(X[0].(*token.Token).Lit), X[2].(int), X[4].([]data_structures.Param)) >>    
     ;
 
 Body
@@ -101,7 +106,7 @@ Statement
 
 Assign
     : id "=" Expression ";" 
-      << ctx.ValidateAssign(string(X[0].(*token.Token).Lit), X[2].(data_structures.Tipo)) >>
+      << ctx.ValidateAssign(string(X[0].(*token.Token).Lit), X[2].(int)) >>
     ;
 
 Expression
@@ -128,7 +133,7 @@ MulExpr
 
 Primary
     : "(" Expression ")"
-      << data_structures.ReturnExpression(X[1].(data_structures.Tipo)) >>
+      << data_structures.ReturnExpression(X[1].(int)) >>
     | id 
       << ctx.ResolveVarType(string(X[0].(*token.Token).Lit)) >>
     | cte_int << data_structures.Int, nil >>
