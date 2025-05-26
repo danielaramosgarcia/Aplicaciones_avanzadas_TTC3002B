@@ -5,7 +5,6 @@ import (
 )
 
 // METODOS DE TABLA DE VARIABLES
-
 // NewVarTable crea una nueva tabla de variables, opcionalmente enlazada a un padre.
 func NewVarTable(parent *VarTable) *VarTable {
 	return &VarTable{
@@ -147,7 +146,6 @@ func (vt *VarTable) List() []*VarEntry {
 }
 
 // METODOS DE DIRECTORIO DE FUNCIONES
-
 // NewFuncDir inicializa un nuevo directorio de funciones.
 func NewFuncDir() *FuncDir {
 	return &FuncDir{funcs: make(map[string]*FuncEntry)}

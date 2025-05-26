@@ -11,20 +11,28 @@ type Tipo int
 // 	String             // 4
 // )
 
-const Int = 0
-const Float = 1
-const Bool = 2
-const Void = 3
-const String = 4
+var Int = 0
+var Float = 1
+var Bool = 2
+var Void = 3
+var String = 4
+var NP = 5
+
+type Quadruple struct {
+	Op     int
+	Arg1   int
+	Arg2   int
+	Result int
+}
+
+type QuadQueue struct {
+	Quads []Quadruple
+}
 
 // Context mantiene el estado global del compilador:
-// - GlobalVars: tabla global de variables
-// - FuncDir: directorio de funciones3
-// - currentFunc: la función activa (no anidada)
-
 type Context struct {
 	// Tablas de variables y funciones
-	GlobalVars  *VarTable
+	// GlobalVars  *VarTable
 	FuncDir     *FuncDir
 	currentFunc *FuncEntry
 
@@ -39,64 +47,13 @@ type Context struct {
 }
 
 // Param representa un parámetro de función: nombre y tipo.
-// Se especifica el tipo Param para poder reconocer el arreglo
-// de Param cuando se reconoce una funcion en la gramática.
 type Param struct {
 	Name string
 	Type int
 }
 
-// Simulación de direcciones de memoria (stack) por segmentos:
-const (
-	// Variables globales [0,500]
-	GlobalIntBase   = 1
-	GlobalFloatBase = 250
-	GlobalLimit     = 500
-
-	// Variables locales [501,1000]
-	LocalIntBase   = 501
-	LocalFloatBase = 751
-	LocalLimit     = 1000
-
-	// Variables temporales [1001,1600]
-	TempIntBase   = 1001
-	TempFloatBase = 1201
-	TempBoolBase  = 1401
-	TempLimit     = 1600
-
-	// Constantes [1601,2200]
-	ConstIntBase    = 1601
-	ConstFloatBase  = 1801
-	ConstStringBase = 2001
-	ConstLimit      = 2200
-)
-
-// Contadores para asignar la siguiente dirección disponible.
-var (
-	nextGlobalIntAddr   = GlobalIntBase
-	nextGlobalFloatAddr = GlobalFloatBase
-
-	nextLocalIntAddr   = LocalIntBase
-	nextLocalFloatAddr = LocalFloatBase
-
-	nextTempIntAddr   = TempIntBase
-	nextTempFloatAddr = TempFloatBase
-	nextTempBoolAddr  = TempBoolBase
-
-	nextConstIntAddr    = ConstIntBase
-	nextConstFloatAddr  = ConstFloatBase
-	nextConstStringAddr = ConstStringBase
-)
-
-type Quadruple struct {
-	Op     int
-	Arg1   int
-	Arg2   int
-	Result int
-}
-
-type QuadQueue struct {
-	Quads []Quadruple
+type SpaceVariables struct {
+	Var, Temp int
 }
 
 // Representa la firma y el ámbito de una función
@@ -105,6 +62,8 @@ type FuncEntry struct {
 	ReturnType int       // tipo de retorno
 	ParamTypes []int     // tipos de parámetros en orden
 	VarTable   *VarTable // tabla de variables locales
+	CuadStart  int
+	Space      *SpaceVariables
 }
 
 // Contenedor global de todas las funciones

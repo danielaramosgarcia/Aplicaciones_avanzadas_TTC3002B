@@ -1,6 +1,7 @@
 package data_structures
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -62,39 +63,40 @@ func TestFuncDir(t *testing.T) {
 func TestContextHelpers(t *testing.T) {
 	ctx := NewContext()
 
+	// 0) Registrar y recuperar función
+	if _, err := ctx.RegisterProgramId("p"); err != nil {
+		t.Fatalf("RegisterProgramId fallo: %v", err)
+	}
+	fEntry, ok := ctx.FuncDir.Get("p")
+	if !ok || fEntry.Name != "p" {
+		t.Errorf("FuncDir no contiene 'p': %v, %v", fEntry, ok)
+	}
+
 	// 1) Registrar variables globales
 	if _, err := ctx.RegisterGlobalVars([]string{"a", "b"}, 0); err != nil {
 		t.Fatalf("RegisterGlobalVars fallo: %v", err)
 	}
-	// CHECAR POR QUE FALLA
-	// if _, ok := ctx.GlobalVars.Get(1); !ok {
-	// 	t.Errorf("GlobalVars no contiene %s", "a")
-	// }
-	if _, ok := ctx.GlobalVars.Get(2); !ok {
+	if _, ok := ctx.currentFunc.VarTable.Get(1); !ok {
+		t.Errorf("GlobalVars no contiene %s", "a")
+	}
+	if _, ok := ctx.currentFunc.VarTable.Get(2); !ok {
 		t.Errorf("GlobalVars no contiene %s", "b")
 	}
 
 	// 2) Registrar y recuperar función
-	_, err := ctx.RegisterFunction("foo", 3, []Param{})
-	if err != nil {
+	if _, err := ctx.RegisterAndEnterFunction("foo", 3, []Param{}); err != nil {
 		t.Fatalf("RegisterFunction fallo: %v", err)
 	}
-	fEntry, ok := ctx.FuncDir.Get("foo")
-	if !ok || fEntry.Name != "foo" {
+	if fEntry, ok := ctx.FuncDir.Get("foo"); !ok || fEntry.Name != "foo" {
 		t.Errorf("FuncDir no contiene 'foo': %v, %v", fEntry, ok)
 	}
 
 	// 3) Entrar y salir de la función
-	_, err = ctx.EnterFunction("foo")
-	if err != nil {
-		t.Fatalf("EnterFunction fallo: %v", err)
-	}
 	// Dentro de foo, intentar validar asignación de 'x' (no existe)
 	if _, err := ctx.ValidateAssign("x", 0); err == nil {
 		t.Errorf("ValidateAssign debería fallar para variable 'x' no declarada")
 	}
-	_, err = ctx.ExitFunction()
-	if err != nil {
+	if _, err := ctx.ExitFunction(); err != nil {
 		t.Fatalf("ExitFunction fallo: %v", err)
 	}
 
@@ -106,14 +108,19 @@ func TestContextHelpers(t *testing.T) {
 
 func TestRegisterAndEnterFunction(t *testing.T) {
 	ctx := NewContext()
+	if _, err := ctx.RegisterProgramId("p"); err != nil {
+		t.Fatalf("RegisterProgramId fallo: %v", err)
+	}
 	// Registrar y entrar de una sola vez
 	_, err := ctx.RegisterAndEnterFunction("bar", 3, []Param{{Name: "p", Type: 0}})
 	if err != nil {
 		t.Fatalf("RegisterAndEnterFunction fallo: %v", err)
 	}
+	fmt.Println("No fallo el register and enter, falta asignacion de params ")
 	// Ahora 'p' debería existir en la tabla local
 	if _, err := ctx.ValidateAssign("p", 0); err != nil {
 		t.Errorf("ValidateAssign debería encontrar parámetro 'p', got: %v", err)
 	}
+	fmt.Println("No fallo el register and enter, falta asignacion de params ", ctx.currentFunc.VarTable.vars)
 	_, _ = ctx.ExitFunction()
 }

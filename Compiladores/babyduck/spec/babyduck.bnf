@@ -32,7 +32,12 @@ Reset
     ;
 
 Programa
-    : "program" id ";" Vars Funcs "main" Body "end"
+    : ProgramId Vars Funcs "main" Body "end"
+    ;
+
+ProgramId
+    : "program" id ";"
+        << ctx.RegisterProgramId(string(X[1].(*token.Token).Lit)) >>
     ;
 
 Vars
@@ -66,15 +71,6 @@ Func
     : FuncStart Vars Body "]" ";"
     << ctx.ExitFunction() >>
     ;
-
-/*
-Func
-    : "void" id "(" ")" "[" Vars Body "]" ";"
-    << ctx.RegisterFunction(string(X[1].(*token.Token).Lit), data_structures.Void, []data_structures.Param{}) >>
-    | "void" id "(" ParamList ")" "[" Vars Body "]" ";" 
-    << ctx.RegisterFunction(string(X[1].(*token.Token).Lit), data_structures.Void, X[3].([]data_structures.Param)) >>    
-    ;
-*/
 
 FuncStart
     : "void" id "(" ")" "[" 

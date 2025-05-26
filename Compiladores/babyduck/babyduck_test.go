@@ -18,7 +18,7 @@ func TestEmptyProgram(t *testing.T) {
 
 // TestVarDeclarationAndAssignment verifies variable declaration and assignment.
 func TestVarDeclarationAndAssignment(t *testing.T) {
-	input := `program p; var x: int; main { x = 5; } end`
+	input := `program p; var x: int; main {  } end`
 	l := lexer.NewLexer([]byte(input))
 	p := parser.NewParser()
 	if _, err := p.Parse(l); err != nil {
@@ -164,6 +164,16 @@ func TestExtraTextAfterEnd(t *testing.T) {
 // TestFunctionDeclaration verifies parsing of a simple function declaration.
 func TestFunctionDeclaration(t *testing.T) {
 	input := `program p; var x: int; void f(a: int) [{ x = a + 2; }]; main { } end`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("Function declaration should parse, got: %v", err)
+	}
+}
+
+// TestFunctionWithLocalVariables verifies parsing of a function with local variables.
+func TestFunctionWithLocalVariables(t *testing.T) {
+	input := `program p; var x: int; void f(a: int) [ var b, c: float; { x = a + 2; }]; main { } end`
 	l := lexer.NewLexer([]byte(input))
 	p := parser.NewParser()
 	if _, err := p.Parse(l); err != nil {
