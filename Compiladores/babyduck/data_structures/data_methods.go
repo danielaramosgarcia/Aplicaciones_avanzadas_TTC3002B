@@ -62,32 +62,32 @@ func (vt *VarTable) Add(name string, typ int) error {
 
 // AddTemp inserta una variable temporal sin nombre, asignando dirección según tipo.
 // Devuelve la dirección o error en caso de overflow.
-func (vt *VarTable) AddTemp(typ int) error {
+func (vt *VarTable) AddTemp(typ int) (int, error) {
 	var dir int
 	switch typ {
 	case 0:
 		if nextTempIntAddr > TempFloatBase-1 {
-			return fmt.Errorf("overflow de direcciones temporales int")
+			return 0, fmt.Errorf("overflow de direcciones temporales int")
 		}
 		dir = nextTempIntAddr
 		nextTempIntAddr++
 	case 1:
 		if nextTempFloatAddr > TempBoolBase-1 {
-			return fmt.Errorf("overflow de direcciones temporales float")
+			return 0, fmt.Errorf("overflow de direcciones temporales float")
 		}
 		dir = nextTempFloatAddr
 		nextTempFloatAddr++
 	case 2:
 		if nextTempBoolAddr > TempLimit {
-			return fmt.Errorf("overflow de direcciones temporales bool")
+			return 0, fmt.Errorf("overflow de direcciones temporales bool")
 		}
 		dir = nextTempBoolAddr
 		nextTempBoolAddr++
 	default:
-		return fmt.Errorf("tipo %v no soportado en temporales", typ)
+		return 0, fmt.Errorf("tipo %v no soportado en temporales", typ)
 	}
 	vt.vars[dir] = &VarEntry{Name: "", Type: typ, DirInt: dir}
-	return nil
+	return dir, nil
 }
 
 // AddTemp inserta una variable temporal sin nombre, asignando dirección según tipo.

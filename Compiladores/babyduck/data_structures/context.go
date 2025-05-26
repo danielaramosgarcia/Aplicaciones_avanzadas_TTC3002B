@@ -67,9 +67,26 @@ func (ctx *Context) EnterFunction(name string) (interface{}, error) {
 	return nil, nil
 }
 
+func ResetCounters() {
+	nextGlobalIntAddr = GlobalIntBase
+	nextGlobalFloatAddr = GlobalFloatBase
+
+	nextLocalIntAddr = LocalIntBase
+	nextLocalFloatAddr = LocalFloatBase
+
+	nextTempIntAddr = TempIntBase
+	nextTempFloatAddr = TempFloatBase
+	nextTempBoolAddr = TempBoolBase
+
+	nextConstIntAddr = ConstIntBase
+	nextConstFloatAddr = ConstFloatBase
+	nextConstStringAddr = ConstStringBase
+}
+
 // ExitFunction cierra el scope de la función activa.
 func (ctx *Context) ExitFunction() (interface{}, error) {
 	ctx.currentFunc = ctx.FuncDir.funcs[programName]
+	ResetCounters()
 	return nil, nil
 }
 
@@ -86,15 +103,12 @@ func (ctx *Context) CurrentVarTable() *VarTable {
 
 // ReturnContext devuelve el contexto completo al finalizar el parseo.
 func (ctx *Context) ReturnContext() (interface{}, error) {
-	for name, entry := range ctx.FuncDir.funcs {
-		fmt.Printf("\n Función %s → Retorno: %d, Parámetros: %v, Memoria: %dv, %dt \n",
-			name, entry.ReturnType, entry.ParamTypes, entry.Space.Var, entry.Space.Temp)
-		fmt.Println("\n Tabla de variables locales: ")
-		for _, v := range entry.VarTable.vars {
-			fmt.Printf("  Variable %s → Tipo: %d, DirInt: %d\n",
-				v.Name, v.Type, v.DirInt)
-		}
+	fmt.Printf("\n Lista de Quads: \n")
+	for i, quad := range ctx.Quads.Quads {
+		fmt.Printf("Quad %d: %v\n", i, quad)
 	}
+	fmt.Printf("\nLista de operandos: %v\n", ctx.OperandStack)
+	fmt.Printf("\nLista de operadores: %v\n", ctx.OperatorStack)
 	return ctx, nil
 }
 
@@ -111,12 +125,15 @@ func (ctx *Context) RegisterVars(names []string, typ int) (interface{}, error) {
 }
 
 // RegisterTemp una variable temporal a la tabla actual y suma su contador.
-func (ctx *Context) RegisterTemp(typ int) (interface{}, error) {
-	if err := ctx.currentFunc.VarTable.AddTemp(typ); err != nil {
-		return nil, err
+func (ctx *Context) RegisterTemp(typ int) (int, error) {
+	println("Llego a RegisterTemp con tipo: ", typ)
+	dir, err := ctx.currentFunc.VarTable.AddTemp(typ)
+	if err != nil {
+		return dir, err
 	}
+	println("DIR EN REGTEMP ES: ", dir)
 	ctx.currentFunc.Space.Temp++
-	return nil, nil
+	return dir, nil
 }
 
 // RegisterFunction registra una función (firma) en el directorio de funciones.
@@ -188,7 +205,6 @@ func (ctx *Context) ValidateAssign(name string, typ int) (interface{}, error) {
 // ResolveVarType consulta el tipo de la variable identificada por name.
 func (ctx *Context) ResolveVarType(name string) (interface{}, error) {
 	vt := ctx.CurrentVarTable()
-	fmt.Println("Llego a resolvevartype y busco la current vt ")
 	entry, ok := vt.GetByName(name)
 	if !ok {
 		return nil, fmt.Errorf("variable %q no declarada", name)
@@ -196,6 +212,37 @@ func (ctx *Context) ResolveVarType(name string) (interface{}, error) {
 	// Empuja el operando y su tipo en las pilas
 	ctx.HandleOperand(entry.DirInt, entry.Type)
 	return entry.Type, nil
+}
+
+// TODO CONVERTIR A INT PARA ALMACENAR VALOR
+// ResolveVarType consulta el tipo de la variable identificada por name.
+func (ctx *Context) ResolveCteInt(cte string) (interface{}, error) {
+	fmt.Println("Llego a ResolveCteInt con cte: ", cte)
+	vt := ctx.CurrentVarTable()
+
+	dir, err := vt.AddConst(0)
+	if err != nil {
+		return nil, fmt.Errorf("error al agregar constante: %w", err)
+	}
+	// Empuja el operando y su tipo en las pilas
+	ctx.HandleOperand(dir, 0)
+	fmt.Printf("\n ResolveCteInt devuelve dir: %d \n", dir)
+	return nil, nil
+}
+
+// TODO CONVERTIR A FLOAT PARA ALMACENAR VALOR
+// ResolveVarType consulta el tipo de la variable identificada por name.
+func (ctx *Context) ResolveCteFloat(cte string) (interface{}, error) {
+	fmt.Printf("\n Llego a ResolveCteFloat con cte: %s \n", cte)
+	vt := ctx.CurrentVarTable()
+	dir, err := vt.AddConst(1)
+	if err != nil {
+		return nil, fmt.Errorf("error al agregar constante: %w", err)
+	}
+	// Empuja el operando y su tipo en las pilas
+	ctx.HandleOperand(dir, 1)
+	fmt.Printf("\n ResolveCteFloat devuelve dir: %d \n", dir)
+	return ctx, nil
 }
 
 // ReturnExpression simplemente devuelve el tipo inferido de una subexpresión.

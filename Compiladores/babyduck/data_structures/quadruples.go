@@ -1,10 +1,13 @@
 package data_structures
 
+import "fmt"
+
 func (q *QuadQueue) Enqueue(qd Quadruple) { q.Quads = append(q.Quads, qd) }
 func (q *QuadQueue) List() []Quadruple    { return q.Quads }
 
 // PushOperator apila un operador en OperatorStack.
 func (ctx *Context) PushOperator(op int) {
+	fmt.Printf("=== PushOperator: %d ===\n", op)
 	ctx.OperatorStack = append(ctx.OperatorStack, op)
 }
 
@@ -41,25 +44,31 @@ func (ctx *Context) PopType() int {
 }
 
 // GenerateQuad procesa el tope de operator/operandas y encola un cuádruplo.
-func (ctx *Context) GenerateQuad() error {
+func (ctx *Context) GenerateQuad() (interface{}, error) {
+	println("=== ENTRO A GENERATE QUAD ===")
 	// 1) Sacar operandos y tipos
 	rightOp := ctx.PopOperand()
+	fmt.Println("rightOp:", rightOp)
 	rightType := ctx.PopType()
+	fmt.Println("rightType:", rightType)
 	leftOp := ctx.PopOperand()
+	fmt.Println("leftOp:", leftOp)
 	leftType := ctx.PopType()
+	fmt.Println("leftType:", leftType)
 	op := ctx.PopOperator()
-
+	fmt.Println("op:", op)
 	// 2) Chequeo semántico: obtener resultado del cubo
 	resType, err := ResultBinary(op, leftType, rightType)
 	if err != nil {
-		return err
+		return nil, fmt.Errorf("TYPE mismatch!: %s", err)
 	}
 
-	// 3) Crear temporal y actualizar pilas
-	// temp := fmt.Sprintf("t%d", ctx.TempCounter)
-	temp := ctx.TempCounter
-	ctx.TempCounter++
-	ctx.PushOperand(temp)
+	// 3) Agregar temp y actualizar pilas
+	tempDir, err := ctx.RegisterTemp(resType)
+	if err != nil {
+		return nil, err
+	}
+	ctx.PushOperand(tempDir)
 	ctx.PushType(resType)
 
 	// 4) Encolar cuádruplo
@@ -67,15 +76,20 @@ func (ctx *Context) GenerateQuad() error {
 		Op:     op,
 		Arg1:   leftOp,
 		Arg2:   rightOp,
-		Result: temp,
+		Result: tempDir,
 	})
-	return nil
+	fmt.Printf("Cuádruplo generado: (%d, %d, %d, %d)", op, leftOp, rightOp, tempDir)
+	return resType, nil
 }
 
 // HandleOperand registra un operando (id o literal) y su tipo en las pilas.
-func (ctx *Context) HandleOperand(lexeme int, typ int) {
-	ctx.OperandStack = append(ctx.OperandStack, lexeme)
+func (ctx *Context) HandleOperand(dir int, typ int) {
+	fmt.Printf("=== HandleOperand: dir=%d, typ=%d ===\n", dir, typ)
+	ctx.OperandStack = append(ctx.OperandStack, dir)
+	fmt.Printf("OperandStack en handleOperand: %v\n", ctx.OperandStack)
 	ctx.TypeStack = append(ctx.TypeStack, typ)
+	fmt.Printf("TypeStack en handleOperand: %v\n", ctx.TypeStack)
+	fmt.Printf("OperadorStack en handleOperand: %v\n", ctx.OperatorStack)
 }
 
 // HandleBinary genera un cuádruplo para un operador binario.
@@ -99,18 +113,45 @@ func (ctx *Context) HandleBinary(op int) error {
 		return err
 	}
 
+	// 3) Agregar temp y actualizar pilas
+	tempDir, err := ctx.RegisterTemp(resTyp)
+	if err != nil {
+		return err
+	}
+
 	// 3) Temporal
-	temp := ctx.TempCounter
-	ctx.TempCounter++
-	ctx.OperandStack = append(ctx.OperandStack, temp)
+	// temp := ctx.TempCounter
+	// ctx.TempCounter++
+	ctx.OperandStack = append(ctx.OperandStack, tempDir)
 	ctx.TypeStack = append(ctx.TypeStack, resTyp)
 
 	// 4) Cuádruplo
-	ctx.Quads.Enqueue(Quadruple{Op: op, Arg1: leftOp, Arg2: rightOp, Result: temp})
+	ctx.Quads.Enqueue(Quadruple{Op: op, Arg1: leftOp, Arg2: rightOp, Result: tempDir})
 	return nil
 }
 
 // HandleRelational funciona igual que HandleBinary, pero para <, >, !=
 func (ctx *Context) HandleRelational(op int) error {
 	return ctx.HandleBinary(op)
+}
+
+// HandleRightParen saca operadores hasta el "(" (código 80)
+// y por cada uno invoca GenerateQuad para encolar su cuádruplo.
+func (ctx *Context) HandleRightParen() (interface{}, error) {
+	for {
+		if len(ctx.OperatorStack) == 0 {
+			return nil, fmt.Errorf("paréntesis desbalanceados")
+		}
+		op := ctx.PopOperator()
+		if op == 80 { // 80 = código que usaste para "("
+			break
+		}
+		// Como GenerateQuad espera tener el operador en la pila,
+		// lo volvemos a empujar y dejamos que GenerateQuad lo saque:
+		ctx.PushOperator(op)
+		if _, err := ctx.GenerateQuad(); err != nil {
+			return nil, err
+		}
+	}
+	return nil, nil
 }

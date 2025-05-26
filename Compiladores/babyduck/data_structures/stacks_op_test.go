@@ -4,7 +4,15 @@ import "testing"
 
 func TestQuadrupleGeneration(t *testing.T) {
 	ctx := NewContext()
+	// 0) Registrar y recuperar función
+	if _, err := ctx.RegisterProgramId("p"); err != nil {
+		t.Fatalf("RegisterProgramId fallo: %v", err)
+	}
 
+	// 2) Registrar y recuperar función
+	if _, err := ctx.RegisterAndEnterFunction("f", 3, []Param{}); err != nil {
+		t.Fatalf("RegisterFunction fallo: %v", err)
+	}
 	// 1) Generar cuádruplo para 2 + 3
 	ctx.HandleOperand(1601, 0)
 	ctx.HandleOperand(1602, 0)
@@ -14,6 +22,7 @@ func TestQuadrupleGeneration(t *testing.T) {
 	}
 
 	t.Logf("=== Después de 2+3 ===")
+	// Operador es el id o constante
 	t.Logf("OperandStack: %v", ctx.OperandStack)
 	t.Logf("TypeStack:    %v", ctx.TypeStack)
 	t.Logf("Cuádruplos:")
@@ -44,7 +53,15 @@ func TestQuadrupleGeneration(t *testing.T) {
 
 func TestRelationalQuadruple(t *testing.T) {
 	ctx := NewContext()
+	// 0) Registrar y recuperar función
+	if _, err := ctx.RegisterProgramId("p"); err != nil {
+		t.Fatalf("RegisterProgramId fallo: %v", err)
+	}
 
+	// 2) Registrar y recuperar función
+	if _, err := ctx.RegisterAndEnterFunction("f", 3, []Param{}); err != nil {
+		t.Fatalf("RegisterFunction fallo: %v", err)
+	}
 	// Generar cuádruplo para 5 < 6
 	ctx.HandleOperand(1601, 0)
 	ctx.HandleOperand(1602, 0)
@@ -64,7 +81,15 @@ func TestRelationalQuadruple(t *testing.T) {
 
 func TestMixedPrecedence(t *testing.T) {
 	ctx := NewContext()
+	// 0) Registrar y recuperar función
+	if _, err := ctx.RegisterProgramId("p"); err != nil {
+		t.Fatalf("RegisterProgramId fallo: %v", err)
+	}
 
+	// 2) Registrar y recuperar función
+	if _, err := ctx.RegisterAndEnterFunction("f", 3, []Param{}); err != nil {
+		t.Fatalf("RegisterFunction fallo: %v", err)
+	}
 	// 3 * 4 primero
 	ctx.HandleOperand(1601, 0)
 	ctx.HandleOperand(1602, 0)

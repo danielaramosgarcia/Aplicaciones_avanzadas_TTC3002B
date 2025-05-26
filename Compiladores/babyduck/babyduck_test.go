@@ -190,3 +190,116 @@ func TestValidateAssign(t *testing.T) {
 		t.Errorf("Function declaration should parse, got: %v", err)
 	}
 }
+
+// TestFunctionWithLocalVariables verifies parsing of a function with local variables.
+func TestSeveralFunctionDeclaration(t *testing.T) {
+	input := `
+	program p; 
+	var x: int; 
+	void f(a: int) 
+	[ 
+		var b, c: float; 
+		{ 
+			x = a + 2; 
+		}
+	]; 
+	void z(s: int,w: float) 
+	[ 
+		var f, t: float; 
+		{ 
+			f = s / 2; 
+		}
+	]; 
+	main { } 
+	end`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("Function declaration should parse, got: %v", err)
+	}
+}
+
+// TestFunctionWithLocalVariables verifies parsing of a function with local variables.
+func TestSeveralExp(t *testing.T) {
+	input := `
+	program p; 
+	var x: float; 
+	void f(a: int) 
+	[ 
+		var b, c: int; 
+		{ 
+			x = a + 2 / c - 5; 
+		}
+	]; 
+	main { } 
+	end`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("Function declaration should parse, got: %v", err)
+	}
+}
+
+func TestParenthesis(t *testing.T) {
+	input := `
+	program p; 
+	var x: float; 
+	void f(a: int) 
+	[ 
+		var b, c: int; 
+		{ 
+			x = (a + 3) / c - 5; 
+		}
+	]; 
+	main { } 
+	end`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("Function declaration should parse, got: %v", err)
+	}
+}
+
+func TestParenthesis2(t *testing.T) {
+	input := `
+	program p; 
+	var x: float; 
+	void f(a: int) 
+	[ 
+		var b, c: int; 
+		{ 
+			x = 7 + ((a + 3 / 1) - c ) / 5; 
+		}
+	]; 
+	main { } 
+	end`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("Function declaration should parse, got: %v", err)
+	}
+}
+
+func TestBoolComp(t *testing.T) {
+	input := `
+	program p; 
+	var x: float; 
+	void f(a: int) 
+	[ 
+		var b, c: int; 
+		{ 
+			x = 7 + ((a + 3 / 1) - c ) / 5; 
+		}
+	]; 
+	main { 
+		if (x < 5) {
+			x = 3.0 + 2.0;
+		};
+	} 
+	end`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("Function declaration should parse, got: %v", err)
+	}
+}

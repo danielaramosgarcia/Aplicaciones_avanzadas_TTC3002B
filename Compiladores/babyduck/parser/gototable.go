@@ -2,7 +2,7 @@
 
 package parser
 
-const numNTSymbols = 28
+const numNTSymbols = 32
 
 type (
 	gotoTable [numStates]gotoRow
@@ -32,8 +32,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -62,8 +66,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -92,8 +100,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -122,8 +134,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -152,8 +168,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -182,8 +202,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -212,8 +236,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -242,8 +270,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -272,8 +304,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -302,8 +338,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -332,8 +372,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -362,8 +406,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -392,8 +440,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -422,8 +474,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -452,8 +508,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -482,8 +542,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -512,8 +576,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -542,8 +610,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -572,8 +644,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -602,8 +678,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -632,8 +712,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -662,8 +746,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -692,8 +780,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -722,8 +814,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -752,8 +848,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -782,8 +882,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		43, // Print
 		-1, // ArgList
 		41, // Cycle
@@ -812,8 +916,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -842,8 +950,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		43, // Print
 		-1, // ArgList
 		41, // Cycle
@@ -872,8 +984,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -902,8 +1018,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -932,8 +1052,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -962,8 +1086,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -992,8 +1120,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1022,8 +1154,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1052,8 +1188,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1082,8 +1222,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1112,8 +1256,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1142,8 +1290,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1172,8 +1324,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		43, // Print
 		-1, // ArgList
 		41, // Cycle
@@ -1202,8 +1358,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1232,8 +1392,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1262,8 +1426,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1292,8 +1460,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1322,8 +1494,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1352,8 +1528,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1382,8 +1562,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1412,8 +1596,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1442,8 +1630,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1472,8 +1664,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1502,8 +1698,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1532,8 +1732,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1562,8 +1766,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1592,8 +1800,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1622,8 +1834,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1652,10 +1868,14 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		72, // AddExpr
+		-1, // MoreLess
 		73, // MulExpr
+		-1, // MulDiv
 		74, // Primary
+		75, // LeftPar
+		-1, // RightPar
 		-1, // Print
-		77, // ArgList
+		78, // ArgList
 		-1, // Cycle
 		-1, // Condition
 		-1, // F_Call
@@ -1682,8 +1902,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		82, // AddExpr
+		-1, // MoreLess
 		83, // MulExpr
+		-1, // MulDiv
 		84, // Primary
+		85, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1712,8 +1936,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1742,8 +1970,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1772,10 +2004,14 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		72, // AddExpr
+		-1, // MoreLess
 		73, // MulExpr
+		-1, // MulDiv
 		74, // Primary
+		75, // LeftPar
+		-1, // RightPar
 		-1, // Print
-		88, // ArgList
+		89, // ArgList
 		-1, // Cycle
 		-1, // Condition
 		-1, // F_Call
@@ -1802,8 +2038,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		92, // AddExpr
+		-1, // MoreLess
 		93, // MulExpr
+		-1, // MulDiv
 		94, // Primary
+		95, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1828,12 +2068,16 @@ var gotoTab = gotoTable{
 		-1, // StatementList
 		-1, // Statement
 		-1, // Assign
-		97, // Expression
+		98, // Expression
 		-1, // RelExpr
 		-1, // RelOp
 		92, // AddExpr
+		-1, // MoreLess
 		93, // MulExpr
+		-1, // MulDiv
 		94, // Primary
+		95, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1862,8 +2106,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1892,8 +2140,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1922,8 +2174,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -1931,34 +2187,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S64
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		99, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		100, // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S65
 		-1, // S'
@@ -1982,8 +2242,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2012,8 +2276,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2042,8 +2310,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2072,8 +2344,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2081,34 +2357,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S69
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		103, // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		92,  // AddExpr
-		93,  // MulExpr
-		94,  // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S70
 		-1, // S'
@@ -2132,8 +2412,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2162,8 +2446,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2192,8 +2480,12 @@ var gotoTab = gotoTable{
 		106, // RelExpr
 		107, // RelOp
 		-1,  // AddExpr
+		111, // MoreLess
 		-1,  // MulExpr
+		-1,  // MulDiv
 		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -2201,34 +2493,38 @@ var gotoTab = gotoTable{
 		-1,  // F_Call
 	},
 	gotoRow{ // S73
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		114, // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S74
 		-1, // S'
@@ -2252,8 +2548,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2261,34 +2561,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S75
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		117, // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		92,  // AddExpr
+		-1,  // MoreLess
+		93,  // MulExpr
+		-1,  // MulDiv
+		94,  // Primary
+		95,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S76
 		-1, // S'
@@ -2312,8 +2616,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2342,8 +2650,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2372,8 +2684,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2402,8 +2718,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2411,34 +2731,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S80
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		116, // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		92,  // AddExpr
-		93,  // MulExpr
-		94,  // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S81
 		-1, // S'
@@ -2462,8 +2786,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2489,11 +2817,15 @@ var gotoTab = gotoTable{
 		-1,  // Statement
 		-1,  // Assign
 		-1,  // Expression
-		118, // RelExpr
-		119, // RelOp
+		120, // RelExpr
+		121, // RelOp
 		-1,  // AddExpr
+		122, // MoreLess
 		-1,  // MulExpr
+		-1,  // MulDiv
 		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -2501,34 +2833,38 @@ var gotoTab = gotoTable{
 		-1,  // F_Call
 	},
 	gotoRow{ // S83
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		123, // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S84
 		-1, // S'
@@ -2552,8 +2888,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2561,34 +2901,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S85
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		124, // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		92,  // AddExpr
+		-1,  // MoreLess
+		93,  // MulExpr
+		-1,  // MulDiv
+		94,  // Primary
+		95,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S86
 		-1, // S'
@@ -2612,8 +2956,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2642,8 +2990,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2672,8 +3024,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2702,8 +3058,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2711,34 +3071,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S90
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		126, // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		92,  // AddExpr
-		93,  // MulExpr
-		94,  // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S91
 		-1, // S'
@@ -2762,8 +3126,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2792,8 +3160,12 @@ var gotoTab = gotoTable{
 		128, // RelExpr
 		129, // RelOp
 		-1,  // AddExpr
+		130, // MoreLess
 		-1,  // MulExpr
+		-1,  // MulDiv
 		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -2801,34 +3173,38 @@ var gotoTab = gotoTable{
 		-1,  // F_Call
 	},
 	gotoRow{ // S93
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		131, // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S94
 		-1, // S'
@@ -2852,8 +3228,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2861,34 +3241,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S95
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		132, // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		92,  // AddExpr
+		-1,  // MoreLess
+		93,  // MulExpr
+		-1,  // MulDiv
+		94,  // Primary
+		95,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S96
 		-1, // S'
@@ -2912,8 +3296,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2942,8 +3330,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -2951,36 +3343,6 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S98
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		135, // VarsDec
-		29,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		-1,  // AddExpr
-		-1,  // MulExpr
-		-1,  // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
-	},
-	gotoRow{ // S99
 		-1, // S'
 		-1, // Start
 		-1, // Reset
@@ -3002,13 +3364,51 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
 		-1, // Condition
 		-1, // F_Call
+	},
+	gotoRow{ // S99
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		134, // VarsDec
+		29,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S100
 		-1, // S'
@@ -3032,8 +3432,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3062,8 +3466,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3092,8 +3500,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3122,8 +3534,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3152,8 +3568,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3182,10 +3602,14 @@ var gotoTab = gotoTable{
 		-1,  // RelExpr
 		-1,  // RelOp
 		72,  // AddExpr
+		-1,  // MoreLess
 		73,  // MulExpr
+		-1,  // MulDiv
 		74,  // Primary
+		75,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
-		138, // ArgList
+		136, // ArgList
 		-1,  // Cycle
 		-1,  // Condition
 		-1,  // F_Call
@@ -3212,8 +3636,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3241,9 +3669,13 @@ var gotoTab = gotoTable{
 		-1,  // Expression
 		-1,  // RelExpr
 		-1,  // RelOp
-		141, // AddExpr
-		142, // MulExpr
-		143, // Primary
+		138, // AddExpr
+		-1,  // MoreLess
+		139, // MulExpr
+		-1,  // MulDiv
+		140, // Primary
+		141, // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -3272,8 +3704,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3302,8 +3738,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3332,8 +3772,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3362,8 +3806,12 @@ var gotoTab = gotoTable{
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
-		146, // MulExpr
+		-1,  // MoreLess
+		144, // MulExpr
+		-1,  // MulDiv
 		74,  // Primary
+		75,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -3371,64 +3819,72 @@ var gotoTab = gotoTable{
 		-1,  // F_Call
 	},
 	gotoRow{ // S112
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		-1,  // AddExpr
-		147, // MulExpr
-		74,  // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S113
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		-1,  // AddExpr
-		-1,  // MulExpr
-		148, // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S114
 		-1,  // S'
@@ -3452,8 +3908,12 @@ var gotoTab = gotoTable{
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
+		-1,  // MoreLess
 		-1,  // MulExpr
-		149, // Primary
+		-1,  // MulDiv
+		145, // Primary
+		75,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -3482,8 +3942,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3512,8 +3976,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3521,34 +3989,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S117
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		147, // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S118
 		-1, // S'
@@ -3572,8 +4044,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3581,64 +4057,72 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S119
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		154, // AddExpr
-		155, // MulExpr
-		156, // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S120
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		-1,  // AddExpr
-		159, // MulExpr
-		84,  // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S121
 		-1,  // S'
@@ -3661,9 +4145,13 @@ var gotoTab = gotoTable{
 		-1,  // Expression
 		-1,  // RelExpr
 		-1,  // RelOp
-		-1,  // AddExpr
-		160, // MulExpr
-		84,  // Primary
+		150, // AddExpr
+		-1,  // MoreLess
+		151, // MulExpr
+		-1,  // MulDiv
+		152, // Primary
+		153, // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -3692,8 +4180,12 @@ var gotoTab = gotoTable{
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
-		-1,  // MulExpr
-		161, // Primary
+		-1,  // MoreLess
+		156, // MulExpr
+		-1,  // MulDiv
+		84,  // Primary
+		85,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -3722,8 +4214,12 @@ var gotoTab = gotoTable{
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
+		-1,  // MoreLess
 		-1,  // MulExpr
-		162, // Primary
+		-1,  // MulDiv
+		157, // Primary
+		85,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -3731,34 +4227,38 @@ var gotoTab = gotoTable{
 		-1,  // F_Call
 	},
 	gotoRow{ // S124
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		159, // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S125
 		-1, // S'
@@ -3782,8 +4282,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3812,8 +4316,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3842,8 +4350,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3872,8 +4384,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -3901,9 +4417,13 @@ var gotoTab = gotoTable{
 		-1,  // Expression
 		-1,  // RelExpr
 		-1,  // RelOp
-		168, // AddExpr
-		169, // MulExpr
-		170, // Primary
+		163, // AddExpr
+		-1,  // MoreLess
+		164, // MulExpr
+		-1,  // MulDiv
+		165, // Primary
+		166, // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -3932,8 +4452,12 @@ var gotoTab = gotoTable{
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
-		173, // MulExpr
+		-1,  // MoreLess
+		169, // MulExpr
+		-1,  // MulDiv
 		94,  // Primary
+		95,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -3962,8 +4486,12 @@ var gotoTab = gotoTable{
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
-		174, // MulExpr
-		94,  // Primary
+		-1,  // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		170, // Primary
+		95,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -3992,8 +4520,12 @@ var gotoTab = gotoTable{
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
+		-1,  // MoreLess
 		-1,  // MulExpr
-		175, // Primary
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		172, // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -4014,7 +4546,7 @@ var gotoTab = gotoTable{
 		-1,  // Func
 		-1,  // FuncStart
 		-1,  // ParamList
-		-1,  // Body
+		173, // Body
 		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
@@ -4022,8 +4554,12 @@ var gotoTab = gotoTable{
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
+		-1,  // MoreLess
 		-1,  // MulExpr
-		176, // Primary
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -4031,36 +4567,6 @@ var gotoTab = gotoTable{
 		-1,  // F_Call
 	},
 	gotoRow{ // S134
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		177, // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		-1,  // AddExpr
-		-1,  // MulExpr
-		-1,  // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
-	},
-	gotoRow{ // S135
 		-1, // S'
 		-1, // Start
 		-1, // Reset
@@ -4082,15 +4588,19 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
 		-1, // Condition
 		-1, // F_Call
 	},
-	gotoRow{ // S136
+	gotoRow{ // S135
 		-1,  // S'
 		-1,  // Start
 		-1,  // Reset
@@ -4103,7 +4613,7 @@ var gotoTab = gotoTable{
 		-1,  // Funcs
 		-1,  // Func
 		-1,  // FuncStart
-		179, // ParamList
+		175, // ParamList
 		-1,  // Body
 		-1,  // StatementList
 		-1,  // Statement
@@ -4112,13 +4622,51 @@ var gotoTab = gotoTable{
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
+		-1,  // MoreLess
 		-1,  // MulExpr
+		-1,  // MulDiv
 		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
 		-1,  // Condition
 		-1,  // F_Call
+	},
+	gotoRow{ // S136
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S137
 		-1, // S'
@@ -4142,8 +4690,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4151,66 +4703,6 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S138
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S139
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S140
 		-1,  // S'
 		-1,  // Start
 		-1,  // Reset
@@ -4228,19 +4720,57 @@ var gotoTab = gotoTable{
 		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
-		180, // Expression
+		-1,  // Expression
 		-1,  // RelExpr
 		-1,  // RelOp
-		92,  // AddExpr
-		93,  // MulExpr
-		94,  // Primary
+		-1,  // AddExpr
+		176, // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
 		-1,  // Condition
 		-1,  // F_Call
 	},
-	gotoRow{ // S141
+	gotoRow{ // S139
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		177, // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
+	},
+	gotoRow{ // S140
 		-1, // S'
 		-1, // Start
 		-1, // Reset
@@ -4262,13 +4792,51 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
 		-1, // Condition
 		-1, // F_Call
+	},
+	gotoRow{ // S141
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		178, // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		92,  // AddExpr
+		-1,  // MoreLess
+		93,  // MulExpr
+		-1,  // MulDiv
+		94,  // Primary
+		95,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S142
 		-1, // S'
@@ -4292,8 +4860,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4322,8 +4894,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4331,34 +4907,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S144
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		114, // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S145
 		-1, // S'
@@ -4382,8 +4962,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4412,8 +4996,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4442,8 +5030,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4472,8 +5064,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4502,8 +5098,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4511,64 +5111,72 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S150
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		179, // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S151
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		180, // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S152
 		-1, // S'
@@ -4592,8 +5200,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4618,12 +5230,16 @@ var gotoTab = gotoTable{
 		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
-		185, // Expression
+		181, // Expression
 		-1,  // RelExpr
 		-1,  // RelOp
 		92,  // AddExpr
+		-1,  // MoreLess
 		93,  // MulExpr
+		-1,  // MulDiv
 		94,  // Primary
+		95,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -4652,8 +5268,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4682,8 +5302,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4691,34 +5315,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S156
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		123, // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S157
 		-1, // S'
@@ -4742,8 +5370,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4772,8 +5404,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4802,8 +5438,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4832,8 +5472,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4841,34 +5485,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S161
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		182, // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S162
 		-1, // S'
@@ -4892,8 +5540,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -4901,126 +5553,6 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S163
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S164
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S165
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		190, // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		-1,  // AddExpr
-		-1,  // MulExpr
-		-1,  // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
-	},
-	gotoRow{ // S166
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S167
 		-1,  // S'
 		-1,  // Start
 		-1,  // Reset
@@ -5038,17 +5570,157 @@ var gotoTab = gotoTable{
 		-1,  // StatementList
 		-1,  // Statement
 		-1,  // Assign
-		192, // Expression
+		-1,  // Expression
 		-1,  // RelExpr
 		-1,  // RelOp
-		92,  // AddExpr
-		93,  // MulExpr
-		94,  // Primary
+		-1,  // AddExpr
+		184, // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
 		-1,  // Condition
 		-1,  // F_Call
+	},
+	gotoRow{ // S164
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		185, // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
+	},
+	gotoRow{ // S165
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
+	},
+	gotoRow{ // S166
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		186, // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		92,  // AddExpr
+		-1,  // MoreLess
+		93,  // MulExpr
+		-1,  // MulDiv
+		94,  // Primary
+		95,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
+	},
+	gotoRow{ // S167
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S168
 		-1, // S'
@@ -5072,8 +5744,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -5081,34 +5757,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S169
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		131, // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S170
 		-1, // S'
@@ -5132,8 +5812,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -5162,8 +5846,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -5192,8 +5880,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -5222,8 +5914,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -5231,34 +5927,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S174
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		189, // StatementList
+		38,  // Statement
+		39,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		43,  // Print
+		-1,  // ArgList
+		41,  // Cycle
+		40,  // Condition
+		42,  // F_Call
 	},
 	gotoRow{ // S175
 		-1, // S'
@@ -5282,8 +5982,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -5291,64 +5995,72 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S176
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		190, // MulExpr
+		-1,  // MulDiv
+		140, // Primary
+		141, // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S177
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		191, // Primary
+		141, // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S178
 		-1,  // S'
@@ -5365,80 +6077,92 @@ var gotoTab = gotoTable{
 		-1,  // FuncStart
 		-1,  // ParamList
 		-1,  // Body
-		199, // StatementList
-		38,  // Statement
-		39,  // Assign
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
 		-1,  // Expression
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
+		-1,  // MoreLess
 		-1,  // MulExpr
+		-1,  // MulDiv
 		-1,  // Primary
-		43,  // Print
+		-1,  // LeftPar
+		193, // RightPar
+		-1,  // Print
 		-1,  // ArgList
-		41,  // Cycle
-		40,  // Condition
-		42,  // F_Call
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S179
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		194, // MulExpr
+		-1,  // MulDiv
+		152, // Primary
+		153, // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S180
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		195, // Primary
+		153, // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S181
 		-1,  // S'
@@ -5462,8 +6186,12 @@ var gotoTab = gotoTable{
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
-		201, // MulExpr
-		143, // Primary
+		-1,  // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		197, // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -5471,34 +6199,38 @@ var gotoTab = gotoTable{
 		-1,  // F_Call
 	},
 	gotoRow{ // S182
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		-1,  // AddExpr
-		202, // MulExpr
-		143, // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S183
 		-1,  // S'
@@ -5515,20 +6247,24 @@ var gotoTab = gotoTable{
 		-1,  // FuncStart
 		-1,  // ParamList
 		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
+		199, // StatementList
+		38,  // Statement
+		39,  // Assign
 		-1,  // Expression
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
+		-1,  // MoreLess
 		-1,  // MulExpr
-		203, // Primary
-		-1,  // Print
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		43,  // Print
 		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
+		41,  // Cycle
+		40,  // Condition
+		42,  // F_Call
 	},
 	gotoRow{ // S184
 		-1,  // S'
@@ -5552,8 +6288,12 @@ var gotoTab = gotoTable{
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
-		-1,  // MulExpr
-		204, // Primary
+		-1,  // MoreLess
+		200, // MulExpr
+		-1,  // MulDiv
+		165, // Primary
+		166, // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -5561,34 +6301,38 @@ var gotoTab = gotoTable{
 		-1,  // F_Call
 	},
 	gotoRow{ // S185
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		201, // Primary
+		166, // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S186
 		-1,  // S'
@@ -5612,8 +6356,12 @@ var gotoTab = gotoTable{
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
-		206, // MulExpr
-		156, // Primary
+		-1,  // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		203, // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -5621,96 +6369,6 @@ var gotoTab = gotoTable{
 		-1,  // F_Call
 	},
 	gotoRow{ // S187
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		-1,  // AddExpr
-		207, // MulExpr
-		156, // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
-	},
-	gotoRow{ // S188
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		-1,  // AddExpr
-		-1,  // MulExpr
-		208, // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
-	},
-	gotoRow{ // S189
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		-1,  // AddExpr
-		-1,  // MulExpr
-		209, // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
-	},
-	gotoRow{ // S190
 		-1, // S'
 		-1, // Start
 		-1, // Reset
@@ -5732,15 +6390,87 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
 		-1, // Condition
 		-1, // F_Call
 	},
-	gotoRow{ // S191
+	gotoRow{ // S188
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		204, // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		-1,  // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
+	},
+	gotoRow{ // S189
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
+	},
+	gotoRow{ // S190
 		-1,  // S'
 		-1,  // Start
 		-1,  // Reset
@@ -5755,20 +6485,58 @@ var gotoTab = gotoTable{
 		-1,  // FuncStart
 		-1,  // ParamList
 		-1,  // Body
-		211, // StatementList
-		38,  // Statement
-		39,  // Assign
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
 		-1,  // Expression
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
+		-1,  // MoreLess
 		-1,  // MulExpr
+		177, // MulDiv
 		-1,  // Primary
-		43,  // Print
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
 		-1,  // ArgList
-		41,  // Cycle
-		40,  // Condition
-		42,  // F_Call
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
+	},
+	gotoRow{ // S191
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S192
 		-1, // S'
@@ -5792,8 +6560,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -5801,34 +6573,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S193
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		-1,  // AddExpr
-		213, // MulExpr
-		170, // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S194
 		-1,  // S'
@@ -5852,8 +6628,12 @@ var gotoTab = gotoTable{
 		-1,  // RelExpr
 		-1,  // RelOp
 		-1,  // AddExpr
-		214, // MulExpr
-		170, // Primary
+		-1,  // MoreLess
+		-1,  // MulExpr
+		180, // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
 		-1,  // Print
 		-1,  // ArgList
 		-1,  // Cycle
@@ -5861,64 +6641,72 @@ var gotoTab = gotoTable{
 		-1,  // F_Call
 	},
 	gotoRow{ // S195
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		-1,  // AddExpr
-		-1,  // MulExpr
-		215, // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S196
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		-1,  // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		-1,  // AddExpr
-		-1,  // MulExpr
-		216, // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S197
 		-1, // S'
@@ -5942,8 +6730,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -5951,34 +6743,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S198
-		-1,  // S'
-		-1,  // Start
-		-1,  // Reset
-		-1,  // Programa
-		-1,  // ProgramId
-		-1,  // Vars
-		-1,  // VarsDec
-		-1,  // VarList
-		-1,  // Type
-		-1,  // Funcs
-		-1,  // Func
-		-1,  // FuncStart
-		-1,  // ParamList
-		217, // Body
-		-1,  // StatementList
-		-1,  // Statement
-		-1,  // Assign
-		-1,  // Expression
-		-1,  // RelExpr
-		-1,  // RelOp
-		-1,  // AddExpr
-		-1,  // MulExpr
-		-1,  // Primary
-		-1,  // Print
-		-1,  // ArgList
-		-1,  // Cycle
-		-1,  // Condition
-		-1,  // F_Call
+		-1, // S'
+		-1, // Start
+		-1, // Reset
+		-1, // Programa
+		-1, // ProgramId
+		-1, // Vars
+		-1, // VarsDec
+		-1, // VarList
+		-1, // Type
+		-1, // Funcs
+		-1, // Func
+		-1, // FuncStart
+		-1, // ParamList
+		-1, // Body
+		-1, // StatementList
+		-1, // Statement
+		-1, // Assign
+		-1, // Expression
+		-1, // RelExpr
+		-1, // RelOp
+		-1, // AddExpr
+		-1, // MoreLess
+		-1, // MulExpr
+		-1, // MulDiv
+		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
+		-1, // Print
+		-1, // ArgList
+		-1, // Cycle
+		-1, // Condition
+		-1, // F_Call
 	},
 	gotoRow{ // S199
 		-1, // S'
@@ -6002,8 +6798,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -6011,34 +6811,38 @@ var gotoTab = gotoTable{
 		-1, // F_Call
 	},
 	gotoRow{ // S200
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
+		-1,  // S'
+		-1,  // Start
+		-1,  // Reset
+		-1,  // Programa
+		-1,  // ProgramId
+		-1,  // Vars
+		-1,  // VarsDec
+		-1,  // VarList
+		-1,  // Type
+		-1,  // Funcs
+		-1,  // Func
+		-1,  // FuncStart
+		-1,  // ParamList
+		-1,  // Body
+		-1,  // StatementList
+		-1,  // Statement
+		-1,  // Assign
+		-1,  // Expression
+		-1,  // RelExpr
+		-1,  // RelOp
+		-1,  // AddExpr
+		-1,  // MoreLess
+		-1,  // MulExpr
+		185, // MulDiv
+		-1,  // Primary
+		-1,  // LeftPar
+		-1,  // RightPar
+		-1,  // Print
+		-1,  // ArgList
+		-1,  // Cycle
+		-1,  // Condition
+		-1,  // F_Call
 	},
 	gotoRow{ // S201
 		-1, // S'
@@ -6062,8 +6866,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -6092,8 +6900,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -6122,8 +6934,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -6152,8 +6968,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -6182,8 +7002,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -6212,8 +7036,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle
@@ -6242,398 +7070,12 @@ var gotoTab = gotoTable{
 		-1, // RelExpr
 		-1, // RelOp
 		-1, // AddExpr
+		-1, // MoreLess
 		-1, // MulExpr
+		-1, // MulDiv
 		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S208
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S209
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S210
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S211
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S212
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S213
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S214
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S215
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S216
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S217
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S218
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S219
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
-		-1, // Print
-		-1, // ArgList
-		-1, // Cycle
-		-1, // Condition
-		-1, // F_Call
-	},
-	gotoRow{ // S220
-		-1, // S'
-		-1, // Start
-		-1, // Reset
-		-1, // Programa
-		-1, // ProgramId
-		-1, // Vars
-		-1, // VarsDec
-		-1, // VarList
-		-1, // Type
-		-1, // Funcs
-		-1, // Func
-		-1, // FuncStart
-		-1, // ParamList
-		-1, // Body
-		-1, // StatementList
-		-1, // Statement
-		-1, // Assign
-		-1, // Expression
-		-1, // RelExpr
-		-1, // RelOp
-		-1, // AddExpr
-		-1, // MulExpr
-		-1, // Primary
+		-1, // LeftPar
+		-1, // RightPar
 		-1, // Print
 		-1, // ArgList
 		-1, // Cycle

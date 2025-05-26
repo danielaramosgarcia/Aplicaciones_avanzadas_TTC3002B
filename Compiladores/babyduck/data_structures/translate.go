@@ -31,26 +31,43 @@ Traduccion de operadores a su representacion en numero
     <  -> 50
     >  -> 60
     != -> 70
+	( -> 80
+	) -> 90
 */
 
 // TanslateOp recibe un operador como string y devuelve su representación numérica
-func TranslateOp(op string) (int, error) {
+func (ctx *Context) TranslateOp(op string) (interface{}, error) {
+	fmt.Println("=== ENTRO A TRANSLATEOP ===")
+	fmt.Printf("Operador recibido: %s\n", op)
 	switch op {
 	case "+":
-		return 10, nil
+		ctx.PushOperator(10)
+		return nil, nil
 	case "-":
-		return 20, nil
+		ctx.PushOperator(20)
+		return nil, nil
 	case "*":
-		return 30, nil
+		ctx.PushOperator(30)
+		return nil, nil
 	case "/":
-		return 40, nil
+		ctx.PushOperator(40)
+		return nil, nil
 	case "<":
-		return 50, nil
+		ctx.PushOperator(50)
+		return nil, nil
 	case ">":
-		return 60, nil
+		ctx.PushOperator(60)
+		return nil, nil
 	case "!=":
-		return 70, nil
+		ctx.PushOperator(70)
+		return nil, nil
+	case "(":
+		ctx.PushOperator(80) // Asumimos que "(" es un operador especial
+		return nil, nil
+	case ")":
+		return ctx.HandleRightParen()
+		// return nil, nil
 	default:
-		return -1, fmt.Errorf("operador desconocido: %s", op)
+		return nil, fmt.Errorf("operador desconocido: %s", op)
 	}
 }

@@ -110,30 +110,60 @@ Expression
 
 RelExpr
     : empty
-    | RelOp AddExpr ;
+    | RelOp AddExpr << ctx.GenerateQuad() >> ;
 
 RelOp
     : "<"
+     << ctx.TranslateOp(string(X[0].(*token.Token).Lit)) >>
     | ">"
-    | "!=" ;
+    << ctx.TranslateOp(string(X[0].(*token.Token).Lit)) >>
+    | "!=" 
+    << ctx.TranslateOp(string(X[0].(*token.Token).Lit)) >>
+    ;
 
 AddExpr
-    : AddExpr "+" MulExpr
-    | AddExpr "-" MulExpr
-    | MulExpr ;
+    : AddExpr MoreLess MulExpr << ctx.GenerateQuad() >>
+    | MulExpr 
+    ; 
+
+MoreLess
+    : "+" 
+      << ctx.TranslateOp(string(X[0].(*token.Token).Lit)) >>
+    | "-"
+    << ctx.TranslateOp(string(X[0].(*token.Token).Lit))>>
+    ;
 
 MulExpr
-    : MulExpr "*" Primary
-    | MulExpr "/" Primary
-    | Primary ;
+    : MulExpr MulDiv Primary << ctx.GenerateQuad() >>
+    | Primary 
+    ; 
+
+MulDiv
+    : "*"
+    << ctx.TranslateOp(string(X[0].(*token.Token).Lit))>>
+    | "/"
+    << ctx.TranslateOp(string(X[0].(*token.Token).Lit))>>
+    ;
 
 Primary
-    : "(" Expression ")"
-      << data_structures.ReturnExpression(X[1].(int)) >>
+    : LeftPar Expression RightPar
+    << data_structures.ReturnExpression(X[1].(int)) >>
     | id 
-      << ctx.ResolveVarType(string(X[0].(*token.Token).Lit)) >>
-    | cte_int << data_structures.Int, nil >>
-    | cte_float << data_structures.Float, nil >>
+    << ctx.ResolveVarType(string(X[0].(*token.Token).Lit)) >>
+    | cte_int 
+    << ctx.ResolveCteInt(string(X[0].(*token.Token).Lit)) >>
+    | cte_float 
+    << ctx.ResolveCteFloat(string(X[0].(*token.Token).Lit)) >>
+    ;
+
+LeftPar
+    : "(" 
+    << ctx.TranslateOp(string(X[0].(*token.Token).Lit))>>
+    ;
+
+RightPar
+    : ")" 
+    << ctx.TranslateOp(string(X[0].(*token.Token).Lit))>>
     ;
 
 Print
