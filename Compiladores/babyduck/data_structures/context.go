@@ -19,12 +19,6 @@ func NewContext() *Context {
 	}
 }
 
-// AddGlobalVar agrega una variable al ámbito global, error si ya existe.
-func (ctx *Context) AddVar(name string, typ int) error {
-	fmt.Println("Entro a add var en current func ", name, typ)
-	return ctx.currentFunc.VarTable.Add(name, typ)
-}
-
 // AddFunction registra una función en el directorio global.
 // Crea la entrada con su propia tabla local para variables.
 func (ctx *Context) AddFunction(name string, ret int, params []Param) error {
@@ -33,7 +27,6 @@ func (ctx *Context) AddFunction(name string, ret int, params []Param) error {
 
 	if ret == 5 {
 		programName = name
-		fmt.Println("Nombre del programa: ", programName)
 	} else {
 		vt.parent = ctx.FuncDir.funcs[programName].VarTable
 	}
@@ -44,6 +37,10 @@ func (ctx *Context) AddFunction(name string, ret int, params []Param) error {
 		ReturnType: ret,
 		ParamTypes: []int{},
 		VarTable:   vt,
+		Space: &SpaceVariables{
+			Var:  0, // Inicializa espacio de variables
+			Temp: 0, // Inicializa espacio de temporales
+		},
 	}
 
 	// Agrega al directorio
@@ -87,16 +84,11 @@ func (ctx *Context) CurrentVarTable() *VarTable {
 	return ctx.FuncDir.funcs[programName].VarTable
 }
 
-// AddLocalVar agrega una variable a la tabla de la función activa.
-func (ctx *Context) AddLocalVar(name string, typ int) error {
-	return ctx.currentFunc.VarTable.Add(name, typ)
-}
-
 // ReturnContext devuelve el contexto completo al finalizar el parseo.
 func (ctx *Context) ReturnContext() (interface{}, error) {
 	for name, entry := range ctx.FuncDir.funcs {
-		fmt.Printf("\n Función %s → Retorno: %d, Parámetros: %v\n",
-			name, entry.ReturnType, entry.ParamTypes)
+		fmt.Printf("\n Función %s → Retorno: %d, Parámetros: %v, Memoria: %dv, %dt \n",
+			name, entry.ReturnType, entry.ParamTypes, entry.Space.Var, entry.Space.Temp)
 		fmt.Println("\n Tabla de variables locales: ")
 		for _, v := range entry.VarTable.vars {
 			fmt.Printf("  Variable %s → Tipo: %d, DirInt: %d\n",
@@ -106,23 +98,30 @@ func (ctx *Context) ReturnContext() (interface{}, error) {
 	return ctx, nil
 }
 
-// RegisterGlobalVars añade varias variables globales de un mismo tipo.
-func (ctx *Context) RegisterGlobalVars(names []string, typ int) (interface{}, error) {
-	fmt.Println("Entro a la funcion register GlobalVars, registando ", names)
-	fmt.Println("Tipo de global vars en numero: ", typ)
+// TODO: CAMBIAR NOMBRE EN EL BNF Y ACA PARA Q SEA LA UNICA DE AGREGAR VARS.
+// RegisterVars añade varias variables globales de un mismo tipo.
+func (ctx *Context) RegisterVars(names []string, typ int) (interface{}, error) {
 	for _, name := range names {
 		if err := ctx.currentFunc.VarTable.Add(name, typ); err != nil {
 			return nil, err
 		}
+		ctx.currentFunc.Space.Var++
 	}
+	return nil, nil
+}
+
+// RegisterTemp una variable temporal a la tabla actual y suma su contador.
+func (ctx *Context) RegisterTemp(typ int) (interface{}, error) {
+	if err := ctx.currentFunc.VarTable.AddTemp(typ); err != nil {
+		return nil, err
+	}
+	ctx.currentFunc.Space.Temp++
 	return nil, nil
 }
 
 // RegisterFunction registra una función (firma) en el directorio de funciones.
 func (ctx *Context) RegisterFunction(name string, ret int, params []Param) (interface{}, error) {
-	fmt.Println("LLEGO A REGISTER FUNCTION")
 	err := ctx.AddFunction(name, ret, params)
-	fmt.Println("SALIO DE ADDFUNCTION")
 	return nil, err
 }
 
@@ -144,12 +143,6 @@ func PrependParam(name string, typ int, tail []Param) (interface{}, error) {
 // MakeParam construye un slice de Param con un solo elemento.
 func MakeParam(name string, typ int) (interface{}, error) {
 	return []Param{{Name: name, Type: typ}}, nil
-}
-
-// TODO VER SI LO NECESITAMOS
-// MakeParamList construye un slice de parámetros (tipos) con un único elemento.
-func MakeParamList(param int) (interface{}, error) {
-	return []int{param}, nil
 }
 
 // ConcatParamList concatena un tipo de parámetro al frente de la lista existente.
@@ -223,13 +216,10 @@ func (ctx *Context) RegisterAndEnterFunction(
 	ret int,
 	params []Param,
 ) (interface{}, error) {
-	fmt.Println("LLEGO A REGISTER AND ENTER FUNCTION")
 	// 1) registra firma + parámetros
 	if _, err := ctx.RegisterFunction(name, ret, params); err != nil {
 		return nil, err
 	}
-	fmt.Println("SALIO DE REGISTER FUNC")
-
 	// 2) activa currentFunc
 	return ctx.EnterFunction(name)
 }

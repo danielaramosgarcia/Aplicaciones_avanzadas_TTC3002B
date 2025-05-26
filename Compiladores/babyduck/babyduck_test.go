@@ -180,3 +180,13 @@ func TestFunctionWithLocalVariables(t *testing.T) {
 		t.Errorf("Function declaration should parse, got: %v", err)
 	}
 }
+
+// TestFunctionWithLocalVariables verifies parsing of a function with local variables.
+func TestValidateAssign(t *testing.T) {
+	input := `program p; var x: int; void f(a: int) [ var b, c: float; { x = a + 2; }]; main { } end`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("Function declaration should parse, got: %v", err)
+	}
+}

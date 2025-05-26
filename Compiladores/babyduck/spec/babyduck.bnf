@@ -48,7 +48,7 @@ Vars
 VarsDec
     : empty
     | VarList ":" Type ";" VarsDec 
-    << ctx.RegisterGlobalVars(X[0].([]string), X[2].(int)) >>
+    << ctx.RegisterVars(X[0].([]string), X[2].(int)) >>
     ;
 
 VarList

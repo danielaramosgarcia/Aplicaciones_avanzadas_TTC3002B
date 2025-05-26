@@ -73,8 +73,8 @@ func TestContextHelpers(t *testing.T) {
 	}
 
 	// 1) Registrar variables globales
-	if _, err := ctx.RegisterGlobalVars([]string{"a", "b"}, 0); err != nil {
-		t.Fatalf("RegisterGlobalVars fallo: %v", err)
+	if _, err := ctx.RegisterVars([]string{"a", "b"}, 0); err != nil {
+		t.Fatalf("RegisterVars fallo: %v", err)
 	}
 	if _, ok := ctx.currentFunc.VarTable.Get(1); !ok {
 		t.Errorf("GlobalVars no contiene %s", "a")

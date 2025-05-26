@@ -105,13 +105,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `VarsDec : VarList ":" Type ";" VarsDec	<< ctx.RegisterGlobalVars(X[0].([]string), X[2].(int)) >>`,
+		String: `VarsDec : VarList ":" Type ";" VarsDec	<< ctx.RegisterVars(X[0].([]string), X[2].(int)) >>`,
 		Id:         "VarsDec",
 		NTType:     6,
 		Index:      8,
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return ctx.RegisterGlobalVars(X[0].([]string), X[2].(int))
+			return ctx.RegisterVars(X[0].([]string), X[2].(int))
 		},
 	},
 	ProdTabEntry{
