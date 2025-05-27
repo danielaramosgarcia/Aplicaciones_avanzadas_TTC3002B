@@ -96,7 +96,7 @@ StatementList
 Statement
     : Assign
     | Condition
-    | Cycle
+    | CycleBody
     | F_Call
     | Print ;
 
@@ -176,14 +176,23 @@ ArgList
     | cte_string<< data_structures.String, nil >> ;
 
 Cycle
-    : "while" "(" Expression ")" "do" Body ";" ;
+    : "while" << ctx.CycleJump() >>
+    ;
+    
+CycleBody
+    : CycleCond "do" Body ";" << ctx.WhileJump() >>
+    ;
+
+CycleCond
+    : Cycle "(" Expression ")" << ctx.MakeGFQuad(X[2].(int)) >>
+    ;
 
 Condition
     : CondCheck Body ElseBody ";" << ctx.FillJump() >>
     ;
 
 CondCheck
-    : "if" "(" Expression ")" << ctx.MakeIfQuads(X[2].(int)) >> ;
+    : "if" "(" Expression ")" << ctx.MakeGFQuad(X[2].(int)) >> ;
 
 ElseBody
     : ElseCond Body 

@@ -45,7 +45,7 @@ func (ctx *Context) PopType() int {
 
 // GenerateQuad procesa el tope de operator/operandas y encola un cuádruplo.
 func (ctx *Context) GenerateQuad() (interface{}, error) {
-	println("=== ENTRO A GENERATE QUAD ===")
+	println("\n === ENTRO A GENERATE QUAD ===")
 	// 1) Sacar operandos y tipos
 	rightOp := ctx.PopOperand()
 	fmt.Println("rightOp:", rightOp)
@@ -159,7 +159,7 @@ func (ctx *Context) HandleRightParen() (interface{}, error) {
 // Fill auxiliar para llenar un cuádruplo pendiente con el índice actual.
 // Se usa para completar saltos condicionales.
 func (ctx *Context) FillJump() (interface{}, error) {
-	println("=== ENTRO A FILLJUMP ===")
+	println("\n === ENTRO A FILLJUMP ===")
 	idx := len(ctx.Quads.Quads) // Índice del cuádruplo actual
 
 	// Chequear si hay un salto pendiente
@@ -168,6 +168,7 @@ func (ctx *Context) FillJump() (interface{}, error) {
 	}
 	// Sacar el índice del cuádruplo a llenar
 	jumpIndex := ctx.JumpStack[len(ctx.JumpStack)-1]
+	fmt.Printf("Índice del jump: %d\n", jumpIndex)
 	ctx.JumpStack = ctx.JumpStack[:len(ctx.JumpStack)-1]
 	// Actualizar el cuádruplo con el resultado
 	ctx.Quads.Quads[jumpIndex].Result = idx
@@ -175,9 +176,9 @@ func (ctx *Context) FillJump() (interface{}, error) {
 	return nil, nil
 }
 
-func (ctx *Context) MakeIfQuads(typ int) (interface{}, error) {
+func (ctx *Context) MakeGFQuad(typ int) (interface{}, error) {
 	// Checar si es de tipo booleano
-	println("\n === ENTRO A MAKE IF QUADS ===")
+	println("\n === ENTRO A MAKEGFQUAD QUADS ===")
 	// 1) Sacar operandos y tipos
 	rightOp := ctx.PopOperand()
 	fmt.Println("rightOp:", rightOp)
@@ -193,9 +194,9 @@ func (ctx *Context) MakeIfQuads(typ int) (interface{}, error) {
 		Arg2:   -1,      // No se usa
 		Result: 0,       // Será llenado después
 	}
-
 	// 2) Agregar a la pila de saltos pendientes
 	ctx.JumpStack = append(ctx.JumpStack, len(ctx.Quads.Quads)) // Índice del cuádruplo a llenar
+	fmt.Printf("JumpStack actualizado: %v\n", ctx.JumpStack)
 	ctx.Quads.Quads = append(ctx.Quads.Quads, quad)
 	fmt.Printf("Cuádruplo generado: (%d, %d, %d, %d)\n", quad.Op, quad.Arg1, quad.Arg2, quad.Result)
 	return nil, nil
@@ -226,25 +227,50 @@ func (ctx *Context) ElseJumpIf() (interface{}, error) {
 	ctx.JumpStack = append(ctx.JumpStack, len(ctx.Quads.Quads)) // Índice del cuádruplo a llenar
 	ctx.Quads.Quads = append(ctx.Quads.Quads, quad)
 	fmt.Printf("Cuádruplo generado: (%d, %d, %d, %d)\n", quad.Op, quad.Arg1, quad.Arg2, quad.Result)
+	fmt.Printf("JumpStack actualizado: %v\n", ctx.JumpStack)
 
 	return nil, nil
 }
 
-// func (ctx *Context) FillJumpIf() (interface{}, error) {
+func (ctx *Context) CycleJump() (interface{}, error) {
 
-// 	fmt.Println("=== ENTRO A FILLJUMPIF ===")
-// 	idx := len(ctx.Quads.Quads) // Índice del cuádruplo actual
+	fmt.Println(" \n === CYCLEJUMP ===")
+	// Sacar el índice del cuádruplo a llenar
+	ctx.JumpStack = append(ctx.JumpStack, len(ctx.Quads.Quads)) // Índice del cuádruplo a llenar
+	fmt.Printf("JumpStack actualizado: %v\n", ctx.JumpStack)
 
-// 	// Chequear si hay un salto pendiente
-// 	if len(ctx.JumpStack) == 0 {
-// 		return nil, fmt.Errorf("no hay salto pendiente para llenar")
-// 	}
-// 	// Sacar el índice del cuádruplo a llenar
-// 	jumpIndex := ctx.JumpStack[len(ctx.JumpStack)-1]
-// 	ctx.JumpStack = ctx.JumpStack[:len(ctx.JumpStack)-1]
-// 	// Actualizar el cuádruplo con el resultado
-// 	// TODO CHECAR SI SI ES ESE IDX O ES ESO -1
-// 	ctx.Quads.Quads[jumpIndex].Result = idx
-// 	fmt.Printf("Cuádruplo en índice %d actualizado con resultado %d\n", jumpIndex, idx)
-// 	return nil, nil
-// }
+	return nil, nil
+}
+
+func (ctx *Context) WhileJump() (interface{}, error) {
+	fmt.Println("\n=== ENTRO A WhileJump ===")
+	// Chequear si hay un salto pendiente
+	fmt.Printf("Lista de jumps pendientes: %v\n", ctx.JumpStack)
+
+	if len(ctx.JumpStack) == 0 {
+		return nil, fmt.Errorf("no hay salto pendiente para llenar")
+	}
+
+	quad := Quadruple{
+		Op:     GOTO,
+		Arg1:   -1,
+		Arg2:   -1, // No se usa
+		Result: 0,
+	}
+	ctx.Quads.Quads = append(ctx.Quads.Quads, quad)
+
+	ctx.FillJump()
+	fmt.Printf("Lista de jumps pendientes: %v\n", ctx.JumpStack)
+	// Sacar indicie para cuad del final
+	jumpIndexStart := ctx.JumpStack[len(ctx.JumpStack)-1]
+	fmt.Printf("INDICE A DONDE CREO QUE SALTARA EN EL GO TO: %d\n", jumpIndexStart)
+	ctx.JumpStack = ctx.JumpStack[:len(ctx.JumpStack)-1]
+
+	// Actualizar el cuádruplo con el resultado
+	ctx.Quads.Quads[len(ctx.Quads.Quads)-1].Result = jumpIndexStart // Actualizar al indice del while
+
+	fmt.Printf("Lista de jumps pendientes: %v\n", ctx.JumpStack)
+	fmt.Printf("Cuádruplo generado: (%d, %d, %d, %d)\n", quad.Op, quad.Arg1, quad.Arg2, quad.Result)
+
+	return nil, nil
+}

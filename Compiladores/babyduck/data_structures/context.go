@@ -127,12 +127,10 @@ func (ctx *Context) RegisterVars(names []string, typ int) (interface{}, error) {
 
 // RegisterTemp una variable temporal a la tabla actual y suma su contador.
 func (ctx *Context) RegisterTemp(typ int) (int, error) {
-	println("Llego a RegisterTemp con tipo: ", typ)
 	dir, err := ctx.currentFunc.VarTable.AddTemp(typ)
 	if err != nil {
 		return dir, err
 	}
-	println("DIR EN REGTEMP ES: ", dir)
 	ctx.currentFunc.Space.Temp++
 	return dir, nil
 }
@@ -233,7 +231,7 @@ func (ctx *Context) ResolveCteInt(cte string) (interface{}, error) {
 // TODO CONVERTIR A FLOAT PARA ALMACENAR VALOR
 // ResolveVarType consulta el tipo de la variable identificada por name.
 func (ctx *Context) ResolveCteFloat(cte string) (interface{}, error) {
-	fmt.Printf("\n Llego a ResolveCteFloat con cte: %s \n", cte)
+	// fmt.Printf("\n Llego a ResolveCteFloat con cte: %s \n", cte)
 	vt := ctx.CurrentVarTable()
 	dir, err := vt.AddConst(1)
 	if err != nil {
@@ -241,7 +239,7 @@ func (ctx *Context) ResolveCteFloat(cte string) (interface{}, error) {
 	}
 	// Empuja el operando y su tipo en las pilas
 	ctx.HandleOperand(dir, 1)
-	fmt.Printf("\n ResolveCteFloat devuelve dir: %d \n", dir)
+	// fmt.Printf("\n ResolveCteFloat devuelve dir: %d \n", dir)
 	return ctx, nil
 }
 

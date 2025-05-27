@@ -275,7 +275,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Statement : Cycle	<<  >>`,
+		String: `Statement : CycleBody	<<  >>`,
 		Id:         "Statement",
 		NTType:     15,
 		Index:      25,
@@ -565,40 +565,60 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Cycle : "while" "(" Expression ")" "do" Body ";"	<<  >>`,
+		String: `Cycle : "while"	<< ctx.CycleJump() >>`,
 		Id:         "Cycle",
 		NTType:     29,
 		Index:      54,
-		NumSymbols: 7,
+		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return ctx.CycleJump()
+		},
+	},
+	ProdTabEntry{
+		String: `CycleBody : CycleCond "do" Body ";"	<< ctx.WhileJump() >>`,
+		Id:         "CycleBody",
+		NTType:     30,
+		Index:      55,
+		NumSymbols: 4,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ctx.WhileJump()
+		},
+	},
+	ProdTabEntry{
+		String: `CycleCond : Cycle "(" Expression ")"	<< ctx.MakeGFQuad(X[2].(int)) >>`,
+		Id:         "CycleCond",
+		NTType:     31,
+		Index:      56,
+		NumSymbols: 4,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ctx.MakeGFQuad(X[2].(int))
 		},
 	},
 	ProdTabEntry{
 		String: `Condition : CondCheck Body ElseBody ";"	<< ctx.FillJump() >>`,
 		Id:         "Condition",
-		NTType:     30,
-		Index:      55,
+		NTType:     32,
+		Index:      57,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.FillJump()
 		},
 	},
 	ProdTabEntry{
-		String: `CondCheck : "if" "(" Expression ")"	<< ctx.MakeIfQuads(X[2].(int)) >>`,
+		String: `CondCheck : "if" "(" Expression ")"	<< ctx.MakeGFQuad(X[2].(int)) >>`,
 		Id:         "CondCheck",
-		NTType:     31,
-		Index:      56,
+		NTType:     33,
+		Index:      58,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return ctx.MakeIfQuads(X[2].(int))
+			return ctx.MakeGFQuad(X[2].(int))
 		},
 	},
 	ProdTabEntry{
 		String: `ElseBody : ElseCond Body	<<  >>`,
 		Id:         "ElseBody",
-		NTType:     32,
-		Index:      57,
+		NTType:     34,
+		Index:      59,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -607,8 +627,8 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `ElseBody : empty	<<  >>`,
 		Id:         "ElseBody",
-		NTType:     32,
-		Index:      58,
+		NTType:     34,
+		Index:      60,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return nil, nil
@@ -617,8 +637,8 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `ElseCond : "else"	<< ctx.ElseJumpIf() >>`,
 		Id:         "ElseCond",
-		NTType:     33,
-		Index:      59,
+		NTType:     35,
+		Index:      61,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.ElseJumpIf()
@@ -627,8 +647,8 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `F_Call : id "(" ")" ";"	<<  >>`,
 		Id:         "F_Call",
-		NTType:     34,
-		Index:      60,
+		NTType:     36,
+		Index:      62,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -637,8 +657,8 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `F_Call : id "(" ArgList ")" ";"	<<  >>`,
 		Id:         "F_Call",
-		NTType:     34,
-		Index:      61,
+		NTType:     36,
+		Index:      63,
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
