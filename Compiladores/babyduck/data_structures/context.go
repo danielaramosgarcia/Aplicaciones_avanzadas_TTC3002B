@@ -106,7 +106,7 @@ func (ctx *Context) ReturnContext() (interface{}, error) {
 	fmt.Printf("\n| Operador | Operando Izq | Operando Der | Resultado |\n")
 	fmt.Println(" ---------------------------------------------------- ")
 	for i, quad := range ctx.Quads.Quads {
-		fmt.Printf("|  Quad %d: | %d | %d | %d | %d | \n", i, quad.Op, quad.Arg1, quad.Arg2, quad.Result)
+		fmt.Printf("|  Quad %d: | %s | %d | %d | %d | \n", i, TranslateBackOp(quad.Op), quad.Arg1, quad.Arg2, quad.Result)
 	}
 	fmt.Printf("\nLista de operandos: %v\n", ctx.OperandStack)
 	fmt.Printf("\nLista de operadores: %v\n", ctx.OperatorStack)
@@ -187,17 +187,21 @@ func (vt *VarTable) GetByName(name string) (*VarEntry, bool) {
 // existe y que su tipo coincida. Internamente usa la dirección asignada en VarEntry.
 func (ctx *Context) ValidateAssign(name string, typ int) (interface{}, error) {
 	vt := ctx.CurrentVarTable()
-	// fmt.Println("Llego a validate Assign y busco la current vt ")
 	entry, ok := vt.GetByName(name)
 	if !ok {
 		return nil, fmt.Errorf("variable %q no declarada", name)
 	}
 	if entry.Type != typ {
 		return nil, fmt.Errorf(
-			"tipos incompatibles en asignación de %q: %v != %v",
+			"MISMATCH ERR: Tipos incompatibles en asignación de %q: %v != %v",
 			name, entry.Type, typ,
 		)
 	}
+	// Empuja el operando y su tipo en las pilas
+	ctx.HandleOperand(entry.DirInt, entry.Type)
+	// Crear quad de validate
+	ctx.AssignQuad()
+
 	return nil, nil
 }
 
@@ -224,14 +228,12 @@ func (ctx *Context) ResolveCteInt(cte string) (interface{}, error) {
 	}
 	// Empuja el operando y su tipo en las pilas
 	ctx.HandleOperand(dir, 0)
-	// fmt.Printf("\n ResolveCteInt devuelve dir: %d \n", dir)
-	return nil, nil
+	return Int, nil
 }
 
 // TODO CONVERTIR A FLOAT PARA ALMACENAR VALOR
 // ResolveVarType consulta el tipo de la variable identificada por name.
 func (ctx *Context) ResolveCteFloat(cte string) (interface{}, error) {
-	// fmt.Printf("\n Llego a ResolveCteFloat con cte: %s \n", cte)
 	vt := ctx.CurrentVarTable()
 	dir, err := vt.AddConst(1)
 	if err != nil {
@@ -239,8 +241,20 @@ func (ctx *Context) ResolveCteFloat(cte string) (interface{}, error) {
 	}
 	// Empuja el operando y su tipo en las pilas
 	ctx.HandleOperand(dir, 1)
-	// fmt.Printf("\n ResolveCteFloat devuelve dir: %d \n", dir)
-	return ctx, nil
+	return Float, nil
+}
+
+// TODO CONVERTIR A FLOAT PARA ALMACENAR VALOR
+// ResolveVarType consulta el tipo de la variable identificada por name.
+func (ctx *Context) ResolveCteSting(cte string) (interface{}, error) {
+	vt := ctx.CurrentVarTable()
+	dir, err := vt.AddConst(4)
+	if err != nil {
+		return nil, fmt.Errorf("error al agregar constante: %w", err)
+	}
+	// Empuja el operando y su tipo en las pilas
+	ctx.HandleOperand(dir, 4)
+	return String, nil
 }
 
 // ReturnExpression simplemente devuelve el tipo inferido de una subexpresión.

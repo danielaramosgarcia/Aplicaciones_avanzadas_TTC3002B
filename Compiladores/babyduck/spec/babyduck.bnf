@@ -167,13 +167,24 @@ RightPar
     ;
 
 Print
-    : "print" "(" ")" ";"
-    | "print" "(" ArgList ")" ";" ;
+    : "print" "(" ArgListPrint ")" ";" 
+    ;
 
 ArgList
     : Expression
     | Expression "," ArgList 
-    | cte_string<< data_structures.String, nil >> ;
+    ;
+
+ExprComma
+    : Expression "," << ctx.PrintQuad() >>
+    ;
+
+ArgListPrint
+    : Expression  << ctx.PrintQuad() >>
+    | ExprComma ArgListPrint 
+    | cte_string
+    << ctx.ResolveCteSting(string(X[0].(*token.Token).Lit)) >>
+    ;
 
 Cycle
     : "while" << ctx.CycleJump() >>

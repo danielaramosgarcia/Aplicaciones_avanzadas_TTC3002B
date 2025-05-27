@@ -33,6 +33,9 @@ Traduccion de operadores a su representacion en numero
     != -> 70
     ( -> 80
     ) -> 90
+    GOTO -> 90
+    GOTOFALSE -> 91
+    = -> 92
 */
 const (
 	ADD       = 10
@@ -46,6 +49,8 @@ const (
 	GOTO      = 90 // salto incondicional
 	GOTOFALSE = 91 // salto si condición es falsa
 	GOTOTRUE  = 91 // salto si condición es falsa
+	EQ        = 92 // asignación
+	PRINT     = 93 // imprimir
 )
 
 // TanslateOp recibe un operador como string y devuelve su representación numérica
@@ -80,5 +85,37 @@ func (ctx *Context) TranslateOp(op string) (interface{}, error) {
 		// return nil, nil
 	default:
 		return nil, fmt.Errorf("operador desconocido: %s", op)
+	}
+}
+
+// Translate back fron number to string
+func TranslateBackOp(op int) string {
+	switch op {
+	case ADD:
+		return "+"
+	case SUB:
+		return "-"
+	case MUL:
+		return "*"
+	case DIV:
+		return "/"
+	case LT:
+		return "<"
+	case GT:
+		return ">"
+	case NEQ:
+		return "!="
+	case RPAR:
+		return "("
+	case GOTO:
+		return "GOTO"
+	case GOTOFALSE:
+		return "GOTOFALSE"
+	case EQ:
+		return "="
+	case PRINT:
+		return "PRINT"
+	default:
+		return ""
 	}
 }

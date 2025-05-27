@@ -1,7 +1,6 @@
 package data_structures
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -116,11 +115,9 @@ func TestRegisterAndEnterFunction(t *testing.T) {
 	if err != nil {
 		t.Fatalf("RegisterAndEnterFunction fallo: %v", err)
 	}
-	fmt.Println("No fallo el register and enter, falta asignacion de params ")
 	// Ahora 'p' debería existir en la tabla local
 	if _, err := ctx.ValidateAssign("p", 0); err != nil {
 		t.Errorf("ValidateAssign debería encontrar parámetro 'p', got: %v", err)
 	}
-	fmt.Println("No fallo el register and enter, falta asignacion de params ", ctx.currentFunc.VarTable.vars)
 	_, _ = ctx.ExitFunction()
 }

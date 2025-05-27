@@ -515,20 +515,10 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Print : "print" "(" ")" ";"	<<  >>`,
+		String: `Print : "print" "(" ArgListPrint ")" ";"	<<  >>`,
 		Id:         "Print",
 		NTType:     27,
 		Index:      49,
-		NumSymbols: 4,
-		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
-		},
-	},
-	ProdTabEntry{
-		String: `Print : "print" "(" ArgList ")" ";"	<<  >>`,
-		Id:         "Print",
-		NTType:     27,
-		Index:      50,
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -538,7 +528,7 @@ var productionsTable = ProdTab{
 		String: `ArgList : Expression	<<  >>`,
 		Id:         "ArgList",
 		NTType:     28,
-		Index:      51,
+		Index:      50,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -548,27 +538,57 @@ var productionsTable = ProdTab{
 		String: `ArgList : Expression "," ArgList	<<  >>`,
 		Id:         "ArgList",
 		NTType:     28,
-		Index:      52,
+		Index:      51,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
 		},
 	},
 	ProdTabEntry{
-		String: `ArgList : cte_string	<< data_structures.String, nil >>`,
-		Id:         "ArgList",
-		NTType:     28,
+		String: `ExprComma : Expression ","	<< ctx.PrintQuad() >>`,
+		Id:         "ExprComma",
+		NTType:     29,
+		Index:      52,
+		NumSymbols: 2,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ctx.PrintQuad()
+		},
+	},
+	ProdTabEntry{
+		String: `ArgListPrint : Expression	<< ctx.PrintQuad() >>`,
+		Id:         "ArgListPrint",
+		NTType:     30,
 		Index:      53,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return data_structures.String, nil
+			return ctx.PrintQuad()
+		},
+	},
+	ProdTabEntry{
+		String: `ArgListPrint : ExprComma ArgListPrint	<<  >>`,
+		Id:         "ArgListPrint",
+		NTType:     30,
+		Index:      54,
+		NumSymbols: 2,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return X[0], nil
+		},
+	},
+	ProdTabEntry{
+		String: `ArgListPrint : cte_string	<< ctx.ResolveCteSting(string(X[0].(*token.Token).Lit)) >>`,
+		Id:         "ArgListPrint",
+		NTType:     30,
+		Index:      55,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ctx.ResolveCteSting(string(X[0].(*token.Token).Lit))
 		},
 	},
 	ProdTabEntry{
 		String: `Cycle : "while"	<< ctx.CycleJump() >>`,
 		Id:         "Cycle",
-		NTType:     29,
-		Index:      54,
+		NTType:     31,
+		Index:      56,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.CycleJump()
@@ -577,8 +597,8 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `CycleBody : CycleCond "do" Body ";"	<< ctx.WhileJump() >>`,
 		Id:         "CycleBody",
-		NTType:     30,
-		Index:      55,
+		NTType:     32,
+		Index:      57,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.WhileJump()
@@ -587,26 +607,6 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `CycleCond : Cycle "(" Expression ")"	<< ctx.MakeGFQuad(X[2].(int)) >>`,
 		Id:         "CycleCond",
-		NTType:     31,
-		Index:      56,
-		NumSymbols: 4,
-		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return ctx.MakeGFQuad(X[2].(int))
-		},
-	},
-	ProdTabEntry{
-		String: `Condition : CondCheck Body ElseBody ";"	<< ctx.FillJump() >>`,
-		Id:         "Condition",
-		NTType:     32,
-		Index:      57,
-		NumSymbols: 4,
-		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return ctx.FillJump()
-		},
-	},
-	ProdTabEntry{
-		String: `CondCheck : "if" "(" Expression ")"	<< ctx.MakeGFQuad(X[2].(int)) >>`,
-		Id:         "CondCheck",
 		NTType:     33,
 		Index:      58,
 		NumSymbols: 4,
@@ -615,10 +615,30 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `ElseBody : ElseCond Body	<<  >>`,
-		Id:         "ElseBody",
+		String: `Condition : CondCheck Body ElseBody ";"	<< ctx.FillJump() >>`,
+		Id:         "Condition",
 		NTType:     34,
 		Index:      59,
+		NumSymbols: 4,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ctx.FillJump()
+		},
+	},
+	ProdTabEntry{
+		String: `CondCheck : "if" "(" Expression ")"	<< ctx.MakeGFQuad(X[2].(int)) >>`,
+		Id:         "CondCheck",
+		NTType:     35,
+		Index:      60,
+		NumSymbols: 4,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ctx.MakeGFQuad(X[2].(int))
+		},
+	},
+	ProdTabEntry{
+		String: `ElseBody : ElseCond Body	<<  >>`,
+		Id:         "ElseBody",
+		NTType:     36,
+		Index:      61,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -627,8 +647,8 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `ElseBody : empty	<<  >>`,
 		Id:         "ElseBody",
-		NTType:     34,
-		Index:      60,
+		NTType:     36,
+		Index:      62,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return nil, nil
@@ -637,8 +657,8 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `ElseCond : "else"	<< ctx.ElseJumpIf() >>`,
 		Id:         "ElseCond",
-		NTType:     35,
-		Index:      61,
+		NTType:     37,
+		Index:      63,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.ElseJumpIf()
@@ -647,8 +667,8 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `F_Call : id "(" ")" ";"	<<  >>`,
 		Id:         "F_Call",
-		NTType:     36,
-		Index:      62,
+		NTType:     38,
+		Index:      64,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -657,8 +677,8 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `F_Call : id "(" ArgList ")" ";"	<<  >>`,
 		Id:         "F_Call",
-		NTType:     36,
-		Index:      63,
+		NTType:     38,
+		Index:      65,
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil

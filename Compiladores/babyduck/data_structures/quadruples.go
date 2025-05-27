@@ -7,7 +7,6 @@ func (q *QuadQueue) List() []Quadruple    { return q.Quads }
 
 // PushOperator apila un operador en OperatorStack.
 func (ctx *Context) PushOperator(op int) {
-	// fmt.Printf("=== PushOperator: %d ===\n", op)
 	ctx.OperatorStack = append(ctx.OperatorStack, op)
 }
 
@@ -45,18 +44,12 @@ func (ctx *Context) PopType() int {
 
 // GenerateQuad procesa el tope de operator/operandas y encola un cuádruplo.
 func (ctx *Context) GenerateQuad() (interface{}, error) {
-	println("\n === ENTRO A GENERATE QUAD ===")
 	// 1) Sacar operandos y tipos
 	rightOp := ctx.PopOperand()
-	fmt.Println("rightOp:", rightOp)
 	rightType := ctx.PopType()
-	fmt.Println("rightType:", rightType)
 	leftOp := ctx.PopOperand()
-	fmt.Println("leftOp:", leftOp)
 	leftType := ctx.PopType()
-	fmt.Println("leftType:", leftType)
 	op := ctx.PopOperator()
-	fmt.Println("op:", op)
 	// 2) Chequeo semántico: obtener resultado del cubo
 	resType, err := ResultBinary(op, leftType, rightType)
 	if err != nil {
@@ -78,18 +71,13 @@ func (ctx *Context) GenerateQuad() (interface{}, error) {
 		Arg2:   rightOp,
 		Result: tempDir,
 	})
-	fmt.Printf("Cuádruplo generado: (%d, %d, %d, %d)", op, leftOp, rightOp, tempDir)
 	return resType, nil
 }
 
 // HandleOperand registra un operando (id o literal) y su tipo en las pilas.
 func (ctx *Context) HandleOperand(dir int, typ int) {
-	// fmt.Printf("=== HandleOperand: dir=%d, typ=%d ===\n", dir, typ)
 	ctx.OperandStack = append(ctx.OperandStack, dir)
-	// fmt.Printf("OperandStack en handleOperand: %v\n", ctx.OperandStack)
 	ctx.TypeStack = append(ctx.TypeStack, typ)
-	// fmt.Printf("TypeStack en handleOperand: %v\n", ctx.TypeStack)
-	// fmt.Printf("OperadorStack en handleOperand: %v\n", ctx.OperatorStack)
 }
 
 // HandleBinary genera un cuádruplo para un operador binario.
@@ -159,31 +147,24 @@ func (ctx *Context) HandleRightParen() (interface{}, error) {
 // Fill auxiliar para llenar un cuádruplo pendiente con el índice actual.
 // Se usa para completar saltos condicionales.
 func (ctx *Context) FillJump() (interface{}, error) {
-	println("\n === ENTRO A FILLJUMP ===")
 	idx := len(ctx.Quads.Quads) // Índice del cuádruplo actual
-
 	// Chequear si hay un salto pendiente
 	if len(ctx.JumpStack) == 0 {
 		return nil, fmt.Errorf("no hay salto pendiente para llenar")
 	}
 	// Sacar el índice del cuádruplo a llenar
 	jumpIndex := ctx.JumpStack[len(ctx.JumpStack)-1]
-	fmt.Printf("Índice del jump: %d\n", jumpIndex)
 	ctx.JumpStack = ctx.JumpStack[:len(ctx.JumpStack)-1]
 	// Actualizar el cuádruplo con el resultado
 	ctx.Quads.Quads[jumpIndex].Result = idx
-	fmt.Printf("Cuádruplo en índice %d actualizado con resultado %d\n", jumpIndex, idx)
 	return nil, nil
 }
 
+// MakeGFQuad genera un cuádruplo de salto condicional para una condición if.
 func (ctx *Context) MakeGFQuad(typ int) (interface{}, error) {
-	// Checar si es de tipo booleano
-	println("\n === ENTRO A MAKEGFQUAD QUADS ===")
 	// 1) Sacar operandos y tipos
 	rightOp := ctx.PopOperand()
-	fmt.Println("rightOp:", rightOp)
 	rightType := ctx.PopType()
-	fmt.Println("rightType:", rightType)
 	if rightType != 2 { // 2 = tipo booleano
 		return nil, fmt.Errorf("tipo %d no es booleano para condición if", rightType)
 	}
@@ -196,21 +177,18 @@ func (ctx *Context) MakeGFQuad(typ int) (interface{}, error) {
 	}
 	// 2) Agregar a la pila de saltos pendientes
 	ctx.JumpStack = append(ctx.JumpStack, len(ctx.Quads.Quads)) // Índice del cuádruplo a llenar
-	fmt.Printf("JumpStack actualizado: %v\n", ctx.JumpStack)
 	ctx.Quads.Quads = append(ctx.Quads.Quads, quad)
-	fmt.Printf("Cuádruplo generado: (%d, %d, %d, %d)\n", quad.Op, quad.Arg1, quad.Arg2, quad.Result)
 	return nil, nil
 }
 
+// ElseJumpIf genera un cuádruplo de salto condicional para el else.
 func (ctx *Context) ElseJumpIf() (interface{}, error) {
-	fmt.Println("\n=== ENTRO A ELSEJUMPIF ===")
 	// Chequear si hay un salto pendiente
 	if len(ctx.JumpStack) == 0 {
 		return nil, fmt.Errorf("no hay salto pendiente para llenar")
 	}
 	// Sacar el índice del cuádruplo a llenar
 	jumpIndex := ctx.JumpStack[len(ctx.JumpStack)-1]
-	fmt.Printf("Índice del jump: %d\n", jumpIndex)
 	ctx.JumpStack = ctx.JumpStack[:len(ctx.JumpStack)-1]
 	// Actualizar el cuádruplo con el resultado
 	ctx.Quads.Quads[jumpIndex].Result = len(ctx.Quads.Quads) + 1 // Actualizar con el índice actual
@@ -226,26 +204,21 @@ func (ctx *Context) ElseJumpIf() (interface{}, error) {
 	// 2) Agregar a la pila de saltos pendientes
 	ctx.JumpStack = append(ctx.JumpStack, len(ctx.Quads.Quads)) // Índice del cuádruplo a llenar
 	ctx.Quads.Quads = append(ctx.Quads.Quads, quad)
-	fmt.Printf("Cuádruplo generado: (%d, %d, %d, %d)\n", quad.Op, quad.Arg1, quad.Arg2, quad.Result)
-	fmt.Printf("JumpStack actualizado: %v\n", ctx.JumpStack)
 
 	return nil, nil
 }
 
+// CycleJump genera un cuádruplo de salto incondicional para el ciclo.
 func (ctx *Context) CycleJump() (interface{}, error) {
 
-	fmt.Println(" \n === CYCLEJUMP ===")
 	// Sacar el índice del cuádruplo a llenar
 	ctx.JumpStack = append(ctx.JumpStack, len(ctx.Quads.Quads)) // Índice del cuádruplo a llenar
-	fmt.Printf("JumpStack actualizado: %v\n", ctx.JumpStack)
 
 	return nil, nil
 }
 
+// WhileJump genera un cuádruplo de salto incondicional para el final del while.
 func (ctx *Context) WhileJump() (interface{}, error) {
-	fmt.Println("\n=== ENTRO A WhileJump ===")
-	// Chequear si hay un salto pendiente
-	fmt.Printf("Lista de jumps pendientes: %v\n", ctx.JumpStack)
 
 	if len(ctx.JumpStack) == 0 {
 		return nil, fmt.Errorf("no hay salto pendiente para llenar")
@@ -260,17 +233,56 @@ func (ctx *Context) WhileJump() (interface{}, error) {
 	ctx.Quads.Quads = append(ctx.Quads.Quads, quad)
 
 	ctx.FillJump()
-	fmt.Printf("Lista de jumps pendientes: %v\n", ctx.JumpStack)
 	// Sacar indicie para cuad del final
 	jumpIndexStart := ctx.JumpStack[len(ctx.JumpStack)-1]
-	fmt.Printf("INDICE A DONDE CREO QUE SALTARA EN EL GO TO: %d\n", jumpIndexStart)
 	ctx.JumpStack = ctx.JumpStack[:len(ctx.JumpStack)-1]
 
 	// Actualizar el cuádruplo con el resultado
 	ctx.Quads.Quads[len(ctx.Quads.Quads)-1].Result = jumpIndexStart // Actualizar al indice del while
 
-	fmt.Printf("Lista de jumps pendientes: %v\n", ctx.JumpStack)
-	fmt.Printf("Cuádruplo generado: (%d, %d, %d, %d)\n", quad.Op, quad.Arg1, quad.Arg2, quad.Result)
+	return nil, nil
+}
 
+// AssignQuad genera un cuádruplo de asignación.
+func (ctx *Context) AssignQuad() (interface{}, error) {
+	// 1) Sacar operandos y tipos
+	rightOp := ctx.PopOperand()
+	rightType := ctx.PopType()
+	leftOp := ctx.PopOperand()
+	leftType := ctx.PopType()
+
+	// 2) Chequeo semántico: debe ser una asignación
+	if leftType != rightType {
+		return nil, fmt.Errorf("tipo de asignación no coincide: %d != %d", leftType, rightType)
+	}
+
+	// 3) Encolar cuádruplo de asignación
+	ctx.Quads.Enqueue(Quadruple{
+		Op:     EQ,
+		Arg1:   leftOp,
+		Arg2:   -1, // No se usa en asignación
+		Result: rightOp,
+	})
+	return nil, nil
+}
+
+// PrintQuad genera un cuadruplo de tipo print
+func (ctx *Context) PrintQuad() (interface{}, error) {
+	// 1) Sacar operandos y tipos
+	op := ctx.PopOperand()
+	typ := ctx.PopType()
+
+	// 2) Chequeo semántico: debe ser un tipo imprimible
+	if typ != 0 && typ != 1 && typ != 4 { // int, float, string
+		return nil, fmt.Errorf("TYPEMISMATCH tipo no imprimible: %d", typ)
+	}
+
+	// 3) Encolar cuádruplo de print
+	ctx.Quads.Enqueue(Quadruple{
+		Op:     PRINT,
+		Arg1:   -1,
+		Arg2:   -1, // No se usa en print
+		Result: op, // No se usa en print
+	})
 	return nil, nil
 }
