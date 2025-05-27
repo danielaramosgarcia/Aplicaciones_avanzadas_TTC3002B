@@ -179,8 +179,20 @@ Cycle
     : "while" "(" Expression ")" "do" Body ";" ;
 
 Condition
-    : "if" "(" Expression ")" Body "else" Body ";"
-    | "if" "(" Expression ")" Body ";" ;
+    : CondCheck Body ElseBody ";" << ctx.FillJump() >>
+    ;
+
+CondCheck
+    : "if" "(" Expression ")" << ctx.MakeIfQuads(X[2].(int)) >> ;
+
+ElseBody
+    : ElseCond Body 
+    | empty ;
+
+ElseCond
+    : "else" << ctx.ElseJumpIf() >>
+    ;
+
 
 F_Call
     : id "(" ")" ";"

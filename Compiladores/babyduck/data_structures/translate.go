@@ -24,45 +24,56 @@ func TranslateType(typ string) Tipo {
 
 /*
 Traduccion de operadores a su representacion en numero
-	+ -> 10
-	- -> 20
-	* -> 30
+  - -> 10
+  - -> 20
+  - -> 30
     /  -> 40
     <  -> 50
     >  -> 60
     != -> 70
-	( -> 80
-	) -> 90
+    ( -> 80
+    ) -> 90
 */
+const (
+	ADD       = 10
+	SUB       = 20
+	MUL       = 30
+	DIV       = 40
+	LT        = 50
+	GT        = 60
+	NEQ       = 70
+	RPAR      = 80
+	GOTO      = 90 // salto incondicional
+	GOTOFALSE = 91 // salto si condición es falsa
+	GOTOTRUE  = 91 // salto si condición es falsa
+)
 
 // TanslateOp recibe un operador como string y devuelve su representación numérica
 func (ctx *Context) TranslateOp(op string) (interface{}, error) {
-	fmt.Println("=== ENTRO A TRANSLATEOP ===")
-	fmt.Printf("Operador recibido: %s\n", op)
 	switch op {
 	case "+":
-		ctx.PushOperator(10)
+		ctx.PushOperator(ADD)
 		return nil, nil
 	case "-":
-		ctx.PushOperator(20)
+		ctx.PushOperator(SUB)
 		return nil, nil
 	case "*":
-		ctx.PushOperator(30)
+		ctx.PushOperator(MUL)
 		return nil, nil
 	case "/":
-		ctx.PushOperator(40)
+		ctx.PushOperator(DIV)
 		return nil, nil
 	case "<":
-		ctx.PushOperator(50)
+		ctx.PushOperator(LT)
 		return nil, nil
 	case ">":
-		ctx.PushOperator(60)
+		ctx.PushOperator(GT)
 		return nil, nil
 	case "!=":
-		ctx.PushOperator(70)
+		ctx.PushOperator(NEQ)
 		return nil, nil
 	case "(":
-		ctx.PushOperator(80) // Asumimos que "(" es un operador especial
+		ctx.PushOperator(RPAR) // Asumimos que "(" es un operador especial
 		return nil, nil
 	case ")":
 		return ctx.HandleRightParen()

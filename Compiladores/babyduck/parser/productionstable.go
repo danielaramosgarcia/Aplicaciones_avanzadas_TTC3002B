@@ -575,30 +575,60 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Condition : "if" "(" Expression ")" Body "else" Body ";"	<<  >>`,
+		String: `Condition : CondCheck Body ElseBody ";"	<< ctx.FillJump() >>`,
 		Id:         "Condition",
 		NTType:     30,
 		Index:      55,
-		NumSymbols: 8,
+		NumSymbols: 4,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ctx.FillJump()
+		},
+	},
+	ProdTabEntry{
+		String: `CondCheck : "if" "(" Expression ")"	<< ctx.MakeIfQuads(X[2].(int)) >>`,
+		Id:         "CondCheck",
+		NTType:     31,
+		Index:      56,
+		NumSymbols: 4,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ctx.MakeIfQuads(X[2].(int))
+		},
+	},
+	ProdTabEntry{
+		String: `ElseBody : ElseCond Body	<<  >>`,
+		Id:         "ElseBody",
+		NTType:     32,
+		Index:      57,
+		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
 		},
 	},
 	ProdTabEntry{
-		String: `Condition : "if" "(" Expression ")" Body ";"	<<  >>`,
-		Id:         "Condition",
-		NTType:     30,
-		Index:      56,
-		NumSymbols: 6,
+		String: `ElseBody : empty	<<  >>`,
+		Id:         "ElseBody",
+		NTType:     32,
+		Index:      58,
+		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return nil, nil
+		},
+	},
+	ProdTabEntry{
+		String: `ElseCond : "else"	<< ctx.ElseJumpIf() >>`,
+		Id:         "ElseCond",
+		NTType:     33,
+		Index:      59,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ctx.ElseJumpIf()
 		},
 	},
 	ProdTabEntry{
 		String: `F_Call : id "(" ")" ";"	<<  >>`,
 		Id:         "F_Call",
-		NTType:     31,
-		Index:      57,
+		NTType:     34,
+		Index:      60,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -607,8 +637,8 @@ var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `F_Call : id "(" ArgList ")" ";"	<<  >>`,
 		Id:         "F_Call",
-		NTType:     31,
-		Index:      58,
+		NTType:     34,
+		Index:      61,
 		NumSymbols: 5,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil

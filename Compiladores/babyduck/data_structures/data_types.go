@@ -29,6 +29,9 @@ type QuadQueue struct {
 	Quads []Quadruple
 }
 
+// type Jump struct {
+// 	Op     int // Operación de salto (GOTO, GOTOFALSE, etc.)
+
 // Context mantiene el estado global del compilador:
 type Context struct {
 	// Tablas de variables y funciones
@@ -40,7 +43,9 @@ type Context struct {
 	OperatorStack []int
 	OperandStack  []int
 	TypeStack     []int
-	Quads         QuadQueue
+
+	Quads     QuadQueue
+	JumpStack []int // Pila de saltos pendientes
 
 	TempCounter  int
 	LabelCounter int

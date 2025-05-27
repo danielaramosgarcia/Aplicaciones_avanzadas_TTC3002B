@@ -93,7 +93,6 @@ func (ctx *Context) ExitFunction() (interface{}, error) {
 // CurrentVarTable devuelve la tabla de variables del scope actual,
 // que será la tabla local si estamos dentro de una función, o la global en caso contrario.
 func (ctx *Context) CurrentVarTable() *VarTable {
-	fmt.Printf("\n Tabla a la que pertenece el curr vt: %s \n", ctx.currentFunc.Name)
 
 	if ctx.currentFunc != nil {
 		return ctx.currentFunc.VarTable
@@ -103,9 +102,11 @@ func (ctx *Context) CurrentVarTable() *VarTable {
 
 // ReturnContext devuelve el contexto completo al finalizar el parseo.
 func (ctx *Context) ReturnContext() (interface{}, error) {
-	fmt.Printf("\n Lista de Quads: \n")
+	fmt.Println(" ____________________________________________________")
+	fmt.Printf("\n| Operador | Operando Izq | Operando Der | Resultado |\n")
+	fmt.Println(" ---------------------------------------------------- ")
 	for i, quad := range ctx.Quads.Quads {
-		fmt.Printf("Quad %d: %v\n", i, quad)
+		fmt.Printf("|  Quad %d: | %d | %d | %d | %d | \n", i, quad.Op, quad.Arg1, quad.Arg2, quad.Result)
 	}
 	fmt.Printf("\nLista de operandos: %v\n", ctx.OperandStack)
 	fmt.Printf("\nLista de operadores: %v\n", ctx.OperatorStack)
@@ -217,7 +218,6 @@ func (ctx *Context) ResolveVarType(name string) (interface{}, error) {
 // TODO CONVERTIR A INT PARA ALMACENAR VALOR
 // ResolveVarType consulta el tipo de la variable identificada por name.
 func (ctx *Context) ResolveCteInt(cte string) (interface{}, error) {
-	fmt.Println("Llego a ResolveCteInt con cte: ", cte)
 	vt := ctx.CurrentVarTable()
 
 	dir, err := vt.AddConst(0)
@@ -226,7 +226,7 @@ func (ctx *Context) ResolveCteInt(cte string) (interface{}, error) {
 	}
 	// Empuja el operando y su tipo en las pilas
 	ctx.HandleOperand(dir, 0)
-	fmt.Printf("\n ResolveCteInt devuelve dir: %d \n", dir)
+	// fmt.Printf("\n ResolveCteInt devuelve dir: %d \n", dir)
 	return nil, nil
 }
 
