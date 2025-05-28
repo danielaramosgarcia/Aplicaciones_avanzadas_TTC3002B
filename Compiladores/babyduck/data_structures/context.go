@@ -7,15 +7,28 @@ import (
 // NewContext inicializa el contexto con tablas vacías.
 func NewContext() *Context {
 	return &Context{
-		// GlobalVars:    NewVarTable(nil),
 		FuncDir:       NewFuncDir(),
 		currentFunc:   nil,
 		OperatorStack: make([]int, 0),
 		OperandStack:  make([]int, 0),
 		TypeStack:     make([]int, 0),
 		Quads:         QuadQueue{Quads: make([]Quadruple, 0)},
-		TempCounter:   1, // Inicia en 1 para t1, t2,...
-		LabelCounter:  1, // Inicia en 1 para L1, L2,...
+		FuncCount:     0,
+		FuncIndex:     make(map[int]string),
+		FuncSignature: &FuncSignature{
+			ParamSignature: make([]int, 0),
+			ParamLength:    0,
+		},
+		ConstTable: Constable{
+			Num: make(map[int]int),
+			Str: make(map[int]string),
+			Bool: map[int]bool{
+				0: false,
+				1: true,
+			},
+			Float: make(map[int]float64),
+		},
+		AddedConst: make([]string, 0),
 	}
 }
 
@@ -41,6 +54,8 @@ func (ctx *Context) AddFunction(name string, ret int, params []Param) error {
 			Var:  0, // Inicializa espacio de variables
 			Temp: 0, // Inicializa espacio de temporales
 		},
+		index:     ctx.FuncCount,
+		CuadStart: len(ctx.Quads.Quads), // Marca el inicio de los cuádruplos para esta función
 	}
 
 	// Agrega al directorio
@@ -54,6 +69,8 @@ func (ctx *Context) AddFunction(name string, ret int, params []Param) error {
 			return fmt.Errorf("parámetro %s: %w", p.Name, err)
 		}
 	}
+	ctx.FuncIndex[ctx.FuncCount] = name
+	ctx.FuncCount++
 	return nil
 }
 
@@ -67,7 +84,7 @@ func (ctx *Context) EnterFunction(name string) (interface{}, error) {
 	return nil, nil
 }
 
-func ResetCounters() {
+func (ctx *Context) ResetCounters() {
 	nextGlobalIntAddr = GlobalIntBase
 	nextGlobalFloatAddr = GlobalFloatBase
 
@@ -81,12 +98,18 @@ func ResetCounters() {
 	nextConstIntAddr = ConstIntBase
 	nextConstFloatAddr = ConstFloatBase
 	nextConstStringAddr = ConstStringBase
+	ctx.FuncSignature = &FuncSignature{
+		ParamSignature: make([]int, 0),
+		ParamLength:    0,
+	}
 }
 
 // ExitFunction cierra el scope de la función activa.
 func (ctx *Context) ExitFunction() (interface{}, error) {
 	ctx.currentFunc = ctx.FuncDir.funcs[programName]
-	ResetCounters()
+	ctx.MakeEndFQuad()
+
+	ctx.ResetCounters()
 	return nil, nil
 }
 
@@ -110,6 +133,22 @@ func (ctx *Context) ReturnContext() (interface{}, error) {
 	}
 	fmt.Printf("\nLista de operandos: %v\n", ctx.OperandStack)
 	fmt.Printf("\nLista de operadores: %v\n", ctx.OperatorStack)
+	fmt.Printf("\n Mapa de FuncCount: %v\n", ctx.FuncIndex)
+	fmt.Printf("\n Mapa de Constantes int: %v\n", ctx.ConstTable.Num)
+	fmt.Printf("\n Mapa de Constantes float: %v\n", ctx.ConstTable.Float)
+	fmt.Printf("\n Mapa de Constantes str: %v\n", ctx.ConstTable.Str)
+	fmt.Printf("\n Funciones y sus propiedades:\n")
+	for name, entry := range ctx.FuncDir.funcs {
+		fmt.Println(" ____________________________________________________")
+		fmt.Printf("Función %s: Retorno=%d, Parámetros=%v, Variables=%d, Temporales=%d CuadStart=%d  \n",
+			name, entry.ReturnType, entry.ParamTypes, entry.Space.Var, entry.Space.Temp, entry.CuadStart)
+		fmt.Printf("Tabla de variables de %s:\n", name)
+		for _, entry := range entry.VarTable.vars {
+			fmt.Printf("  - %s: Dir=%d, Tipo=%d\n", entry.Name, entry.DirInt, entry.Type)
+		}
+		fmt.Println(" ____________________________________________________")
+
+	}
 	return ctx, nil
 }
 
@@ -220,9 +259,8 @@ func (ctx *Context) ResolveVarType(name string) (interface{}, error) {
 // TODO CONVERTIR A INT PARA ALMACENAR VALOR
 // ResolveVarType consulta el tipo de la variable identificada por name.
 func (ctx *Context) ResolveCteInt(cte string) (interface{}, error) {
-	vt := ctx.CurrentVarTable()
 
-	dir, err := vt.AddConst(0)
+	dir, err := ctx.AddConst(0, cte)
 	if err != nil {
 		return nil, fmt.Errorf("error al agregar constante: %w", err)
 	}
@@ -234,8 +272,8 @@ func (ctx *Context) ResolveCteInt(cte string) (interface{}, error) {
 // TODO CONVERTIR A FLOAT PARA ALMACENAR VALOR
 // ResolveVarType consulta el tipo de la variable identificada por name.
 func (ctx *Context) ResolveCteFloat(cte string) (interface{}, error) {
-	vt := ctx.CurrentVarTable()
-	dir, err := vt.AddConst(1)
+
+	dir, err := ctx.AddConst(1, cte)
 	if err != nil {
 		return nil, fmt.Errorf("error al agregar constante: %w", err)
 	}
@@ -247,8 +285,8 @@ func (ctx *Context) ResolveCteFloat(cte string) (interface{}, error) {
 // TODO CONVERTIR A FLOAT PARA ALMACENAR VALOR
 // ResolveVarType consulta el tipo de la variable identificada por name.
 func (ctx *Context) ResolveCteSting(cte string) (interface{}, error) {
-	vt := ctx.CurrentVarTable()
-	dir, err := vt.AddConst(4)
+
+	dir, err := ctx.AddConst(4, cte)
 	if err != nil {
 		return nil, fmt.Errorf("error al agregar constante: %w", err)
 	}
@@ -279,6 +317,9 @@ func (ctx *Context) RegisterAndEnterFunction(
 	if _, err := ctx.RegisterFunction(name, ret, params); err != nil {
 		return nil, err
 	}
+	// ctx.FuncDir.funcs[name].CuadStart = len(ctx.Quads.Quads)
+	// ctx.FuncDir.funcs[name].index = ctx.FuncCount
+	// ctx.
 	// 2) activa currentFunc
 	return ctx.EnterFunction(name)
 }
@@ -288,4 +329,24 @@ func (ctx *Context) RegisterProgramId(name string) (interface{}, error) {
 		return nil, err
 	}
 	return ctx.EnterFunction(name)
+}
+
+func (ctx *Context) FunctionCall(id string) (interface{}, error) {
+	if _, ok := ctx.FuncDir.Get(id); !ok {
+		return nil, fmt.Errorf("función %s no declarada", id)
+	}
+	ctx.FuncSignature.ParamLength = len(ctx.FuncDir.funcs[id].ParamTypes)
+	ctx.FuncSignature.ParamSignature = ctx.FuncDir.funcs[id].ParamTypes
+	ctx.MakeEraQuad(id)
+	return id, nil
+}
+
+// FunctionCallEnd checa si hay parametros pendientes
+func (ctx *Context) FunctionCallEnd(id string) (interface{}, error) {
+	if len(ctx.FuncSignature.ParamSignature) > 0 {
+		return nil, fmt.Errorf("ERR Le faltan %d parámetros a la funcion, se esperaban %d, pero se recibieron %d",
+			len(ctx.FuncSignature.ParamSignature), ctx.FuncSignature.ParamLength, ctx.FuncSignature.ParamLength-len(ctx.FuncSignature.ParamSignature))
+	}
+	ctx.MakeGOSUBQuad(id)
+	return nil, nil
 }

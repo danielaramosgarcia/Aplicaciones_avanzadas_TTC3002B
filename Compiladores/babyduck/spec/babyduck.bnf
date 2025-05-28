@@ -32,7 +32,7 @@ Reset
     ;
 
 Programa
-    : ProgramId Vars Funcs "main" Body "end"
+    : ProgramId Vars Funcs "main" Body "end" << ctx.MakeEndQuad() >>
     ;
 
 ProgramId
@@ -97,7 +97,7 @@ Statement
     : Assign
     | Condition
     | CycleBody
-    | F_Call
+    | F_Call 
     | Print ;
 
 Assign
@@ -170,9 +170,13 @@ Print
     : "print" "(" ArgListPrint ")" ";" 
     ;
 
+ArgListComma
+    : Expression "," << ctx.MakeParamQuad() >>
+    ;
+
 ArgList
-    : Expression
-    | Expression "," ArgList 
+    : Expression << ctx.MakeParamQuad() >>
+    | ArgListComma ArgList 
     ;
 
 ExprComma
@@ -215,5 +219,10 @@ ElseCond
 
 
 F_Call
-    : id "(" ")" ";"
-    | id "(" ArgList ")" ";" ;
+    : F_Id ")" ";" << ctx.FunctionCallEnd(X[0].(string)) >>
+    | F_Id ArgList ")" ";" << ctx.FunctionCallEnd(X[0].(string)) >>
+    ;
+
+F_Id
+    : id "(" << ctx.FunctionCall(string(X[0].(*token.Token).Lit))>>
+    ;

@@ -38,19 +38,24 @@ Traduccion de operadores a su representacion en numero
     = -> 92
 */
 const (
-	ADD       = 10
-	SUB       = 20
-	MUL       = 30
-	DIV       = 40
-	LT        = 50
-	GT        = 60
-	NEQ       = 70
-	RPAR      = 80
+	ADD       = 10 // suma
+	SUB       = 20 // resta
+	MUL       = 30 // multiplicación
+	DIV       = 40 // división
+	LT        = 50 // menor que
+	GT        = 60 // mayor que
+	NEQ       = 70 // no igual
+	RPAR      = 80 // paréntesis derecho
 	GOTO      = 90 // salto incondicional
 	GOTOFALSE = 91 // salto si condición es falsa
 	GOTOTRUE  = 91 // salto si condición es falsa
 	EQ        = 92 // asignación
 	PRINT     = 93 // imprimir
+	ENDF      = 94 // fin de función
+	ERA       = 95 // inicio de función
+	PARAM     = 96 // parámetro de función
+	GOSUB     = 97 // llamada a función
+	END       = 98 // fin del programa
 )
 
 // TanslateOp recibe un operador como string y devuelve su representación numérica
@@ -115,6 +120,16 @@ func TranslateBackOp(op int) string {
 		return "="
 	case PRINT:
 		return "PRINT"
+	case ENDF:
+		return "ENDF"
+	case ERA:
+		return "ERA"
+	case PARAM:
+		return "PARAM"
+	case GOSUB:
+		return "GOSUB"
+	case END:
+		return "END"
 	default:
 		return ""
 	}

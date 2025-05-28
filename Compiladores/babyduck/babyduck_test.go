@@ -196,7 +196,7 @@ func TestSeveralFunctionDeclaration(t *testing.T) {
 	input := `
 	program p; 
 	var x: int; 
-	void f(a: int) 
+	void f(a: int, r: float) 
 	[ 
 		var b, c: float; 
 		{ 

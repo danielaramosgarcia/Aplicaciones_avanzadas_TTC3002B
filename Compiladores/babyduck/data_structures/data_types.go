@@ -36,19 +36,34 @@ type QuadQueue struct {
 type Context struct {
 	// Tablas de variables y funciones
 	// GlobalVars  *VarTable
-	FuncDir     *FuncDir
-	currentFunc *FuncEntry
-
+	FuncDir       *FuncDir
+	currentFunc   *FuncEntry
+	FuncSignature *FuncSignature // Firma de la función actual
 	//Pilas y cola para cuádruplos
 	OperatorStack []int
 	OperandStack  []int
 	TypeStack     []int
 
-	Quads     QuadQueue
-	JumpStack []int // Pila de saltos pendientes
+	Quads      QuadQueue
+	JumpStack  []int          // Pila de saltos pendientes
+	FuncCount  int            // Contador de funciones
+	FuncIndex  map[int]string // Mapa de índices a nombres de funciones
+	ConstTable Constable      // Tabla de constantes
+	AddedConst []string
+}
 
-	TempCounter  int
-	LabelCounter int
+// Constable
+type Constable struct {
+	Num   map[int]int
+	Float map[int]float64
+	Str   map[int]string
+	Bool  map[int]bool
+}
+
+// Struct para llevar la firma de una función
+type FuncSignature struct {
+	ParamSignature []int // Firma de parámetros para la función actual
+	ParamLength    int   // Cantidad de parámetros
 }
 
 // Param representa un parámetro de función: nombre y tipo.
@@ -69,6 +84,7 @@ type FuncEntry struct {
 	VarTable   *VarTable // tabla de variables locales
 	CuadStart  int
 	Space      *SpaceVariables
+	index      int // índice de la función en FuncDir
 }
 
 // Contenedor global de todas las funciones

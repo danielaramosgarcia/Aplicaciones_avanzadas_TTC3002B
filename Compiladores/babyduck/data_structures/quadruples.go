@@ -118,11 +118,6 @@ func (ctx *Context) HandleBinary(op int) error {
 	return nil
 }
 
-// HandleRelational funciona igual que HandleBinary, pero para <, >, !=
-func (ctx *Context) HandleRelational(op int) error {
-	return ctx.HandleBinary(op)
-}
-
 // HandleRightParen saca operadores hasta el "(" (código 80)
 // y por cada uno invoca GenerateQuad para encolar su cuádruplo.
 func (ctx *Context) HandleRightParen() (interface{}, error) {
@@ -283,6 +278,86 @@ func (ctx *Context) PrintQuad() (interface{}, error) {
 		Arg1:   -1,
 		Arg2:   -1, // No se usa en print
 		Result: op, // No se usa en print
+	})
+	return nil, nil
+}
+
+// MakeEndFQuad genera un cuádruplo de finalización de función.
+func (ctx *Context) MakeEndFQuad() (interface{}, error) {
+
+	// 1) Hacer quad de endfunction
+	ctx.Quads.Enqueue(Quadruple{
+		Op:     ENDF,
+		Arg1:   -1, // Dirección de retorno
+		Arg2:   -1, // No se usa en END_F
+		Result: -1, // Tipo de retorno
+	})
+	return nil, nil
+}
+
+// MakeEraQuad genera un cuádruplo de inicio de función (ERA).
+func (ctx *Context) MakeEraQuad(id string) (interface{}, error) {
+
+	// 1) Hacer quad de ERA
+	ctx.Quads.Enqueue(Quadruple{
+		Op:     ERA,
+		Arg1:   ctx.FuncDir.funcs[id].index, // index de la función
+		Arg2:   -1,
+		Result: -1,
+	})
+
+	return nil, nil
+}
+
+// MakeParam genera un cuádruplo de parámetro de función.
+func (ctx *Context) MakeParamQuad() (interface{}, error) {
+	// 1) Sacar el operando y tipo del parámetro
+	paramOp := ctx.PopOperand()
+	paramType := ctx.PopType()
+
+	paramLen := ctx.FuncSignature.ParamLength
+
+	// 2) Chequeo semántico: debe coincidir con el tipo declarado
+	if len(ctx.FuncSignature.ParamSignature) > 0 {
+		if paramType != ctx.FuncSignature.ParamSignature[0] {
+			return nil, fmt.Errorf("TYPE MISMATCH: tipo de parámetro %d no coincide: %d != %d", paramOp, paramType, ctx.FuncSignature.ParamSignature[0])
+		}
+	} else {
+		return nil, fmt.Errorf("ERR se pasan parametros de mas")
+	}
+	ctx.FuncSignature.ParamSignature = ctx.FuncSignature.ParamSignature[1:] // Sacar el primer parámetro de la firma
+
+	// 3) Encolar cuádruplo de parámetro
+	ctx.Quads.Enqueue(Quadruple{
+		Op:     PARAM,
+		Arg1:   paramOp,
+		Arg2:   -1, // No se usa en PARAM
+		Result: paramLen - len(ctx.FuncSignature.ParamSignature),
+	})
+
+	return nil, nil
+}
+
+func (ctx *Context) MakeGOSUBQuad(id string) (interface{}, error) {
+	// 1) Hacer quad de GOSUB
+	ctx.Quads.Enqueue(Quadruple{
+		Op:     GOSUB,
+		Arg1:   ctx.FuncDir.funcs[id].index,     // index de la función
+		Arg2:   -1,                              // No se usa en GOSUB
+		Result: ctx.FuncDir.funcs[id].CuadStart, // No se usa en GOSUB
+	})
+
+	return nil, nil
+}
+
+// MakeEndQuad genera un cuádruplo de finalización de programa.
+func (ctx *Context) MakeEndQuad() (interface{}, error) {
+	// 1) Hacer quad de END
+	ctx.Quads.Enqueue(Quadruple{
+		Op:     END,
+		Arg1:   -1, // No se usa en END
+		Arg2:   -1, // No se usa en END
+		Result: -1, // No se usa en END
 	})
 	return nil, nil
 }

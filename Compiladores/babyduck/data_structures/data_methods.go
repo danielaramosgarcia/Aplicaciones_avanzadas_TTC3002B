@@ -2,6 +2,7 @@ package data_structures
 
 import (
 	"fmt"
+	"strconv"
 )
 
 // METODOS DE TABLA DE VARIABLES
@@ -92,31 +93,86 @@ func (vt *VarTable) AddTemp(typ int) (int, error) {
 
 // AddTemp inserta una variable temporal sin nombre, asignando dirección según tipo.
 // Devuelve la dirección o error en caso de overflow.
-func (vt *VarTable) AddConst(typ int) (int, error) {
+func (ctx *Context) AddConst(typ int, val string) (int, error) {
 	var dir int
-	switch typ {
-	case 0:
-		if nextConstIntAddr > ConstFloatBase-1 {
-			return 0, fmt.Errorf("overflow de direcciones constantes int")
+	found := false
+	for _, v := range ctx.AddedConst {
+		if v == val {
+			found = true
+			break
 		}
-		dir = nextConstIntAddr
-		nextConstIntAddr++
-	case 1:
-		if nextConstFloatAddr > ConstStringBase-1 {
-			return 0, fmt.Errorf("overflow de direcciones constantes float")
-		}
-		dir = nextConstFloatAddr
-		nextConstFloatAddr++
-	case 4:
-		if nextConstStringAddr > ConstLimit {
-			return 0, fmt.Errorf("overflow de direcciones constantes string")
-		}
-		dir = nextConstStringAddr
-		nextConstStringAddr++
-	default:
-		return 0, fmt.Errorf("tipo %v no soportado en constantes", typ)
 	}
-	vt.vars[dir] = &VarEntry{Name: "", Type: typ, DirInt: dir}
+
+	if !found {
+		switch typ {
+		case 0:
+			if nextConstIntAddr > ConstFloatBase-1 {
+				return 0, fmt.Errorf("overflow de direcciones constantes int")
+			}
+
+			num, err := strconv.Atoi(val)
+			if err != nil {
+				fmt.Println("Error al convertir:", err)
+			}
+			fmt.Printf("El valor entero es %d (tipo %d)\n", num, typ)
+			dir = nextConstIntAddr
+			nextConstIntAddr++
+			ctx.ConstTable.Num[dir] = num
+		case 1:
+			if nextConstFloatAddr > ConstStringBase-1 {
+				return 0, fmt.Errorf("overflow de direcciones constantes float")
+			}
+			num, err := strconv.ParseFloat(val, 64)
+			if err != nil {
+				// Manejo de error si la cadena no es un float válido
+				fmt.Printf("Error convirtiendo '%s' a float64: %v\n", val, err)
+				return 0, fmt.Errorf("ERR al convertir float en add const")
+			}
+			fmt.Printf("El valor entero es %f (tipo %d)\n", num, typ)
+			dir = nextConstFloatAddr
+			nextConstFloatAddr++
+			ctx.ConstTable.Float[dir] = num
+
+		case 4:
+			if nextConstStringAddr > ConstLimit {
+				return 0, fmt.Errorf("overflow de direcciones constantes string")
+			}
+
+			dir = nextConstStringAddr
+			nextConstStringAddr++
+			ctx.ConstTable.Str[dir] = val
+
+		default:
+			return 0, fmt.Errorf("tipo %v no soportado en constantes", typ)
+		}
+		ctx.AddedConst = append(ctx.AddedConst, val)
+
+	} else {
+		// Si ya existe, buscar la dirección
+		switch typ {
+		case 0:
+			for dir, num := range ctx.ConstTable.Num {
+				if strconv.Itoa(num) == val {
+					return dir, nil
+				}
+			}
+		case 1:
+			for dir, num := range ctx.ConstTable.Float {
+				if fmt.Sprintf("%f", num) == val {
+					return dir, nil
+				}
+			}
+		case 4:
+			for dir, str := range ctx.ConstTable.Str {
+				if str == val {
+					return dir, nil
+				}
+			}
+		default:
+			return 0, fmt.Errorf("tipo %v no soportado en constantes", typ)
+		}
+	}
+
 	return dir, nil
 }
 
