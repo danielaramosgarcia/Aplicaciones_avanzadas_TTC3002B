@@ -1,8 +1,11 @@
 package babyduck
 
 import (
+	"babyduck/data_structures"
 	"babyduck/lexer"
 	"babyduck/parser"
+	"fmt"
+	"os"
 	"testing"
 )
 
@@ -18,8 +21,21 @@ func TestIfQuads(t *testing.T) {
 	} end`
 	l := lexer.NewLexer([]byte(input))
 	p := parser.NewParser()
-	if _, err := p.Parse(l); err != nil {
+	result, err := p.Parse(l)
+	if err != nil {
 		t.Errorf("Empty program should parse without error, got: %v", err)
+		fmt.Fprintf(os.Stderr, "Error de parseo: %v\n", err)
+		os.Exit(1)
+	}
+	ctx := result.(*data_structures.Context)
+	for i, q := range ctx.Quads.Quads {
+		fmt.Printf("%3d: Op=%d, Arg1=%d, Arg2=%d, Res=%d\n",
+			i, q.Op, q.Arg1, q.Arg2, q.Result)
+	}
+
+	for i, q := range ctx.Quads.Quads {
+		fmt.Printf("%3d: Op=%d, Arg1=%d, Arg2=%d, Res=%d\n",
+			i, q.Op, q.Arg1, q.Arg2, q.Result)
 	}
 }
 
@@ -72,9 +88,8 @@ func TestWhileQuads(t *testing.T) {
 	main { 
 		x = 3 + 1 -1;
 		while(x < 10-1) do {
-			x = x + 1;
 			print(x*4);
-			x = x - 234;
+			x = x + 1;
 		};
 		x = 3 - 1;
 	} end`
@@ -502,6 +517,61 @@ func TestPrintCte(t *testing.T) {
 		print('hola');
 	} 
 	end`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("Empty program should parse without error, got: %v", err)
+	}
+}
+
+// TestMemoryQuads verifies that the quadruples for memory operations are generated correctly.
+func TestMemoryQuads(t *testing.T) {
+	input := `
+	program primerintento; 
+
+	var x, j: int;
+
+	void uno(a: int, b: int) 
+	[ 
+		{
+			if (a > 0) 
+			{
+				x = a + b ; 
+				print ( x );
+				uno ( a - x, b );
+			} 
+			else 
+			{
+				print ( a + b );
+			};
+		}
+	]; 
+
+	void dos(a:int, g:float) 
+	[ 
+		var h: int; 
+		{
+			h = a;
+			while (a > 0) do
+			{ 
+				a = a - x * j;
+				uno( a * 2, a + x );
+				g = g * j - x;
+			};
+		 }
+	]; 
+
+	main { 
+		x = 3 + 1 -1;
+		j = x + 1;
+		uno(5, 2);
+		while(x < 10-1) do 
+		{
+			print( x * 4 );
+			x = x + 1;
+		};
+		x = 3 - 1;
+	} end`
 	l := lexer.NewLexer([]byte(input))
 	p := parser.NewParser()
 	if _, err := p.Parse(l); err != nil {

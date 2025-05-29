@@ -32,7 +32,11 @@ Reset
     ;
 
 Programa
-    : ProgramId Vars Funcs "main" Body "end" << ctx.MakeEndQuad() >>
+    : ProgramId Vars Funcs Main Body "end" << ctx.MakeEndQuad() >>
+    ;
+
+Main
+    : "main" << ctx.FillMainQuad() >>
     ;
 
 ProgramId

@@ -44,12 +44,13 @@ type Context struct {
 	OperandStack  []int
 	TypeStack     []int
 
-	Quads      QuadQueue
-	JumpStack  []int          // Pila de saltos pendientes
-	FuncCount  int            // Contador de funciones
-	FuncIndex  map[int]string // Mapa de índices a nombres de funciones
-	ConstTable Constable      // Tabla de constantes
-	AddedConst []string
+	Quads       QuadQueue
+	JumpStack   []int          // Pila de saltos pendientes
+	FuncCount   int            // Contador de funciones
+	FuncIndex   map[int]string // Mapa de índices a nombres de funciones
+	ConstTable  Constable      // Tabla de constantes
+	AddedConst  []string
+	programName string // Nombre del programa
 }
 
 // Constable

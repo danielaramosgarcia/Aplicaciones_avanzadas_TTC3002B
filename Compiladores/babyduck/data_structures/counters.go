@@ -41,6 +41,3 @@ var (
 	nextConstFloatAddr  = ConstFloatBase
 	nextConstStringAddr = ConstStringBase
 )
-
-// Referencia a tabla global de variables.
-var programName = ""

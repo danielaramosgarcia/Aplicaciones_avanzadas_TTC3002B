@@ -28,7 +28,8 @@ func NewContext() *Context {
 			},
 			Float: make(map[int]float64),
 		},
-		AddedConst: make([]string, 0),
+		AddedConst:  make([]string, 0),
+		programName: "",
 	}
 }
 
@@ -39,9 +40,9 @@ func (ctx *Context) AddFunction(name string, ret int, params []Param) error {
 	vt := NewVarTable(nil)
 
 	if ret == 5 {
-		programName = name
+		ctx.programName = name
 	} else {
-		vt.parent = ctx.FuncDir.funcs[programName].VarTable
+		vt.parent = ctx.FuncDir.funcs[ctx.programName].VarTable
 	}
 
 	// Crea la entrada de función
@@ -68,6 +69,7 @@ func (ctx *Context) AddFunction(name string, ret int, params []Param) error {
 		if err := f.VarTable.Add(p.Name, p.Type); err != nil {
 			return fmt.Errorf("parámetro %s: %w", p.Name, err)
 		}
+		f.Space.Var++ // Incrementa el espacio de variables
 	}
 	ctx.FuncIndex[ctx.FuncCount] = name
 	ctx.FuncCount++
@@ -106,7 +108,7 @@ func (ctx *Context) ResetCounters() {
 
 // ExitFunction cierra el scope de la función activa.
 func (ctx *Context) ExitFunction() (interface{}, error) {
-	ctx.currentFunc = ctx.FuncDir.funcs[programName]
+	ctx.currentFunc = ctx.FuncDir.funcs[ctx.programName]
 	ctx.MakeEndFQuad()
 
 	ctx.ResetCounters()
@@ -120,7 +122,7 @@ func (ctx *Context) CurrentVarTable() *VarTable {
 	if ctx.currentFunc != nil {
 		return ctx.currentFunc.VarTable
 	}
-	return ctx.FuncDir.funcs[programName].VarTable
+	return ctx.FuncDir.funcs[ctx.programName].VarTable
 }
 
 // ReturnContext devuelve el contexto completo al finalizar el parseo.
@@ -305,6 +307,33 @@ func ReturnExpression(expr int) (interface{}, error) {
 func (ctx *Context) Reset() (interface{}, error) {
 	ctx.FuncDir = NewFuncDir()
 	ctx.currentFunc = nil
+	ctx.OperatorStack = make([]int, 0)
+	ctx.OperandStack = make([]int, 0)
+	ctx.TypeStack = make([]int, 0)
+	ctx.Quads.Quads = []Quadruple{
+		{
+			Op:     GOTO, // No Operation
+			Arg1:   -1,
+			Arg2:   -1,
+			Result: 0,
+		},
+	}
+	ctx.FuncCount = 0
+	ctx.FuncIndex = make(map[int]string)
+	ctx.FuncSignature = &FuncSignature{
+		ParamSignature: make([]int, 0),
+		ParamLength:    0,
+	}
+	ctx.ConstTable = Constable{
+		Num: make(map[int]int),
+		Str: make(map[int]string),
+		Bool: map[int]bool{
+			0: false,
+			1: true,
+		},
+		Float: make(map[int]float64),
+	}
+	ctx.AddedConst = make([]string, 0)
 	return ctx, nil
 }
 
@@ -348,5 +377,10 @@ func (ctx *Context) FunctionCallEnd(id string) (interface{}, error) {
 			len(ctx.FuncSignature.ParamSignature), ctx.FuncSignature.ParamLength, ctx.FuncSignature.ParamLength-len(ctx.FuncSignature.ParamSignature))
 	}
 	ctx.MakeGOSUBQuad(id)
+	return nil, nil
+}
+
+func (ctx *Context) FillMainQuad() (interface{}, error) {
+	ctx.Quads.Quads[0].Result = len(ctx.Quads.Quads)
 	return nil, nil
 }
