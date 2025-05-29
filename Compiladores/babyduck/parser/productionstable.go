@@ -575,10 +575,20 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
+		String: `ExprComma : cte_string ","	<< ctx.ResolveCteSting(string(X[0].(*token.Token).Lit)) >>`,
+		Id:         "ExprComma",
+		NTType:     31,
+		Index:      55,
+		NumSymbols: 2,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ctx.ResolveCteSting(string(X[0].(*token.Token).Lit))
+		},
+	},
+	ProdTabEntry{
 		String: `ArgListPrint : Expression	<< ctx.PrintQuad() >>`,
 		Id:         "ArgListPrint",
 		NTType:     32,
-		Index:      55,
+		Index:      56,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.PrintQuad()
@@ -588,7 +598,7 @@ var productionsTable = ProdTab{
 		String: `ArgListPrint : ExprComma ArgListPrint	<<  >>`,
 		Id:         "ArgListPrint",
 		NTType:     32,
-		Index:      56,
+		Index:      57,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -598,7 +608,7 @@ var productionsTable = ProdTab{
 		String: `ArgListPrint : cte_string	<< ctx.ResolveCteSting(string(X[0].(*token.Token).Lit)) >>`,
 		Id:         "ArgListPrint",
 		NTType:     32,
-		Index:      57,
+		Index:      58,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.ResolveCteSting(string(X[0].(*token.Token).Lit))
@@ -608,7 +618,7 @@ var productionsTable = ProdTab{
 		String: `Cycle : "while"	<< ctx.CycleJump() >>`,
 		Id:         "Cycle",
 		NTType:     33,
-		Index:      58,
+		Index:      59,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.CycleJump()
@@ -618,7 +628,7 @@ var productionsTable = ProdTab{
 		String: `CycleBody : CycleCond "do" Body ";"	<< ctx.WhileJump() >>`,
 		Id:         "CycleBody",
 		NTType:     34,
-		Index:      59,
+		Index:      60,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.WhileJump()
@@ -628,7 +638,7 @@ var productionsTable = ProdTab{
 		String: `CycleCond : Cycle "(" Expression ")"	<< ctx.MakeGFQuad(X[2].(int)) >>`,
 		Id:         "CycleCond",
 		NTType:     35,
-		Index:      60,
+		Index:      61,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.MakeGFQuad(X[2].(int))
@@ -638,7 +648,7 @@ var productionsTable = ProdTab{
 		String: `Condition : CondCheck Body ElseBody ";"	<< ctx.FillJump() >>`,
 		Id:         "Condition",
 		NTType:     36,
-		Index:      61,
+		Index:      62,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.FillJump()
@@ -648,7 +658,7 @@ var productionsTable = ProdTab{
 		String: `CondCheck : "if" "(" Expression ")"	<< ctx.MakeGFQuad(X[2].(int)) >>`,
 		Id:         "CondCheck",
 		NTType:     37,
-		Index:      62,
+		Index:      63,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.MakeGFQuad(X[2].(int))
@@ -658,7 +668,7 @@ var productionsTable = ProdTab{
 		String: `ElseBody : ElseCond Body	<<  >>`,
 		Id:         "ElseBody",
 		NTType:     38,
-		Index:      63,
+		Index:      64,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -668,7 +678,7 @@ var productionsTable = ProdTab{
 		String: `ElseBody : empty	<<  >>`,
 		Id:         "ElseBody",
 		NTType:     38,
-		Index:      64,
+		Index:      65,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return nil, nil
@@ -678,7 +688,7 @@ var productionsTable = ProdTab{
 		String: `ElseCond : "else"	<< ctx.ElseJumpIf() >>`,
 		Id:         "ElseCond",
 		NTType:     39,
-		Index:      65,
+		Index:      66,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.ElseJumpIf()
@@ -688,7 +698,7 @@ var productionsTable = ProdTab{
 		String: `F_Call : F_Id ")" ";"	<< ctx.FunctionCallEnd(X[0].(string)) >>`,
 		Id:         "F_Call",
 		NTType:     40,
-		Index:      66,
+		Index:      67,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.FunctionCallEnd(X[0].(string))
@@ -698,7 +708,7 @@ var productionsTable = ProdTab{
 		String: `F_Call : F_Id ArgList ")" ";"	<< ctx.FunctionCallEnd(X[0].(string)) >>`,
 		Id:         "F_Call",
 		NTType:     40,
-		Index:      67,
+		Index:      68,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.FunctionCallEnd(X[0].(string))
@@ -708,7 +718,7 @@ var productionsTable = ProdTab{
 		String: `F_Id : id "("	<< ctx.FunctionCall(string(X[0].(*token.Token).Lit)) >>`,
 		Id:         "F_Id",
 		NTType:     41,
-		Index:      68,
+		Index:      69,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ctx.FunctionCall(string(X[0].(*token.Token).Lit))

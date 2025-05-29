@@ -185,6 +185,8 @@ ArgList
 
 ExprComma
     : Expression "," << ctx.PrintQuad() >>
+    | cte_string ","
+    << ctx.ResolveCteSting(string(X[0].(*token.Token).Lit)) >>
     ;
 
 ArgListPrint

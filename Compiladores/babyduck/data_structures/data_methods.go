@@ -7,10 +7,10 @@ import (
 
 // METODOS DE TABLA DE VARIABLES
 // NewVarTable crea una nueva tabla de variables, opcionalmente enlazada a un padre.
-func NewVarTable(parent *VarTable) *VarTable {
+func NewVarTable(Parent *VarTable) *VarTable {
 	return &VarTable{
-		vars:   make(map[int]*VarEntry),
-		parent: parent,
+		Vars:   make(map[int]*VarEntry),
+		Parent: Parent,
 	}
 }
 
@@ -18,15 +18,14 @@ func NewVarTable(parent *VarTable) *VarTable {
 // Error si ya existe una variable con el mismo nombre en este ámbito.
 func (vt *VarTable) Add(name string, typ int) error {
 	// Validar duplicado por nombre
-	//TODO: Agregar validacion para que cheque tambien en la tabla padre
-	for _, entry := range vt.vars {
+	for _, entry := range vt.Vars {
 		if entry.Name == name {
 			return fmt.Errorf("variable %q ya declarada en este ámbito", name)
 		}
 	}
 	// Asignar dirección según segmento
 	var dir int
-	if vt.parent == nil {
+	if vt.Parent == nil {
 		// global
 		if typ == 0 {
 			if nextGlobalIntAddr >= GlobalFloatBase {
@@ -57,7 +56,7 @@ func (vt *VarTable) Add(name string, typ int) error {
 			nextLocalFloatAddr++
 		}
 	}
-	vt.vars[dir] = &VarEntry{Name: name, Type: typ, DirInt: dir}
+	vt.Vars[dir] = &VarEntry{Name: name, Type: typ, DirInt: dir}
 	return nil
 }
 
@@ -87,7 +86,7 @@ func (vt *VarTable) AddTemp(typ int) (int, error) {
 	default:
 		return 0, fmt.Errorf("tipo %v no soportado en temporales", typ)
 	}
-	vt.vars[dir] = &VarEntry{Name: "", Type: typ, DirInt: dir}
+	vt.Vars[dir] = &VarEntry{Name: "", Type: typ, DirInt: dir}
 	return dir, nil
 }
 
@@ -114,7 +113,6 @@ func (ctx *Context) AddConst(typ int, val string) (int, error) {
 			if err != nil {
 				fmt.Println("Error al convertir:", err)
 			}
-			fmt.Printf("El valor entero es %d (tipo %d)\n", num, typ)
 			dir = nextConstIntAddr
 			nextConstIntAddr++
 			ctx.ConstTable.Num[dir] = num
@@ -128,7 +126,6 @@ func (ctx *Context) AddConst(typ int, val string) (int, error) {
 				fmt.Printf("Error convirtiendo '%s' a float64: %v\n", val, err)
 				return 0, fmt.Errorf("ERR al convertir float en add const")
 			}
-			fmt.Printf("El valor entero es %f (tipo %d)\n", num, typ)
 			dir = nextConstFloatAddr
 			nextConstFloatAddr++
 			ctx.ConstTable.Float[dir] = num
@@ -148,6 +145,7 @@ func (ctx *Context) AddConst(typ int, val string) (int, error) {
 		ctx.AddedConst = append(ctx.AddedConst, val)
 
 	} else {
+		fmt.Println("Constante ya existe, buscando dirección...")
 		// Si ya existe, buscar la dirección
 		switch typ {
 		case 0:
@@ -178,11 +176,11 @@ func (ctx *Context) AddConst(typ int, val string) (int, error) {
 
 // Get busca una variable por dirección; devuelve la entrada y true si existe.
 func (vt *VarTable) Get(dir int) (*VarEntry, bool) {
-	if e, ok := vt.vars[dir]; ok {
+	if e, ok := vt.Vars[dir]; ok {
 		return e, true
 	}
-	if vt.parent != nil {
-		return vt.parent.Get(dir)
+	if vt.Parent != nil {
+		return vt.Parent.Get(dir)
 	}
 	return nil, false
 }
@@ -195,8 +193,8 @@ func (vt *VarTable) Exists(dir int) bool {
 
 // List devuelve todas las variables del ámbito actual.
 func (vt *VarTable) List() []*VarEntry {
-	list := make([]*VarEntry, 0, len(vt.vars))
-	for _, entry := range vt.vars {
+	list := make([]*VarEntry, 0, len(vt.Vars))
+	for _, entry := range vt.Vars {
 		list = append(list, entry)
 	}
 	return list
@@ -205,34 +203,34 @@ func (vt *VarTable) List() []*VarEntry {
 // METODOS DE DIRECTORIO DE FUNCIONES
 // NewFuncDir inicializa un nuevo directorio de funciones.
 func NewFuncDir() *FuncDir {
-	return &FuncDir{funcs: make(map[string]*FuncEntry)}
+	return &FuncDir{Funcs: make(map[string]*FuncEntry)}
 }
 
 // Add inserta una nueva función; error si ya existe.
 func (fd *FuncDir) Add(f *FuncEntry) error {
-	if _, exists := fd.funcs[f.Name]; exists {
+	if _, exists := fd.Funcs[f.Name]; exists {
 		return fmt.Errorf("función %q ya definida", f.Name)
 	}
-	fd.funcs[f.Name] = f
+	fd.Funcs[f.Name] = f
 	return nil
 }
 
 // Get devuelve la función registrada y true si existe.
 func (fd *FuncDir) Get(name string) (*FuncEntry, bool) {
-	f, ok := fd.funcs[name]
+	f, ok := fd.Funcs[name]
 	return f, ok
 }
 
 // Exists retorna true si la función está en el directorio.
 func (fd *FuncDir) Exists(name string) bool {
-	_, ok := fd.funcs[name]
+	_, ok := fd.Funcs[name]
 	return ok
 }
 
 // List devuelve todas las funciones registradas.
 func (fd *FuncDir) List() []*FuncEntry {
-	list := make([]*FuncEntry, 0, len(fd.funcs))
-	for _, entry := range fd.funcs {
+	list := make([]*FuncEntry, 0, len(fd.Funcs))
+	for _, entry := range fd.Funcs {
 		list = append(list, entry)
 	}
 	return list

@@ -578,3 +578,35 @@ func TestMemoryQuads(t *testing.T) {
 		t.Errorf("Empty program should parse without error, got: %v", err)
 	}
 }
+
+func TestPrintFunctionQuads(t *testing.T) {
+
+	input := `
+	program primerintento; 
+
+	var x: float;
+
+	void uno() 
+	[ 
+		{
+			x = 2.32;
+			print(2);
+			print('HOLA MUNDO'); 
+			print('ADIOSS'); 
+		}
+	]; 
+
+	main { 
+		x = 3.1;
+		print(x);
+		print('byee'); 
+		print('ndp'); 
+		print('dd'); 
+		print('fgh');
+	} end`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("Empty program should parse without error, got: %v", err)
+	}
+}

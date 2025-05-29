@@ -50,7 +50,7 @@ type Context struct {
 	FuncIndex   map[int]string // Mapa de índices a nombres de funciones
 	ConstTable  Constable      // Tabla de constantes
 	AddedConst  []string
-	programName string // Nombre del programa
+	ProgramName string // Nombre del programa
 }
 
 // Constable
@@ -90,7 +90,7 @@ type FuncEntry struct {
 
 // Contenedor global de todas las funciones
 type FuncDir struct {
-	funcs map[string]*FuncEntry // nombre → FuncEntry
+	Funcs map[string]*FuncEntry // nombre → FuncEntry
 }
 
 // VarEntry representa una variable con su nombre, tipo y dirección.
@@ -102,6 +102,6 @@ type VarEntry struct {
 
 // VarTable gestiona un ámbito de variables, indexadas por dirección.
 type VarTable struct {
-	vars   map[int]*VarEntry // DirInt → VarEntry
-	parent *VarTable         // ámbito superior
+	Vars   map[int]*VarEntry // DirInt → VarEntry
+	Parent *VarTable         // ámbito superior
 }

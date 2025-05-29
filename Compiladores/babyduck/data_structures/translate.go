@@ -48,7 +48,6 @@ const (
 	RPAR      = 80 // paréntesis derecho
 	GOTO      = 90 // salto incondicional
 	GOTOFALSE = 91 // salto si condición es falsa
-	GOTOTRUE  = 91 // salto si condición es falsa
 	EQ        = 92 // asignación
 	PRINT     = 93 // imprimir
 	ENDF      = 94 // fin de función

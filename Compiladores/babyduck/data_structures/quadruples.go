@@ -301,7 +301,7 @@ func (ctx *Context) MakeEraQuad(id string) (interface{}, error) {
 	// 1) Hacer quad de ERA
 	ctx.Quads.Enqueue(Quadruple{
 		Op:     ERA,
-		Arg1:   ctx.FuncDir.funcs[id].index, // index de la función
+		Arg1:   ctx.FuncDir.Funcs[id].index, // index de la función
 		Arg2:   -1,
 		Result: -1,
 	})
@@ -342,9 +342,9 @@ func (ctx *Context) MakeGOSUBQuad(id string) (interface{}, error) {
 	// 1) Hacer quad de GOSUB
 	ctx.Quads.Enqueue(Quadruple{
 		Op:     GOSUB,
-		Arg1:   ctx.FuncDir.funcs[id].index,     // index de la función
+		Arg1:   ctx.FuncDir.Funcs[id].index,     // index de la función
 		Arg2:   -1,                              // No se usa en GOSUB
-		Result: ctx.FuncDir.funcs[id].CuadStart, // No se usa en GOSUB
+		Result: ctx.FuncDir.Funcs[id].CuadStart, // No se usa en GOSUB
 	})
 
 	return nil, nil

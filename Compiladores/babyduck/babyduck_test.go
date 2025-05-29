@@ -98,7 +98,8 @@ func TestPrintStatement(t *testing.T) {
 
 // TestWhitespaceVariations verifies that various whitespace and newlines parse.
 func TestWhitespaceVariations(t *testing.T) {
-	input := `** Testing new line whitespace ** program p; 
+	input := `** Testing new line 
+	whitespace ** program p; 
 	var x: float;
 	main { } 
 	end`

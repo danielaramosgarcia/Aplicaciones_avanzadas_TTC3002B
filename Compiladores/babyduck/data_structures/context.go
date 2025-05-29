@@ -29,7 +29,7 @@ func NewContext() *Context {
 			Float: make(map[int]float64),
 		},
 		AddedConst:  make([]string, 0),
-		programName: "",
+		ProgramName: "",
 	}
 }
 
@@ -40,9 +40,9 @@ func (ctx *Context) AddFunction(name string, ret int, params []Param) error {
 	vt := NewVarTable(nil)
 
 	if ret == 5 {
-		ctx.programName = name
+		ctx.ProgramName = name
 	} else {
-		vt.parent = ctx.FuncDir.funcs[ctx.programName].VarTable
+		vt.Parent = ctx.FuncDir.Funcs[ctx.ProgramName].VarTable
 	}
 
 	// Crea la entrada de función
@@ -97,9 +97,6 @@ func (ctx *Context) ResetCounters() {
 	nextTempFloatAddr = TempFloatBase
 	nextTempBoolAddr = TempBoolBase
 
-	nextConstIntAddr = ConstIntBase
-	nextConstFloatAddr = ConstFloatBase
-	nextConstStringAddr = ConstStringBase
 	ctx.FuncSignature = &FuncSignature{
 		ParamSignature: make([]int, 0),
 		ParamLength:    0,
@@ -108,7 +105,7 @@ func (ctx *Context) ResetCounters() {
 
 // ExitFunction cierra el scope de la función activa.
 func (ctx *Context) ExitFunction() (interface{}, error) {
-	ctx.currentFunc = ctx.FuncDir.funcs[ctx.programName]
+	ctx.currentFunc = ctx.FuncDir.Funcs[ctx.ProgramName]
 	ctx.MakeEndFQuad()
 
 	ctx.ResetCounters()
@@ -122,35 +119,11 @@ func (ctx *Context) CurrentVarTable() *VarTable {
 	if ctx.currentFunc != nil {
 		return ctx.currentFunc.VarTable
 	}
-	return ctx.FuncDir.funcs[ctx.programName].VarTable
+	return ctx.FuncDir.Funcs[ctx.ProgramName].VarTable
 }
 
 // ReturnContext devuelve el contexto completo al finalizar el parseo.
 func (ctx *Context) ReturnContext() (interface{}, error) {
-	fmt.Println(" ____________________________________________________")
-	fmt.Printf("\n| Operador | Operando Izq | Operando Der | Resultado |\n")
-	fmt.Println(" ---------------------------------------------------- ")
-	for i, quad := range ctx.Quads.Quads {
-		fmt.Printf("|  Quad %d: | %s | %d | %d | %d | \n", i, TranslateBackOp(quad.Op), quad.Arg1, quad.Arg2, quad.Result)
-	}
-	fmt.Printf("\nLista de operandos: %v\n", ctx.OperandStack)
-	fmt.Printf("\nLista de operadores: %v\n", ctx.OperatorStack)
-	fmt.Printf("\n Mapa de FuncCount: %v\n", ctx.FuncIndex)
-	fmt.Printf("\n Mapa de Constantes int: %v\n", ctx.ConstTable.Num)
-	fmt.Printf("\n Mapa de Constantes float: %v\n", ctx.ConstTable.Float)
-	fmt.Printf("\n Mapa de Constantes str: %v\n", ctx.ConstTable.Str)
-	fmt.Printf("\n Funciones y sus propiedades:\n")
-	for name, entry := range ctx.FuncDir.funcs {
-		fmt.Println(" ____________________________________________________")
-		fmt.Printf("Función %s: Retorno=%d, Parámetros=%v, Variables=%d, Temporales=%d CuadStart=%d  \n",
-			name, entry.ReturnType, entry.ParamTypes, entry.Space.Var, entry.Space.Temp, entry.CuadStart)
-		fmt.Printf("Tabla de variables de %s:\n", name)
-		for _, entry := range entry.VarTable.vars {
-			fmt.Printf("  - %s: Dir=%d, Tipo=%d\n", entry.Name, entry.DirInt, entry.Type)
-		}
-		fmt.Println(" ____________________________________________________")
-
-	}
 	return ctx, nil
 }
 
@@ -211,14 +184,14 @@ func ConcatParamList(head int, tail []int) (interface{}, error) {
 // en este ámbito y, si no la encuentra, en los padres. Devuelve VarEntry y true si existe.
 func (vt *VarTable) GetByName(name string) (*VarEntry, bool) {
 	// 1) Busca en este ámbito
-	for _, entry := range vt.vars {
+	for _, entry := range vt.Vars {
 		if entry.Name == name {
 			return entry, true
 		}
 	}
 	// 2) Si no está aquí, y hay padre, busca recursivamente
-	if vt.parent != nil {
-		return vt.parent.GetByName(name)
+	if vt.Parent != nil {
+		return vt.Parent.GetByName(name)
 	}
 	// 3) No existe en ningún ámbito
 	return nil, false
@@ -294,6 +267,7 @@ func (ctx *Context) ResolveCteSting(cte string) (interface{}, error) {
 	}
 	// Empuja el operando y su tipo en las pilas
 	ctx.HandleOperand(dir, 4)
+	ctx.PrintQuad()
 	return String, nil
 }
 
@@ -346,10 +320,6 @@ func (ctx *Context) RegisterAndEnterFunction(
 	if _, err := ctx.RegisterFunction(name, ret, params); err != nil {
 		return nil, err
 	}
-	// ctx.FuncDir.funcs[name].CuadStart = len(ctx.Quads.Quads)
-	// ctx.FuncDir.funcs[name].index = ctx.FuncCount
-	// ctx.
-	// 2) activa currentFunc
 	return ctx.EnterFunction(name)
 }
 
@@ -364,8 +334,8 @@ func (ctx *Context) FunctionCall(id string) (interface{}, error) {
 	if _, ok := ctx.FuncDir.Get(id); !ok {
 		return nil, fmt.Errorf("función %s no declarada", id)
 	}
-	ctx.FuncSignature.ParamLength = len(ctx.FuncDir.funcs[id].ParamTypes)
-	ctx.FuncSignature.ParamSignature = ctx.FuncDir.funcs[id].ParamTypes
+	ctx.FuncSignature.ParamLength = len(ctx.FuncDir.Funcs[id].ParamTypes)
+	ctx.FuncSignature.ParamSignature = ctx.FuncDir.Funcs[id].ParamTypes
 	ctx.MakeEraQuad(id)
 	return id, nil
 }
