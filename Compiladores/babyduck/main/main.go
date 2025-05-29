@@ -52,31 +52,3 @@ func main() {
 	fmt.Print("=================== OUTPUT DE LA VM ==========================\n")
 	fmt.Print(output)
 }
-
-// input := `
-// program primerintento;
-
-// var x, j: int;
-
-// void uno(a: int, b: int)
-// [
-// 	{
-// 		if (a > b)
-// 		{
-// 			** x = a + b ; **
-// 			print ( x );
-// 			** uno ( a - x, b ); **
-// 		}
-// 		else
-// 		{
-// 			print ( 'hola que tal' );
-// 		};
-// 	}
-// ];
-
-// main {
-// 	x = 3;
-// 	j = 12;
-// 	uno(x, 20);
-// 	x = 3 - 1;
-// } end`
