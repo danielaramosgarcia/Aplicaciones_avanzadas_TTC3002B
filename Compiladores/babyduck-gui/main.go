@@ -14,7 +14,7 @@ import (
 
 func main() {
 	a := app.New()
-	w := a.NewWindow("Go Compiler IDE")
+	w := a.NewWindow("Hecho con amor 💖 ")
 	w.Padded()
 	w.SetPadded(true)
 
@@ -33,19 +33,20 @@ end`)
 
 	// Output (etiqueta + scroll)
 	outputLabel := widget.NewLabelWithStyle(
-		`Click "Compile" to see output here...`,
+		`Da click al boton de compilar para ver el resultado aca 🥳`,
 		fyne.TextAlignLeading,
-		fyne.TextStyle{Bold: true},
+		fyne.TextStyle{Italic: true},
 	)
 	outputScroll := container.NewScroll(outputLabel)
 
 	// --- 2) Botón Compile que usa esos widgets ---
 	// --- 2) Botón Compile de color verde claro ---
 
-	compileBtn := widget.NewButton("Compile ❤️", func() {
+	compileBtn := widget.NewButton("❤️ Compilar ❤️", func() {
 		result := VM.CodeInput(codeEntry.Text)
 		outputLabel.SetText(result)
 	})
+
 	// Creamos un rectángulo verde claro como fondo
 	greenBg := canvas.NewRectangle(color.NRGBA{R: 200, G: 255, B: 200, A: 255})
 	// Superponemos el botón sobre él
@@ -54,14 +55,27 @@ end`)
 	// --- 3) Cabecera con título y botón alineados a extremos ---
 
 	title := widget.NewLabelWithStyle(
-		"Go Compiler IDE",
+		"Compilador para BabyDuck",
 		fyne.TextAlignLeading,
 		fyne.TextStyle{Bold: true},
 	)
+
+	nombre := widget.NewLabelWithStyle(
+		"Dani Ramos A01174259",
+		fyne.TextAlignLeading,
+		fyne.TextStyle{Italic: false},
+	)
+
 	headerRow := container.NewHBox(
+		layout.NewSpacer(),
+		nombre,
+		layout.NewSpacer(),
+		layout.NewSpacer(),
 		title,
 		layout.NewSpacer(),
+		layout.NewSpacer(),
 		btnContainer,
+		layout.NewSpacer(),
 	)
 
 	// --- 4) Paneles izquierdo/derecho con su encabezado ---
