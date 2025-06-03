@@ -610,3 +610,170 @@ func TestPrintFunctionQuads(t *testing.T) {
 		t.Errorf("Empty program should parse without error, got: %v", err)
 	}
 }
+
+func TestUI(t *testing.T) {
+
+	input := `
+	program fibonacci;
+
+	var n, a, b, count, temp :int;
+	
+	main {
+		n = 10;
+		if (n < 0) {
+			print('Error: n must be greater than 0');
+		};
+		if (n < 1){
+			print ('Fibonacci of', n, 'is', 0);
+		};
+		if (n < 2) {
+			print('Fibonacci of', n, 'is', 1);
+		} else {
+			a = 0;
+			b = 1;
+			count = 2;
+			while (count < n + 1) do {
+				temp = a + b;
+				a = b;
+				b = temp;
+				count = count + 1;
+			};
+			print('Fibonacci of', n, '1s', b);
+		};
+	} end`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("Empty program should parse without error, got: %v", err)
+	}
+}
+
+func TestUI2(t *testing.T) {
+
+	input := `
+		program fib;
+
+		var n, a, b, count, temp :int;
+
+		void fibonacci(input: int)[
+			{
+				a = 0;
+				b = 1;
+				count = 2;
+				while (count < input + 1) do {
+					temp = a + b;
+					a = b;
+					b = temp;
+					count = count + 1;
+				};
+				print('Fibonacci of', input, 'is', b);
+			}
+		];
+
+
+		main {
+			n = 10;
+			if (n < 0) {
+				print('Error: n must be greater than 0');
+			};
+			if (n < 1){
+				print ('Fibonacci of', n, 'is', 0);
+			};
+			if (n < 2) {
+				print('Fibonacci of', n, 'is', 1);
+			} else {
+					fibonacci(n);
+			};
+		} 
+		end
+		`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("Empty program should parse without error, got: %v", err)
+	}
+}
+
+func TestUI3(t *testing.T) {
+
+	input := `
+program fact;
+
+var n, result, count :int;
+
+void factorial(input: int)[
+    {
+        result = 1;
+        count = 1;
+        while (count < input + 1) do {
+            result = result * count;
+            count = count + 1;
+        };
+        print('Factorial of', input, 'is', result);
+    }
+];
+
+main {
+    n = 10;
+    if (n < 0) {
+        print('Error: n must be greater than 0');
+    };
+    if (n < 1) {
+        print('Factorial of', n, 'is', 1);
+    } else {
+        factorial(n);
+    };
+}
+end
+`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("Empty program should parse without error, got: %v", err)
+	}
+}
+
+func TestUI4(t *testing.T) {
+
+	input := `
+	program fib;
+  var n, a, b, count, temp: int;
+void fibonacci(input: int)
+[{
+    a = 0;
+    b = 1;
+    count = 2; 
+    while (count < input + 1) do {
+        temp = a + b;
+        a  = b;
+        b = temp;
+        count = count + 1;
+    };
+        print('Fibonacci of', input, 'is', b);
+    }
+];
+
+main {
+    n = 10;
+    if (n < 0) {
+        print('Error: n must be greater than 0');
+    };
+    if (n < 1){
+        print ('Fibonacci of', n, 'is', 0);
+    };
+    if (n < 2) {
+        print('Fibonacci of', n, 'is', 1);
+    } else {
+        fibonacci(n);
+    };
+		}
+	end
+
+
+`
+	l := lexer.NewLexer([]byte(input))
+	p := parser.NewParser()
+	if _, err := p.Parse(l); err != nil {
+		t.Errorf("Empty program should parse without error, got: %v", err)
+	}
+}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"babyduck/VM"
+	"fmt"
 	"image/color"
 
 	"fyne.io/fyne/v2"
@@ -43,10 +44,17 @@ end`)
 	// --- 2) Botón Compile de color verde claro ---
 
 	compileBtn := widget.NewButton("❤️ Compilar ❤️", func() {
-		result := VM.CodeInput(codeEntry.Text)
-		outputLabel.SetText(result)
+		// result := VM.CodeInput(codeEntry.Text)
+		func() {
+			defer func() {
+				if r := recover(); r != nil {
+					fmt.Println("Error occurred:", r)
+				}
+			}()
+			result := VM.CodeInput(codeEntry.Text)
+			outputLabel.SetText(result)
+		}()
 	})
-
 	// Creamos un rectángulo verde claro como fondo
 	greenBg := canvas.NewRectangle(color.NRGBA{R: 200, G: 255, B: 200, A: 255})
 	// Superponemos el botón sobre él
